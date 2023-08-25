@@ -4,12 +4,12 @@ const connectDb = require("./dbConnection");
 
 const app = express();
 
-// Essential middlewares
+// Middlewares
 app.use(express.json());
 
 connectDb()
-  .then((res) => {
+  .then(res => {
     console.log("Connected to database");
     app.listen(8080);
   })
-  .catch((e) => console.log(e.message));
+  .catch(e => console.log(e.message));
