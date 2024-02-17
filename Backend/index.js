@@ -7,6 +7,10 @@ const app = express();
 // Middlewares
 app.use(express.json());
 
+const authRoutes = require("./routes/auth");
+
+app.use(authRoutes);
+
 connectDb()
   .then(res => {
     console.log("Connected to database");
