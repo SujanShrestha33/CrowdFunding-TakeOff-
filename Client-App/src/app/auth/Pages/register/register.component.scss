@@ -1,0 +1,99 @@
+.main-component{
+  height: 100vh;
+  background-image: url('../../../../assets/Background/bg.png');
+  background-size: cover; /* Adjust as needed (cover, contain, etc.) */
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+}
+
+
+// .outer-login-card{
+//   width:400px;
+// }
+
+.login-card{
+  background: #F5F5F5;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.attendance-text{
+  font-size: 18px;
+  font-weight: 500
+}
+
+.btn.btn-pri{
+  // background: rgb(2,0,36);
+  background: #073874;
+  color: white;
+  border-radius: 30px;
+}
+
+.row-logo{
+  display : flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  gap: 1rem;
+  padding : 1rem;
+  margin-left: 2rem;
+  // margin : 0 10px 0 10px;
+}
+
+.title{
+  font-weight: 500;
+  font-size: 2rem;
+  margin-top: 15px;
+}
+
+.forgotPass{
+  text-align: end;
+  margin-bottom: 5px;
+  // text-decoration: underline;
+  // font-size: 16px;
+  color: #073874;
+  cursor: pointer;
+}
+
+.forgotPass:hover{
+  text-decoration: underline;
+}
+
+.reg-icons{
+  height: 50px;
+  cursor: pointer;
+}
+
+.btn.btn-pri:hover{
+  // background: rgb(2,0,36);
+  background: #5b90d1;
+  color: #073874;
+  border-radius: 30px;
+}
+
+.error-message{
+  text-align: left;
+  color: red;
+}
+
+.email-signup{
+  color: #073874;
+  text-decoration: none;
+}
+
+.email-signup:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}

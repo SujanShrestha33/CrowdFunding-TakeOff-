@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -32,7 +33,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
+
   ]
 })
 export class AuthModule { }

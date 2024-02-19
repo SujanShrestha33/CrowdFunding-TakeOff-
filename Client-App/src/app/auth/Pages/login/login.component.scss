@@ -20,6 +20,7 @@
 .login-card{
   background: white;
   border-radius: 10px;
+  font-size: 16px;
 }
 
 .attendance-text{
@@ -72,8 +73,39 @@
 .forgotPass{
   text-align: end;
   margin-bottom: 5px;
-  text-decoration: underline;
-  font-size: 16px;
+  // text-decoration: underline;
+  // font-size: 16px;
   color: #073874;
+  cursor: pointer;
+}
+
+.forgotPass:hover{
+  text-decoration: underline;
+}
+
+.reg-icons{
+  height: 50px;
+  cursor: pointer;
+}
+
+.btn.btn-pri:hover{
+  // background: rgb(2,0,36);
+  background: #5b90d1;
+  color: #073874;
+  border-radius: 30px;
+}
+
+.error-message{
+  text-align: left;
+  color: red;
+}
+
+.email-signup{
+  color: #073874;
+  text-decoration: none;
+}
+
+.email-signup:hover{
+  text-decoration: underline;
   cursor: pointer;
 }
