@@ -1,10 +1,10 @@
 const express = require("express");
-
 const connectDb = require("./dbConnection");
-
 const app = express();
+const cors = require("cors");
 
 // Middlewares
+app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 
 const authRoutes = require("./routes/auth");
