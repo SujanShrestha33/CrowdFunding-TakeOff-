@@ -1,168 +1,165 @@
-.main-component{
-  height: 100%;
+.main-component {
+  min-height: 100%;
   background-image: url('../../../../assets/Background/bg.png');
-  background-size: cover; /* Adjust as needed (cover, contain, etc.) */
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
-  margin: 0; /* Remove default body margin */
-  padding: 0; /* Remove default body padding */
+  // background-position: center center;
+  margin: 0;
+  padding: 0;
 }
 
+.container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-// .outer-login-card{
-//   width:400px;
-// }
-
-.login-card{
+.login-card {
   background: #F5F5F5;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 12px; /* Further reduced font size */
 }
 
-.attendance-text{
-  font-size: 18px;
-  font-weight: 500
+.attendance-text {
+  font-size: 14px; /* Further reduced font size */
+  font-weight: 500;
 }
 
-.btn.btn-pri{
-  // background: rgb(2,0,36);
+.btn.btn-pri {
   background: #073874;
   color: white;
-  border-radius: 30px;
+  border-radius: 16px; /* Further reduced border radius */
+  font-size: 12px; /* Further reduced font size */
 }
 
-.row-logo{
-  display : flex;
+.row-logo {
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: left;
-  gap: 1rem;
-  padding : 1rem;
-  margin-left: 2rem;
-  // margin : 0 10px 0 10px;
+  gap: 0.3rem; /* Further reduced gap */
+  padding: 0.3rem; /* Further reduced padding */
+  margin-left: 0.5rem; /* Further reduced margin */
 }
 
-.title{
+.title {
   font-weight: 500;
-  font-size: 2rem;
-  margin-top: 15px;
+  font-size: 1.2rem; /* Further reduced font size */
+  // margin-top: 8px; /* Further reduced margin */
 }
 
-.forgotPass{
+.forgotPass {
   text-align: end;
-  margin-bottom: 5px;
-  // text-decoration: underline;
-  // font-size: 16px;
+  // margin-bottom: 2px; /* Further reduced margin */
   color: #073874;
   cursor: pointer;
 }
 
-.forgotPass:hover{
-  text-decoration: underline;
-}
-
-.reg-icons{
-  height: 50px;
+.reg-icons {
+  height: 30px; /* Further reduced height */
   cursor: pointer;
 }
 
-.btn.btn-pri:hover{
-  // background: rgb(2,0,36);
+.btn.btn-pri:hover {
   background: #5b90d1;
   color: #073874;
-  border-radius: 30px;
+  border-radius: 16px;
 }
 
-.error-message{
+.error-message {
   text-align: left;
   color: red;
 }
 
-.email-signup{
+.email-signup {
   color: #073874;
   text-decoration: none;
 }
 
-.email-signup:hover{
+.email-signup:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
 .example-form {
-  min-width: 150px;
-  max-width: 500px;
+  min-width: 100px; /* Further reduced min-width */
+  max-width: 300px; /* Further reduced max-width */
   width: 100%;
 }
 
-.example-full-width {
-  width: 100%;
+.icon {
+  padding: 0.3rem; /* Further reduced padding */
+  height: 200px; /* Further reduced height */
+  // margin-top: 1.5rem;
+
+  /* Further reduced margin */
 }
 
-.icon{
-  padding: 1rem 1rem 0rem 1rem;
-  height: 400px;
-  margin-top: 3rem;
-}
-
-.title{
+.title {
   font-weight: 500;
-  font-size: 2rem;
-  margin-top: 15px;
+  font-size: 1.2rem; /* Further reduced font size */
+  // margin-top: 8px; /* Further reduced margin */
 }
 
-span{
+span {
   color: #073874;
-  font-weight: 700;
-  font-size: 2rem;
+  font-weight: 600; /* Adjusted font weight */
+  font-size: 1.2rem; /* Further reduced font size */
 }
 
-p{
-  font-weight: 500;
-  font-size: 1.2rem;
+p {
+  font-weight: 400; /* Adjusted font weight */
+  font-size: 0.9rem; /* Further reduced font size */
 }
 
-form{
-  width: 50%;
+form {
+  width: 50%; /* Further reduced width */
 }
 
-.logo-container{
-  width: 50%;
+.mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  /* font-size: 10px; */
 }
 
-.form-div{
+.logo-container {
+  width: 50%; /* Further reduced width */
+}
+
+.form-div {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-
 /* Styling for mobile screens */
 @media (max-width: 767px) {
-  .form-div{
+  .form-div {
     flex-direction: column;
   }
 
-  .icon{
-    height: 150px;
+  .icon {
+    height: 80px; /* Further reduced height */
   }
 
-  span{
-    color: #073874;
+  span {
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.7rem; /* Further reduced font size */
   }
 
-  p{
-    display: none;
+  form {
+    width: 80%; /* Further reduced width */
   }
 
-
-form{
-  width: 100%;
+  .logo-container {
+    width: 80%; /* Further reduced width */
+  }
 }
 
-.logo-container{
+.example-full-width{
   width: 100%;
 }
+.inputs-row{
+  max-height: 60px !important;
 }

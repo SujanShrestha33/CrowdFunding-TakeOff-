@@ -1,7 +1,7 @@
 <div class="main-component">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10 login-div">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center col-12">
+      <div class="col-sm-8 login-div">
         <div class="card shadow-2-strong outer-login-card" style="border-radius: 1rem">
           <div class="card-body px-5 text-center login-card">
             <!-- <div class="row-logo"> -->
@@ -170,50 +170,51 @@
                 <p><span>"</span>Soar High, Dream Big</p>
                   <p>TakeOff, Your Gateway to Success<span>"</span></p>
               </div>
-            <form [formGroup]="signupForm" (submit)="submit()" class="my-3">
+            <form [formGroup]="signupForm" (submit)="submit()">
               <div *ngIf="submitted && signupForm.invalid" class="error-message mb-1">
                 <div *ngIf="f.email.errors?.['required']">Email is required.</div>
               </div>
               <div *ngIf="submitted && signupForm.invalid" class="error-message mb-1">
                   <div *ngIf="f.email.errors?.['email']">Please enter a valid email address</div>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Email</mat-label>
                   <input type="email" matInput formControlName="email" placeholder="Ex. user@example.com">
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>First Name</mat-label>
                   <input type="text" matInput formControlName="firstname" placeholder="">
                 </mat-form-field>
+
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Last Name</mat-label>
                   <input type="text" matInput formControlName="lastname" placeholder="">
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Userame</mat-label>
                   <input type="text" matInput formControlName="username" placeholder="">
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Phone Number</mat-label>
                   <input type="number" matInput formControlName="phoneNumber" placeholder="xxxxxxxxxxx">
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Address</mat-label>
                   <input type="text" matInput formControlName="address" placeholder="">
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Password</mat-label>
                   <input formControlName="password" matInput [type]="hide ? 'password' : 'text'"
@@ -227,7 +228,7 @@
                   </button>
                 </mat-form-field>
               </div>
-              <div class="row">
+              <div class="row inputs-row">
                 <mat-form-field class="example-full-width">
                   <mat-label>Confirm Password</mat-label>
                   <input formControlName="confirmPassword" matInput [type]="hideIt ? 'password' : 'text'"
@@ -244,7 +245,7 @@
               <div *ngIf="error" class="error-message my-1">
                 {{ error }}
               </div>
-              <div class="row text-center mx-0">
+              <div class="row text-center mx-0 mt-2">
                 <button type="submit" class="btn btn-pri btn-md">Sign Up
                   <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
                     <span class="sr-only"></span>
