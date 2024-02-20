@@ -1,5 +1,5 @@
 .main-component{
-  height: 100vh;
+  height: 100%;
   background-image: url('../../../../assets/Background/bg.png');
   background-size: cover; /* Adjust as needed (cover, contain, etc.) */
   background-repeat: no-repeat;
@@ -96,4 +96,73 @@
 
 .example-full-width {
   width: 100%;
+}
+
+.icon{
+  padding: 1rem 1rem 0rem 1rem;
+  height: 400px;
+  margin-top: 3rem;
+}
+
+.title{
+  font-weight: 500;
+  font-size: 2rem;
+  margin-top: 15px;
+}
+
+span{
+  color: #073874;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+p{
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+form{
+  width: 50%;
+}
+
+.logo-container{
+  width: 50%;
+}
+
+.form-div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Styling for mobile screens */
+@media (max-width: 767px) {
+  .form-div{
+    flex-direction: column;
+  }
+
+  .icon{
+    height: 150px;
+  }
+
+  span{
+    color: #073874;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  p{
+    display: none;
+  }
+
+
+form{
+  width: 100%;
+}
+
+.logo-container{
+  width: 100%;
+}
 }
