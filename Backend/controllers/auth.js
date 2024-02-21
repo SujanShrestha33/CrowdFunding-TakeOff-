@@ -15,6 +15,9 @@ exports.signupUser = async (req, res) => {
       password,
     } = req.body;
     console.log(req.body);
+    const userExists = User.findOne({ email });
+    if (userExists)
+      return res.status(500).json({ error: "User already exists" });
     console.log(firstName, lastName, phoneNumber);
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
@@ -47,9 +50,13 @@ exports.loginUser = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: "Incorrect password" });
     }
-    const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      SECRET_KEY,
+      {
+        expiresIn: "1h",
+      },
+    );
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: "No user found" });
