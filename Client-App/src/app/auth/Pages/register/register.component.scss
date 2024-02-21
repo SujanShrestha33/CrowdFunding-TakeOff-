@@ -1,6 +1,6 @@
 .main-component {
   min-height: 100%;
-  background-image: url('../../../../assets/Background/bg.png');
+  background-image: url("../../../../assets/Background/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
   // background-position: center center;
@@ -8,7 +8,7 @@
   padding: 0;
 }
 
-.container{
+.container {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -16,7 +16,7 @@
 }
 
 .login-card {
-  background: #F5F5F5;
+  background: #f5f5f5;
   border-radius: 8px;
   font-size: 12px; /* Further reduced font size */
 }
@@ -90,7 +90,7 @@
 
 .icon {
   padding: 0.3rem; /* Further reduced padding */
-  height: 200px; /* Further reduced height */
+  height: 250px; /* Further reduced height */
   // margin-top: 1.5rem;
 
   /* Further reduced margin */
@@ -133,6 +133,24 @@ form {
   justify-content: center;
 }
 
+.btn-back {
+  border: none;
+  outline: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+}
+
+.btn-back:hover{
+  background-color: white;
+}
+
+.btn-success{
+  border-radius: 40px;
+  background-color: #073874;
+}
+
 /* Styling for mobile screens */
 @media (max-width: 767px) {
   .form-div {
@@ -157,9 +175,15 @@ form {
   }
 }
 
-.example-full-width{
+.example-full-width {
   width: 100%;
 }
-.inputs-row{
+.inputs-row {
   max-height: 60px !important;
 }
+/* Add this CSS to your existing styles */
+// .vertical-line {
+//   /* Adjust the color as needed */
+//   height: 100%; /* Adjust the height of the line */
+//   margin: 0 20px; /* Adjust the margin as needed */
+// }
