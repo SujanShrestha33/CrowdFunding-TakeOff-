@@ -51,7 +51,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { userId: user._id, email: user.email, expiresIn: "1h" },
       SECRET_KEY,
       {
         expiresIn: "1h",
