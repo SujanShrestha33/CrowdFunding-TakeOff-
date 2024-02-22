@@ -57,7 +57,9 @@ exports.loginUser = async (req, res) => {
         expiresIn: "1h",
       },
     );
-    res.status(200).json({ token });
+    const expirationDate = new Date(Date.now() + 60 * 60 * 1000);
+    console.log(expirationDate);
+    res.status(200).json({ token, expiresIn: expirationDate });
   } catch (error) {
     res.status(500).json({ error: "No user found" });
   }
