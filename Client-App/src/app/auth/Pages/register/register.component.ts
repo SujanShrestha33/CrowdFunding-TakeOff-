@@ -52,7 +52,7 @@ export class RegisterComponent {
   returnUrl: string = '/auth/login';
   submitted: boolean = false;
   loading: boolean = false;
-  isLoading: boolean = false;
+  // isLoading: boolean = false;
   error: string | null = null;
   arrowLeft = faArrowLeft;
   modalRef?: BsModalRef;

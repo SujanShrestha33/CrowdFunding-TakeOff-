@@ -117,7 +117,7 @@
                   </button>
                 </mat-form-field>
               </div>
-              <div *ngIf="error" class="error-message my-1">
+              <div *ngIf="error" class="error-message mb-1 text-center">
                 {{ error }}
               </div>
               <div class="forgotPass mb-2">
@@ -125,7 +125,7 @@
               </div>
               <div class="row text-center mx-0">
                 <button type="submit" class="btn btn-pri btn-lg">Login
-                  <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+                  <div class="spinner-border spinner-border-sm" style="color: white;" role="status" *ngIf="loading">
                     <span class="sr-only"></span>
                   </div>
                 </button>

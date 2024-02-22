@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { JwtInterceptor } from './Helper/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     FontAwesomeModule,
     ModalModule.forRoot()
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
