@@ -13,9 +13,9 @@ try {
   });
   const mailOptions = {
     from: "prasannajung08@gmail.com",
-    to: "me.pjthapa22@gmail.com",
-    subject: "<h1>Test email</h1>",
-    html: "<p> hey there</p>",
+    to: "sujanshress33@gmail.com",
+    subject: "Test email",
+    html: "<p>HUTIYA</p>",
   };
   transporter.sendMail(mailOptions, (e, info) => {
     if (e) {

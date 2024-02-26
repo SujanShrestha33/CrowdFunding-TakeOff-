@@ -2,6 +2,18 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const SECRET_KEY = "crowdfunding@/@";
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: "developertest1401@gmail.com",
+    pass: "fubs qbll xfgf uamo",
+  },
+});
 
 exports.signupUser = async (req, res) => {
   try {
@@ -14,11 +26,14 @@ exports.signupUser = async (req, res) => {
       email,
       password,
     } = req.body;
-    console.log(req.body);
-    const userExists = User.findOne({ email });
+
+    const userExists = await User.findOne({ email });
+    console.log(userExists);
     if (userExists)
       return res.status(500).json({ error: "User already exists" });
-    console.log(firstName, lastName, phoneNumber);
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
       firstName,
@@ -28,9 +43,25 @@ exports.signupUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      otp,
     });
-    const savedUser = await newUser.save();
-    console.log(savedUser);
+
+    await newUser.save();
+
+    const mailOptions = {
+      from: "crowdfunding@gmail.com",
+      to: email,
+      subject: "OTP for Account Verification",
+      text: `Your OTP for account verification is: ${otp}`,
+    };
+    transporter.sendMail(mailOptions, (e, info) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log("email has been sent", info.response);
+      }
+    });
+
     res.status(201).json({ message: "User registered" });
   } catch (e) {
     console.log(e.message);
@@ -62,5 +93,28 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({ token, expiresIn: expirationDate });
   } catch (error) {
     res.status(500).json({ error: "No user found" });
+  }
+};
+
+// VERIFYING USER BASED ON AN OTP
+exports.verifyUser = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    // Find user by email and OTP
+    const user = await User.findOne({ email, otp });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    // Update isVerified field to true
+    user.isVerified = true;
+    await user.save();
+
+    res.status(200).json({ message: "Account verified successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
