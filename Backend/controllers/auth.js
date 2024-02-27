@@ -132,6 +132,10 @@ exports.getOtp = async (req, res) => {
       return res.status(400).json({ error: "User doesn't exist" });
     }
 
+    if(user.isVerified){
+      return res.status(400).json({ error: "Email Already Verified, Proceed to login!"})
+    }
+
     const mailOptions = {
       from: "crowdfunding@gmail.com",
       to: email,

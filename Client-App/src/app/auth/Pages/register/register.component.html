@@ -293,7 +293,10 @@
       <div class="otp-input-container p-3">
         <input class="email-input" type="email" title="Enter your registered email" placeholder="Enter your registered email" required  [(ngModel)]="emailForVerification"  (keyup.enter)="sendForVerification()">
       </div>
-      <button class="btn-submit p-2 px-3" (click)="sendForVerification()">
+      <div *ngIf="alreadyExistsError && isVerifying" class="error-message-modal my-1 mb-3">
+        {{ alreadyExistsError }}
+      </div>
+      <button [disabled]="!emailForVerification" class="btn-submit p-2 px-3" (click)="sendForVerification()">
         Submit
         <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="innerLoading">
           <span class="sr-only"></span>
@@ -316,12 +319,13 @@
       <div class="otp-container">
         <label for="otp" class="otp-label">Enter OTP:</label>
         <div class="otp-input-container">
-          <input  type="text" id="otp" maxlength="6" class="otp-input" pattern="\d{6}" title="Enter a valid code" required  [(ngModel)]="verifyCode">
+          <input  type="text" id="otp" maxlength="6" class="otp-input" pattern="\d{6}" title="Enter a valid code" required  [(ngModel)]="verifyCode" (keyup.enter)="verifyOtp()">
         </div>
       </div>
-      <div *ngIf="verificationError" class="error-message-modal my-1">
+      <div *ngIf="verificationError && !isVerifying" class="error-message-modal my-1">
         {{ verificationError }}
       </div>
+
       <div>
         <button [disabled]="verifyCode == ''" class="btn btn-sm btn-success mt-4" (click)="verifyOtp()">
           <!-- <fa-icon [icon]="arrowLeft"></fa-icon> -->

@@ -59,7 +59,10 @@ export class AuthService {
   }
 
   sendForVerification(verifyEmail : string){
-    return verifyEmail;
+    const body = {
+      email : verifyEmail
+    }
+    return this.http.post<any>(`${this.baseUrl}getOtp`, body);
   }
 
   public get CurrentUserValue(): ReturnUser | null {
