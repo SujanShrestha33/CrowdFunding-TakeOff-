@@ -77,6 +77,11 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "User doesn't exist" });
     }
     console.log(user);
+    const isUserVerified = user.isVerified;
+    console.log(isUserVerified);
+    if (!isUserVerified) {
+      return res.status(403).json({ error: "User is not verified" });
+    }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Incorrect password" });
@@ -89,7 +94,7 @@ exports.loginUser = async (req, res) => {
       },
     );
     const expirationDate = new Date(Date.now() + 60 * 60 * 1000);
-    console.log(expirationDate);
+
     res.status(200).json({ token, expiresIn: expirationDate });
   } catch (error) {
     res.status(500).json({ error: "No user found" });
@@ -115,6 +120,33 @@ exports.verifyUser = async (req, res) => {
     res.status(200).json({ message: "Account verified successfully" });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.getOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: "User doesn't exist" });
+    }
+
+    const mailOptions = {
+      from: "crowdfunding@gmail.com",
+      to: email,
+      subject: "OTP for Account Verification",
+      text: `Your OTP for account verification is: ${user.otp}`,
+    };
+    transporter.sendMail(mailOptions, (e, info) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log("email has been sent", info.response);
+      }
+    });
+    return res.status(200).json({ response: "Email successfully sent" });
+  } catch (e) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
