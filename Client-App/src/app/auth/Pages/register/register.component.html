@@ -259,10 +259,10 @@
               <div *ngIf="error" class="error-message my-1">
                 {{ error }}
               </div>
-              <!-- <div class="mt-1 ps-2">
-                Already Registered? <a style="cursor: pointer; text-decoration: underline;">Verify Here</a>
-              </div> -->
-              <div class="row text-center mx-0 mt-3">
+              <div class="mt-3 ps-2">
+                Already Registered? <a style="cursor: pointer; text-decoration: underline;" (click)="openModal(template)" (click)="verifyEmail()">Verify Here</a>
+              </div>
+              <div class="row text-center mx-0 mt-1">
                 <button type="submit" class="btn btn-pri btn-md py-2">Sign Up
                   <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="loading">
                     <span class="sr-only"></span>
@@ -288,16 +288,28 @@
       </button>
     </div>
   <div class="modal-body text-center mt-3">
-    <ng-container *ngIf="!isVerified">
+    <div *ngIf="isVerifying">
+      <label for="otp" class="otp-label">Enter Your Email</label>
+      <div class="otp-input-container p-3">
+        <input class="email-input" type="email" title="Enter your registered email" placeholder="Enter your registered email" required  [(ngModel)]="emailForVerification"  (keyup.enter)="sendForVerification()">
+      </div>
+      <button class="btn-submit p-2 px-3" (click)="sendForVerification()">
+        Submit
+        <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="innerLoading">
+          <span class="sr-only"></span>
+        </div>
+      </button>
+    </div>
+    <ng-container *ngIf="!isVerified && !isVerifying">
       User Registered Successfully!
     </ng-container>
     <ng-container *ngIf="isVerified">
       User Verified Successfully!
     </ng-container>
-    <div class="svg">
+    <div class="svg" *ngIf="!isVerifying">
       <svg style="height: 80px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M24 4L29.2533 7.83204L35.7557 7.81966L37.7533 14.0077L43.0211 17.8197L41 24L43.0211 30.1803L37.7533 33.9923L35.7557 40.1803L29.2533 40.168L24 44L18.7467 40.168L12.2443 40.1803L10.2467 33.9923L4.97887 30.1803L7 24L4.97887 17.8197L10.2467 14.0077L12.2443 7.81966L18.7467 7.83204L24 4Z" fill="#129b34" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 24L22 29L32 19" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </div>
-    <ng-container *ngIf="!isVerified" >
+    <ng-container *ngIf="!isVerified && !isVerifying" >
       <div>
         We have sent you a verification code at your email address. Please enter the code below to verify.
       </div>

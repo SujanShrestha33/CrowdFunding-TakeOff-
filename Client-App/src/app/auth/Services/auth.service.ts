@@ -22,7 +22,9 @@ export class AuthService {
     const storedUser: ReturnUser = JSON.parse(storedUserString);
     console.log(storedUser);
     this.currentUserSubject.next(storedUser);
+    console.log(this.currentUserSubject);
   }
+  this.startRefreshTokenTimer();
   }
 
   login(email: string, password: string) {
@@ -53,37 +55,48 @@ export class AuthService {
     localStorage.clear();
     localStorage.removeItem('ReturnUser');
     this.currentUserSubject.next(null);
+    this.stopRefreshTokenTimer();
   }
 
-  // refreshToken()
+  sendForVerification(verifyEmail : string){
+    return verifyEmail;
+  }
 
-  // startRefreshTokenTimer(){
-  //   let expires : any;
-  //   let currentDate : any;
+  public get CurrentUserValue(): ReturnUser | null {
+    return this.currentUserSubject.value;
+  }
 
-  //   clearTimeout(this.refreshTokenTimeout);
+  refreshToken(){
+    return this.http.post<any>(`${this.baseUrl}refresh-token`, this.CurrentUserValue)
+    .pipe(
+      map((response: any) => {
+        console.log(response);
+        const returnUser: ReturnUser = response as ReturnUser;
+        this.currentUserSubject.next(returnUser);
+        console.log(this.currentUserSubject);
+        localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
+        return returnUser; // You can choose to return the modified object if needed
+      })
+    );
+  }
 
-  //   if(this.currentUserSubject == null){
-  //     // currentDate =
-  //     expires = Date.now()
-  //   }else{
-  //     // currentDate =
-  //     expires = Date.now()
+  startRefreshTokenTimer(){
+    clearTimeout(this.refreshTokenTimeout);
+    console.log(this.CurrentUserValue?.expiresIn);
+    console.log(this.currentUserSubject.value!.expiresIn)
+    const expires = new Date(this.currentUserSubject.value!.expiresIn)
+    console.log(expires);
+    const timeout = expires.getTime() - Date.now() - (120 * 1000);
 
-  //   }
-  //   const timeout = expires.getTime() - Date.now() - (120 * 1000);
-  //   this.refreshTokenTimeout = setTimeout(() => this.refreshTokenTimeout().subscribe(), timeout)
-  // }
+  }
 
-  // private stopRefreshTokenTimer() {
-  //   clearTimeout(this.refreshTokenTimeout);
-  // }
+  private stopRefreshTokenTimer(){
+    clearTimeout(this.refreshTokenTimeout);
+  }
 
-  // sessionExpire() {
-  //   if (localStorage.getItem("token") == null) {
-  //     this.router.navigateByUrl("/");
-  //   }
-  //   // console.log('expired');
-  // }
-
+  sessionExpire(){
+    if(localStorage.getItem('returnUser') == null){
+      this.router.navigate(['auth/login']);
+    }
+  }
 }

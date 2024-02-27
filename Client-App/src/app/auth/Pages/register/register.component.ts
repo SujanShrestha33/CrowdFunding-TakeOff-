@@ -60,6 +60,8 @@ export class RegisterComponent {
   isVerified : boolean = false;
   innerLoading : boolean = false;
   verificationError : string| null = null;
+  isVerifying : boolean = false;
+  emailForVerification : string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -176,6 +178,33 @@ export class RegisterComponent {
         complete: () => {
         }
       })
+  }
+
+  verifyEmail(){
+    this.isVerifying = true;
+  }
+
+  sendForVerification(){
+    this.innerLoading = true;
+    this.isVerifying = false;
+    console.log(this.innerLoading);
+    // this.authService.sendForVerification(this.emailForVerification)
+    //   .subscribe({
+    //     next : (responese) => {
+    //       console.log(responese);
+    //       this.innerLoading = true;
+    //       this.isVerifying = false;
+    //       this.isVerified = false;
+    //     },
+    //     error : (error) => {
+    //       this.innerLoading = false;
+    //       console.log(error);
+    //       this.verificationError = error.error.error;
+    //     },
+    //     complete : () => {
+
+    //     }
+    //   })
   }
 
 }
