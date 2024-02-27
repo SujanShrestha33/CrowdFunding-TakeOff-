@@ -9,11 +9,15 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { JwtInterceptor } from './Helper/jwt.interceptor';
+import { SharedComponent } from './shared/shared.component';
+import { NavBarComponent } from './Shared Component/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    SharedComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

@@ -180,7 +180,7 @@
                 <p><span>"</span>Soar High, Dream Big</p>
                   <p>TakeOff, Your Gateway to Success<span>"</span></p>
               </div>
-              
+
             <form [formGroup]="signupForm" (submit)="submit()">
               <!-- <div *ngIf="submitted && signupForm.invalid" class="error-message mb-1">
                 <div *ngIf="f.email.errors?.['required']">Email is required.</div>
@@ -259,6 +259,9 @@
               <div *ngIf="error" class="error-message my-1">
                 {{ error }}
               </div>
+              <!-- <div class="mt-1 ps-2">
+                Already Registered? <a style="cursor: pointer; text-decoration: underline;">Verify Here</a>
+              </div> -->
               <div class="row text-center mx-0 mt-3">
                 <button type="submit" class="btn btn-pri btn-md py-2">Sign Up
                   <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="loading">
@@ -285,18 +288,45 @@
       </button>
     </div>
   <div class="modal-body text-center mt-3">
+    <ng-container *ngIf="!isVerified">
+      User Registered Successfully!
+    </ng-container>
+    <ng-container *ngIf="isVerified">
+      User Verified Successfully!
+    </ng-container>
     <div class="svg">
-      <svg style="height: 100px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M24 4L29.2533 7.83204L35.7557 7.81966L37.7533 14.0077L43.0211 17.8197L41 24L43.0211 30.1803L37.7533 33.9923L35.7557 40.1803L29.2533 40.168L24 44L18.7467 40.168L12.2443 40.1803L10.2467 33.9923L4.97887 30.1803L7 24L4.97887 17.8197L10.2467 14.0077L12.2443 7.81966L18.7467 7.83204L24 4Z" fill="#129b34" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 24L22 29L32 19" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+      <svg style="height: 80px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect> <path d="M24 4L29.2533 7.83204L35.7557 7.81966L37.7533 14.0077L43.0211 17.8197L41 24L43.0211 30.1803L37.7533 33.9923L35.7557 40.1803L29.2533 40.168L24 44L18.7467 40.168L12.2443 40.1803L10.2467 33.9923L4.97887 30.1803L7 24L4.97887 17.8197L10.2467 14.0077L12.2443 7.81966L18.7467 7.83204L24 4Z" fill="#129b34" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 24L22 29L32 19" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </div>
-    Registered Successfully!
-    <div>
-      We have sent you a verification request at your email address. Please verify before login. Thank You!
-    </div>
-    <div>
-      <button class="btn btn-success mt-4" (click)="navigate()" (click)="modalRef?.hide()">
-        <fa-icon [icon]="arrowLeft"></fa-icon>
-        Back To Login
-      </button>
-    </div>
+    <ng-container *ngIf="!isVerified" >
+      <div>
+        We have sent you a verification code at your email address. Please enter the code below to verify.
+      </div>
+      <div class="otp-container">
+        <label for="otp" class="otp-label">Enter OTP:</label>
+        <div class="otp-input-container">
+          <input  type="text" id="otp" maxlength="6" class="otp-input" pattern="\d{6}" title="Enter a valid code" required  [(ngModel)]="verifyCode">
+        </div>
+      </div>
+      <div *ngIf="verificationError" class="error-message-modal my-1">
+        {{ verificationError }}
+      </div>
+      <div>
+        <button [disabled]="verifyCode == ''" class="btn btn-sm btn-success mt-4" (click)="verifyOtp()">
+          <!-- <fa-icon [icon]="arrowLeft"></fa-icon> -->
+          Verify
+          <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="innerLoading">
+            <span class="sr-only"></span>
+          </div>
+        </button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isVerified" >
+      <div>
+        <button class="btn btn-success mt-4" (click)="navigate()" (click)="modalRef?.hide()">
+          <fa-icon [icon]="arrowLeft"></fa-icon>
+          Back To Login
+        </button>
+      </div>
+    </ng-container>
   </div>
 </ng-template>

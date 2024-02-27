@@ -11,7 +11,6 @@ export function passwordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value: string = control.value || '';
     const errors: ValidationErrors = {};
-
     const hasUpperCase = /[A-Z]/.test(value);
     const hasLowerCase = /[a-z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
@@ -57,6 +56,10 @@ export class RegisterComponent {
   arrowLeft = faArrowLeft;
   modalRef?: BsModalRef;
   @ViewChild('template') template!: TemplateRef<void>;
+  verifyCode : string = "";
+  isVerified : boolean = false;
+  innerLoading : boolean = false;
+  verificationError : string| null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -126,6 +129,7 @@ export class RegisterComponent {
           next: (response) => {
             this.loading = false;
             console.log(response);
+            localStorage.setItem('email', email);
             if (this.template) {
               this.openModal(this.template);
               this.signupForm.reset();
@@ -147,6 +151,31 @@ export class RegisterComponent {
 
   navigate() : void{
     this.router.navigate(['/auth/login'])
+  }
+
+  verifyOtp(){
+    this.innerLoading = true;
+    const email = localStorage.getItem('email');
+    const body = {
+      email : email,
+      otp : this.verifyCode
+    }
+    console.log(body)
+    this.authService.verifyOtp(body)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+            this.innerLoading = false;
+            this.isVerified = true;
+        },
+        error : (error) => {
+          console.error('Verification failed:', error);
+            this.verificationError = error.error.error;
+            this.innerLoading = false;
+        },
+        complete: () => {
+        }
+      })
   }
 
 }

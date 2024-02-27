@@ -187,3 +187,52 @@ form {
 //   height: 100%; /* Adjust the height of the line */
 //   margin: 0 20px; /* Adjust the margin as needed */
 // }
+/* CSS Styles for OTP Input */
+
+/* Style for the container holding the OTP input */
+.otp-container {
+  margin-top: 20px;
+}
+
+/* Style for the label */
+.otp-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Style for the OTP input field */
+.otp-input-container {
+  margin-top: 8px;
+}
+
+.otp-input {
+  width: 200px;
+  height: 36px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the button */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #218838;
+}
+
+.error-message-modal{
+  text-align: center;
+  color: red;
+
+}

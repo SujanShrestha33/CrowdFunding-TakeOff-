@@ -29,10 +29,12 @@ export class AuthService {
     const loginData = { email: email, password: password };
     return this.http.post(`${this.baseUrl}login`, loginData).pipe(
       map((response: any) => {
+        console.log(response);
         const returnUser: ReturnUser = response as ReturnUser;
         this.currentUserSubject.next(returnUser);
         console.log(this.currentUserSubject);
         localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
+        localStorage.setItem('email', email);
         return returnUser; // You can choose to return the modified object if needed
       })
     );
@@ -41,6 +43,10 @@ export class AuthService {
 
   signUp(user: User) {
     return this.http.post(`${this.baseUrl}signup`, user);
+  }
+
+  verifyOtp(body : any){
+    return this.http.post(`${this.baseUrl}verify`, body);
   }
 
   logout(){
