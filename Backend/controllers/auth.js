@@ -132,8 +132,10 @@ exports.getOtp = async (req, res) => {
       return res.status(400).json({ error: "User doesn't exist" });
     }
 
-    if(user.isVerified){
-      return res.status(400).json({ error: "Email Already Verified, Proceed to login!"})
+    if (user.isVerified) {
+      return res
+        .status(400)
+        .json({ error: "Email Already Verified, Proceed to login!" });
     }
 
     const mailOptions = {
@@ -153,4 +155,54 @@ exports.getOtp = async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+exports.forgotPassword = async (req, res) => {
+  const email = req.body.email;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ msg: "No user found" });
+  }
+
+  const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
+    expiresIn: "15m",
+  });
+
+  const resetLink = `http://your-app.com/reset-password?token=${token}`;
+
+  const mailOptions = {
+    from: "crowdfunding@gmail.com",
+    to: email,
+    subject: "Password Reset",
+    text: `Click on the following link to reset your password: ${resetLink}`,
+  };
+
+  transporter.sendMail(mailOptions, error => {
+    if (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).send("Error sending email");
+    }
+
+    res.status(200).send("Password reset email sent");
+  });
+};
+
+exports.resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  const decoded = jwt.verify(token, SECRET_KEY);
+  if (!decoded.userId) {
+    return res.status(401).send("Invalid token");
+  }
+
+  const user = await User.findById(decoded.userId);
+  if (!user) {
+    return res.status(404).send("No user found");
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 12);
+  user.password = hashedPassword;
+  await user.save();
+
+  res.status(200).send("Password successfully reset");
 };
