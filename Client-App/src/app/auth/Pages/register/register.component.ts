@@ -99,6 +99,7 @@ export class RegisterComponent {
   }
 
   submit() {
+    this.verificationError = '';
     this.loading = true;
     this.submitted = true;
     console.log(this.signupForm.invalid);
@@ -185,6 +186,7 @@ export class RegisterComponent {
 
   verifyEmail(){
     this.isVerifying = true;
+    this.alreadyExistsError = '';
   }
 
   sendForVerification(){
