@@ -32,7 +32,7 @@ export class SharedComponent implements OnInit {
     }
     console.log(this.loggedIn);
 
-    if(localStorage.getItem('ReturnUser')){
+    if(this.loggedIn){
       this.idleTime();
       this.refreshTokenTimer();
     }
@@ -56,7 +56,7 @@ export class SharedComponent implements OnInit {
       });
   }
 
-  ngOnDestroy() {
-    this.timer.cleanUp();
-}
+  // ngOnDestroy() {
+  //   this.timer.cleanUp();
+  // }
 }

@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { JwtInterceptor } from './Helper/jwt.interceptor';
 import { SharedComponent } from './shared/shared.component';
 import { NavBarComponent } from './Shared Component/nav-bar/nav-bar.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NavBarComponent } from './Shared Component/nav-bar/nav-bar.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FontAwesomeModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
   bootstrap: [AppComponent]

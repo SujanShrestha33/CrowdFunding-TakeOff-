@@ -24,7 +24,7 @@ export class AuthService {
     this.currentUserSubject.next(storedUser);
     console.log(this.currentUserSubject);
   }
-  this.startRefreshTokenTimer();
+  // this.startRefreshTokenTimer();
   }
 
   login(email: string, password: string) {
@@ -63,6 +63,23 @@ export class AuthService {
       email : verifyEmail
     }
     return this.http.post<any>(`${this.baseUrl}getOtp`, body);
+  }
+
+  forgotPassword(email : string){
+    const body = {
+      email : email
+    }
+    console.log(body);
+    return this.http.post<any>(`${this.baseUrl}forgotPassword`, body);
+  }
+
+  resetPassword(password : string, token : string){
+    const body = {
+      token : token,
+      newPassword : password
+    }
+    return this.http.post<any>(`${this.baseUrl}resetPassword`, body);
+
   }
 
   public get CurrentUserValue(): ReturnUser | null {

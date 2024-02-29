@@ -1,9 +1,31 @@
-// nav{
-//   background-image: url('../../../assets/Background/bg.png');
-//   background-size: cover;
-//   background-repeat: no-repeat;
-//   background-position: center center;
-//   margin: 0;
-//   padding: 0;
-//   height: 8%;
-// }
+nav{
+  background-color: #073976 !important;
+}
+.for-mobile {
+  display: none;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dropdown-item:hover{
+  background-color: #073976;
+  color: white;
+}
+
+@media only screen and (max-width: 767px) {
+  .for-mobile {
+    display: block;
+  }
+
+  .title-container {
+    display: none;
+  }
+
+  .icon{
+    height : 100px !important;
+  }
+}

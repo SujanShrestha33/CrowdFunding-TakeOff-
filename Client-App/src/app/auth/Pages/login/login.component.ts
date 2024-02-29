@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../Services/auth.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,17 +16,29 @@ export class LoginComponent implements OnInit {
   submitted: boolean = false;
   loading: boolean = false;
   error: string | null = null;
+  modalRef?: BsModalRef;
+  emailForVerification : string = '';
+  innerLoading : boolean = false;
+  forgotPassError : string = '';
+  message : string = '';
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {}
 
+  openModal(template: TemplateRef<void>) {
+    this.emailForVerification = '';
+    this.message = '';
+    this.forgotPassError = '';
+    this.modalRef = this.modalService.show(template);
+  }
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -70,5 +83,28 @@ export class LoginComponent implements OnInit {
       console.error('Email or password is null.');
       this.loading = false;
     }
+  }
+
+  sendForVerification(){
+    console.log(this.emailForVerification);
+    this.forgotPassError = '';
+    this.innerLoading = true;
+    this.authService.forgotPassword(this.emailForVerification)
+      .subscribe({
+        next : (response) => {
+        this.message = `An email hase been sent to ${this.emailForVerification} with password reset link. Please check your inbox.`
+    this.innerLoading = false;
+
+        },
+        error : (error) => {
+          console.log(error);
+          this.forgotPassError = error.error.msg;
+    this.innerLoading = false;
+          this.emailForVerification = '';
+        },
+        complete: () => {
+
+        }
+      })
   }
 }

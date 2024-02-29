@@ -168,7 +168,7 @@ exports.forgotPassword = async (req, res) => {
     expiresIn: "15m",
   });
 
-  const resetLink = `http://your-app.com/reset-password?token=${token}`;
+  const resetLink = `http://localhost:4200/auth/reset-password?token=${token}`;
 
   const mailOptions = {
     from: "crowdfunding@gmail.com",
@@ -182,8 +182,7 @@ exports.forgotPassword = async (req, res) => {
       console.error("Error sending email:", error);
       return res.status(500).send("Error sending email");
     }
-
-    res.status(200).send("Password reset email sent");
+      res.status(200).json({message: "Password reset email sent"});
   });
 };
 
@@ -204,5 +203,5 @@ exports.resetPassword = async (req, res) => {
   user.password = hashedPassword;
   await user.save();
 
-  res.status(200).send("Password successfully reset");
+  res.status(200).json({message : "Password successfully reset"});
 };
