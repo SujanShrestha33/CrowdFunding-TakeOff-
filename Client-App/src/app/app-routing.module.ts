@@ -12,7 +12,9 @@ const routes: Routes = [
   },
   {
     path : '',
-    component : SharedComponent
+    component : SharedComponent,
+    loadChildren: () =>
+      import('./shared/shared.module').then((m) => m.SharedModule)
   },
   {
     path : '**',

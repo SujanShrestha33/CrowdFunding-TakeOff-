@@ -80,7 +80,7 @@ exports.loginUser = async (req, res) => {
     const isUserVerified = user.isVerified;
     console.log(isUserVerified);
     if (!isUserVerified) {
-      return res.status(403).json({ error: "User is not verified" });
+      return res.status(403).json({ error: "User is not verified, Please verify through Signup page!" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {

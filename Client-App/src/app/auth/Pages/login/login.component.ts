@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           console.error('Login failed:', error);
-          this.error = 'Incorrect email or password, Please Try Again!';
+          this.error = error.error.error;
 
           this.loading = false;
         },
