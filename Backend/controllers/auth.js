@@ -80,7 +80,9 @@ exports.loginUser = async (req, res) => {
     const isUserVerified = user.isVerified;
     console.log(isUserVerified);
     if (!isUserVerified) {
-      return res.status(403).json({ error: "User is not verified, Please verify through Signup page!" });
+      return res.status(403).json({
+        error: "User is not verified, Please verify through Signup page!",
+      });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
@@ -180,9 +182,9 @@ exports.forgotPassword = async (req, res) => {
   transporter.sendMail(mailOptions, error => {
     if (error) {
       console.error("Error sending email:", error);
-      return res.status(500).json({msg:"Error sending email"});
+      return res.status(500).json({ msg: "Error sending email" });
     }
-      res.status(200).json({msg: "Password reset email sent"});
+    res.status(200).json({ msg: "Password reset email sent" });
   });
 };
 
@@ -191,17 +193,17 @@ exports.resetPassword = async (req, res) => {
 
   const decoded = jwt.verify(token, SECRET_KEY);
   if (!decoded.userId) {
-    return res.status(401).json({msg:"Invalid token"});
+    return res.status(401).json({ msg: "Invalid token" });
   }
 
   const user = await User.findById(decoded.userId);
   if (!user) {
-    return res.status(404).json({msg:"No Such user found"});
+    return res.status(404).json({ msg: "No Such user found" });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 12);
   user.password = hashedPassword;
   await user.save();
 
-  res.status(200).json({msg : "Password successfully reset"});
+  res.status(200).json({ msg: "Password successfully reset" });
 };
