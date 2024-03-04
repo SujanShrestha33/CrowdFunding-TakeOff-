@@ -86,6 +86,11 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  googleSignIn(){
+    console.log(`${this.baseUrl}auth/google`);
+    return this.http.get<any>(`${this.baseUrl}auth/google`);
+  }
+
   refreshToken(){
     return this.http.post<any>(`${this.baseUrl}refresh-token`, this.CurrentUserValue)
     .pipe(

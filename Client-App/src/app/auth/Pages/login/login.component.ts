@@ -17,10 +17,10 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   error: string | null = null;
   modalRef?: BsModalRef;
-  emailForVerification : string = '';
-  innerLoading : boolean = false;
-  forgotPassError : string = '';
-  message : string = '';
+  emailForVerification: string = '';
+  innerLoading: boolean = false;
+  forgotPassError: string = '';
+  message: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -63,8 +63,8 @@ export class LoginComponent implements OnInit {
 
     if (email && password) {
       this.authService.login(email, password).subscribe({
-        next: (response) => {
-          console.log(response);
+        next: (responseponse) => {
+          console.log(responseponse);
           this.loading = false;
           this.router.navigate([this.returnUrl]);
         },
@@ -85,26 +85,46 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  sendForVerification(){
+  sendForVerification() {
     console.log(this.emailForVerification);
     this.forgotPassError = '';
     this.innerLoading = true;
-    this.authService.forgotPassword(this.emailForVerification)
-      .subscribe({
-        next : (response) => {
-        this.message = `An email hase been sent to ${this.emailForVerification} with password reset link. Please check your inbox.`
-    this.innerLoading = false;
-
-        },
-        error : (error) => {
-          console.log(error);
-          this.forgotPassError = error.error.msg;
-    this.innerLoading = false;
-          this.emailForVerification = '';
-        },
-        complete: () => {
-
-        }
-      })
+    this.authService.forgotPassword(this.emailForVerification).subscribe({
+      next: (responseponse) => {
+        this.message = `An email hase been sent to ${this.emailForVerification} with password responseet link. Please check your inbox.`;
+        this.innerLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.forgotPassError = error.error.msg;
+        this.innerLoading = false;
+        this.emailForVerification = '';
+      },
+      complete: () => {},
+    });
   }
+
+  signInGoogle() {
+    this.loading = true;
+    this.authService.googleSignIn().subscribe({
+      next: (response: any) => {
+        console.log(response);
+        console.log(response.status);
+
+        // Handle the responseponse here, you might want to redirect the user or perform other actions
+        // For example, you can check if the responseponse contains a redirect URL and navigate to it
+        if (response && response.redirectUrl) {
+          window.location.href = response.redirectUrl;
+        }
+
+        this.loading = false;
+      },
+      error: (error : any) => {
+        console.log(error);
+        this.loading = false;
+      },
+      complete: () => {},
+    });
+  }
+
 }

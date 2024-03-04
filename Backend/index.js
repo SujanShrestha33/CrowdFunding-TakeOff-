@@ -46,15 +46,17 @@ passport.use(
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] }),
+  (req, res) => {
+    // You can set the redirect URL dynamically based on your frontend URL
+    const redirectUrl = "http://localhost:4200"; // Update with your actual frontend URL
+    res.redirect(redirectUrl);
+  }
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/user/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
-  },
+
 );
 
 const authRoutes = require("./routes/auth");

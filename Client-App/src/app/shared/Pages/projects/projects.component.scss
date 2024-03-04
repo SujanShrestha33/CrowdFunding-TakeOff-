@@ -21,7 +21,7 @@ img{
 }
 
 .img-container{
-  height: 200px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,9 +30,29 @@ img{
 
 .card{
   border: none;
+  // cursor : pointer;
 }
 
 .card:hover{
-  border: 2px solid rgb(187, 187, 187);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.space-between{
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-icon{
+  transition: transform .2s;
   cursor: pointer;
 }
+
+.save-icon:hover{
+  // color: white;
+  // border: 2px solid black;
+  color: #073976;
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5);
+}
+
