@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
+const User = require("./models/User");
 
 // Middlewares
 app.use(cors({ origin: "http://localhost:4200" }));
