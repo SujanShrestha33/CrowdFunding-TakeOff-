@@ -34,17 +34,19 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      // try {
-      //   console.log(profile);
-      //   const user = await User.create({
-      //     username: profile.displayName,
-      //     email: profile.emails[0].value,
-      //     password: profile.id,
-      //   });
-      //   return cb(null, user);
-      // } catch (e) {
-      //   return cb(error, null);
-      // }
+      try {
+        console.log(profile);
+        const user = new User({
+          username: profile.displayName,
+          email: profile.emails[0].value,
+          password: profile.id,
+          isVerified: true,
+        });
+        await user.save();
+        return cb(null, user);
+      } catch (e) {
+        return cb(error, null);
+      }
     },
   ),
 );
