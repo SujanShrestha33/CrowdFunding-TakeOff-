@@ -45,7 +45,7 @@ passport.use(
         await user.save();
         return cb(null, user);
       } catch (e) {
-        return cb(error, null);
+        return cb(e, null);
       }
     },
   ),
@@ -68,8 +68,9 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "http://localhost:4200/auth/login",
-    successRedirect: "http://localhost:4200/dashboard",
+    successRedirect: "http://localhost:4200/",
   }),
+  
 );
 
 const authRoutes = require("./routes/auth");

@@ -105,26 +105,8 @@ export class LoginComponent implements OnInit {
   }
 
   signInGoogle() {
-    this.loading = true;
-    this.authService.googleSignIn().subscribe({
-      next: (response: any) => {
-        console.log(response);
-        console.log(response.status);
-
-        // Handle the responseponse here, you might want to redirect the user or perform other actions
-        // For example, you can check if the responseponse contains a redirect URL and navigate to it
-        if (response && response.redirectUrl) {
-          window.location.href = response.redirectUrl;
-        }
-
-        this.loading = false;
-      },
-      error: (error : any) => {
-        console.log(error);
-        this.loading = false;
-      },
-      complete: () => {},
-    });
+    // this.loading = true;
+    window.open(`http://localhost:8080/auth/google/callback`, '_self');
   }
 
 }

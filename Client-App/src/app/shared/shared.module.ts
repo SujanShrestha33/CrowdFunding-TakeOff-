@@ -5,6 +5,7 @@ import { SharedComponent } from './shared.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ProjectsComponent } from './Pages/projects/projects.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DashboardComponent } from './Pages/dashboard/dashboard.component';
 
 
 
@@ -12,7 +13,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [
 
 
-    ProjectsComponent
+    ProjectsComponent,
+        DashboardComponent
   ],
   imports: [
     CommonModule,

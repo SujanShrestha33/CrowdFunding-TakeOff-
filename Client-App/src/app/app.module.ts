@@ -12,13 +12,15 @@ import { JwtInterceptor } from './Helper/jwt.interceptor';
 import { SharedComponent } from './shared/shared.component';
 import { NavBarComponent } from './Shared Component/nav-bar/nav-bar.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { InnerNavbarComponent } from './Shared Component/inner-navbar/inner-navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     SharedComponent,
-    NavBarComponent
+    NavBarComponent,
+    InnerNavbarComponent
   ],
   imports: [
     BrowserModule,

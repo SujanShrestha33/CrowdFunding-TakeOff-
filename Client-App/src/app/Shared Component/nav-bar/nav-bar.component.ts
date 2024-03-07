@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/Services/auth.service';
-import {faUser} from "@fortawesome/free-solid-svg-icons"
+import {faUser, faPowerOff} from "@fortawesome/free-solid-svg-icons"
 
 
 @Component({
@@ -12,6 +12,7 @@ export class NavBarComponent implements OnInit {
   loginDetails : any = {};
   loggedIn : boolean = false;
   faUser = faUser;
+  faOff = faPowerOff;
 
   onHidden(): void {
     console.log('Dropdown is hidden');
