@@ -34,6 +34,10 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
+      const userExists = await User.find({ email: profile.emails[0].value });
+      if (userExists) {
+        return cb(null, userExists);
+      }
       try {
         console.log(profile);
         const user = new User({
