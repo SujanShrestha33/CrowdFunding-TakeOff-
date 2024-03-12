@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const connectDb = require("./dbConnection");
 const app = express();
@@ -5,11 +6,12 @@ const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
 const User = require("./models/User");
+const cookieParser = require("cookie-parser");
 
 // Middlewares
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
-
+app.use(cookieParser());
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 app.use(
@@ -78,7 +80,6 @@ app.get(
 
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
-
 app.use(authRoutes);
 app.use(projectRoutes);
 

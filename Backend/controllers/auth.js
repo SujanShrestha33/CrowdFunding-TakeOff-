@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const SECRET_KEY = "crowdfunding@/@";
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const generateAccessAndRefreshTokens = require("../utils/generateTokens");
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -76,9 +77,9 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "User doesn't exist" });
     }
-    console.log(user);
+
     const isUserVerified = user.isVerified;
-    console.log(isUserVerified);
+
     if (!isUserVerified) {
       return res.status(403).json({
         error: "User is not verified, Please verify through Signup page!",
@@ -88,17 +89,32 @@ exports.loginUser = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: "Incorrect password" });
     }
-    const token = jwt.sign(
-      { userId: user._id, email: user.email, expiresIn: "1h" },
-      SECRET_KEY,
-      {
-        expiresIn: "1h",
-      },
-    );
-    const expirationDate = new Date(Date.now() + 60 * 60 * 1000);
 
-    res.status(200).json({ token, expiresIn: expirationDate });
+    const { accessToken, refreshToken } = generateAccessAndRefreshTokens(user);
+
+    const accessExpiryInHours = 1 * 24;
+    const refreshExpiryInHours = 7 * 24;
+
+    const accessExpirationDate = new Date(
+      Date.now() + accessExpiryInHours * 60 * 60 * 1000,
+    );
+    const refreshExpirationDate = new Date(
+      Date.now() + refreshExpiryInHours * 60 * 60 * 1000,
+    );
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    res.status(200).cookie("refreshToken", refreshToken, cookieOptions).json({
+      accessToken,
+      refreshToken,
+      accessExpiresIn: accessExpirationDate,
+      refreshExpiresIn: refreshExpirationDate,
+    });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ error: "No user found" });
   }
 };
@@ -206,4 +222,51 @@ exports.resetPassword = async (req, res) => {
   await user.save();
 
   res.status(200).json({ msg: "Password successfully reset" });
+};
+
+exports.refreshToken = async (req, res) => {
+  const incomingRefreshToken =
+    req.cookies.refreshToken || req.body.refreshToken;
+  if (!incomingRefreshToken) {
+    return res.status(400).json({ message: "Token not found" });
+  }
+  const decoded = jwt.verify(
+    incomingRefreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+  );
+  const user = await User.findById(decoded?.userId);
+  if (!user) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+
+  if (user.refreshToken !== incomingRefreshToken) {
+    return res.status(401).message({ message: "Token is expired" });
+  }
+
+  const { accessToken, refreshToken } = generateAccessAndRefreshTokens(user);
+
+  const accessExpiryInHours = 1 * 24;
+  const refreshExpiryInHours = 7 * 24;
+
+  const accessExpirationDate = new Date(
+    Date.now() + accessExpiryInHours * 60 * 60 * 1000,
+  );
+  const refreshExpirationDate = new Date(
+    Date.now() + refreshExpiryInHours * 60 * 60 * 1000,
+  );
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("refreshToken", refreshToken, cookieOptions)
+    .json({
+      accessToken,
+      refreshToken,
+      accessExpiresIn: accessExpirationDate,
+      refreshExpiresIn: refreshExpirationDate,
+    });
 };

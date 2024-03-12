@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const URL = "mongodb://localhost:27017/crowdfunding-takeoff";
+const URI = process.env.MONGODB_URI;
 
 function connectDb() {
-  return mongoose.connect(URL);
+  return mongoose.connect(URI);
 }
 
 module.exports = connectDb;

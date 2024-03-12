@@ -10,6 +10,6 @@ router.post("/verify", authController.verifyUser);
 router.post("/getOtp", authController.getOtp);
 router.post("/forgotPassword", authController.forgotPassword);
 router.post("/resetPassword", authController.resetPassword);
-
+router.get("/refreshToken", authController.refreshToken);
 
 module.exports = router;
