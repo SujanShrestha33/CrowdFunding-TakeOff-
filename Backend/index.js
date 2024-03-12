@@ -74,12 +74,13 @@ app.get(
     failureRedirect: "http://localhost:4200/auth/login",
     successRedirect: "http://localhost:4200/",
   }),
-  
 );
 
 const authRoutes = require("./routes/auth");
+const projectRoutes = require("./routes/project");
 
 app.use(authRoutes);
+app.use(projectRoutes);
 
 connectDb()
   .then(res => {
