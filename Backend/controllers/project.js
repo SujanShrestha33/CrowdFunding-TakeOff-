@@ -11,8 +11,8 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.createProject = async (req, res) => {
-  const { title, description, author, endDate, goalAmount, category } =
-    req.body;
+  const { title, description, endDate, goalAmount, category } = req.body;
+  const author = req.userId;
   if (!title || !author || !endDate || !description || !goalAmount) {
     return res
       .status(400)
