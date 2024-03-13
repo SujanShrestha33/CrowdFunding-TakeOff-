@@ -13,6 +13,8 @@ import { SharedComponent } from './shared/shared.component';
 import { NavBarComponent } from './Shared Component/nav-bar/nav-bar.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { InnerNavbarComponent } from './Shared Component/inner-navbar/inner-navbar.component';
+import { MainComponent } from './main/main.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { InnerNavbarComponent } from './Shared Component/inner-navbar/inner-navb
     AuthComponent,
     SharedComponent,
     NavBarComponent,
-    InnerNavbarComponent
+    InnerNavbarComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -29,9 +32,9 @@ import { InnerNavbarComponent } from './Shared Component/inner-navbar/inner-navb
     HttpClientModule,
     FontAwesomeModule,
     ModalModule.forRoot(),
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

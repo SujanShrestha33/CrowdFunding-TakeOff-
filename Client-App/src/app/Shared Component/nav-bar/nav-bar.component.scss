@@ -17,11 +17,6 @@ nav{
   font-style: normal;
 }
 
-.btn-sm{
-  outline : none !important;
-  border: none !important;
-}
-
 .dropdown-item:hover{
   background-color: #073976;
   color: white;
@@ -38,5 +33,16 @@ nav{
 
   .icon{
     height : 100px !important;
+  }
+
+  .navbar-brand{
+    margin-left: 85px;
+    margin-right: 85px;
+  }
+
+  .d-flex{
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
   }
 }

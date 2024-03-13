@@ -5,15 +5,19 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { ReturnUser } from 'src/app/Models/returnUser';
 import { User } from 'src/app/Models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
-  baseUrl: string = 'http://localhost:8080/';
+  baseUrl: string = environment.baseUrl;
   private refreshTokenTimeout : any;
   public currentUserSubject = new BehaviorSubject<ReturnUser | null>(null);
   currentUser = this.currentUserSubject.asObservable();
+  loggedIn : boolean = false;
+  startProj : boolean= true;
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
@@ -23,6 +27,11 @@ export class AuthService {
     console.log(storedUser);
     this.currentUserSubject.next(storedUser);
     console.log(this.currentUserSubject);
+    this.loggedIn = true;
+    console.log(this.loggedIn);
+  }else{
+    this.loggedIn = false;
+    console.log(this.loggedIn);
   }
   // this.startRefreshTokenTimer();
   }
@@ -56,6 +65,7 @@ export class AuthService {
     localStorage.removeItem('ReturnUser');
     this.currentUserSubject.next(null);
     this.stopRefreshTokenTimer();
+    this.router.navigate(['']);
   }
 
   sendForVerification(verifyEmail : string){
@@ -107,9 +117,9 @@ export class AuthService {
 
   startRefreshTokenTimer(){
     clearTimeout(this.refreshTokenTimeout);
-    console.log(this.CurrentUserValue?.expiresIn);
-    console.log(this.currentUserSubject.value!.expiresIn)
-    const expires = new Date(this.currentUserSubject.value!.expiresIn)
+    console.log(this.CurrentUserValue?.accessExpiresIn);
+    console.log(this.currentUserSubject.value!.accessExpiresIn)
+    const expires = new Date(this.currentUserSubject.value!.accessExpiresIn)
     console.log(expires);
     const timeout = expires.getTime() - Date.now() - (120 * 1000);
 

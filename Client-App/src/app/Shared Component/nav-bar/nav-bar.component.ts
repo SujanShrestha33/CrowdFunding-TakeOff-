@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import {faUser, faPowerOff} from "@fortawesome/free-solid-svg-icons"
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class NavBarComponent implements OnInit {
   loggedIn : boolean = false;
   faUser = faUser;
   faOff = faPowerOff;
+  startView : boolean = true;
 
   onHidden(): void {
     console.log('Dropdown is hidden');
@@ -24,7 +26,7 @@ export class NavBarComponent implements OnInit {
     console.log('Dropdown state is changed');
   }
 
-  constructor(private authService : AuthService) {
+  constructor(private authService : AuthService, private router : Router) {
 
   }
 
@@ -39,11 +41,25 @@ export class NavBarComponent implements OnInit {
       this.loggedIn = false;
     }
     console.log(this.loggedIn);
+    console.log(this.authService.startProj);
+    if(this.authService.startProj){
+      this.startView = true;
+      console.log(this.startView)
+    }else{
+      this.startView = false;
+      console.log(this.startView)
+
+    }
   }
 
   logout(){
     this.authService.logout();
     this.loggedIn = false;
+  }
+
+  startProj(){
+    this.authService.startProj = false;
+    this.router.navigate(['/main/init-proj'])
   }
 
 }

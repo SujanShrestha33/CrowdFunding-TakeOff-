@@ -1,5 +1,6 @@
 export interface ReturnUser{
-  token: string;
-  expiresIn : string;
-  userName : string;
+  accessToken: string;
+  refreshToken : string;
+  accessExpiresIn : string;
+  refreshExpiresIn : string;
 }

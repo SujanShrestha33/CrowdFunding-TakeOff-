@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { SharedComponent } from './shared/shared.component';
+import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,12 @@ const routes: Routes = [
     component : SharedComponent,
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule)
+  },
+  {
+     path : 'main',
+     component : MainComponent,
+     loadChildren: () =>
+     import('./main/main.module').then((m) => m.MainModule)
   },
   {
     path : '**',

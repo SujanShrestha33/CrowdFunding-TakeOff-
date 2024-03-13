@@ -1,0 +1,42 @@
+<div class="main-container">
+  <div class="text-center">
+    <h1>{{project['title']}}</h1>
+    <h3>Let's <span>TakeOff</span></h3>
+  </div>
+</div>
+<!-- <hr> -->
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <hr>
+  <mat-tab label="Campaign">
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-lg-8"> <!-- Adjust column width based on screen size -->
+          <div class="image">
+            <img src="../../../../../assets/Background/bg.png" alt="" class="img-fluid"> <!-- Make image responsive -->
+          </div>
+        </div>
+        <div class="col-lg-4"> <!-- Adjust column width based on screen size -->
+          <div class="details">
+            <h1 class="h1">{{project['title']}}</h1>
+            <p class="h4">
+              <!-- {{project['description']}} -->
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores distinctio nihil consequuntur? Non tempore, atque ab possimus nulla dolorum quia natus laborum eveniet voluptas omnis, ducimus libero, minima enim impedit.
+            </p>
+            <p class="h5">
+              {{totalInvestors}} Backers!
+            </p>
+            <p class="h5">
+              {{remDays}} Days To Go!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Story">Content 2</mat-tab>
+  <mat-tab label="Rewards">Content 2</mat-tab>
+  <mat-tab label="Updates">Content 2</mat-tab>
+  <mat-tab label="Comments">Content 3</mat-tab>
+  <mat-tab label="About Creator">Content 3</mat-tab>
+</mat-tab-group>

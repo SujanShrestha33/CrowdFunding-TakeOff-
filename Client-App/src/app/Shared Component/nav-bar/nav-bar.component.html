@@ -29,8 +29,11 @@
         <a class="btn btn-sm btn-outline-light" routerLink="/auth/login" type="submit">Login</a>
         <a class="btn btn-sm btn-outline-light ms-2" routerLink="/auth/signup">Register</a>
       </form>
+      <form class="d-flex" *ngIf="loggedIn && startView">
+        <a class="btn btn-sm btn-outline-light" (click)="startProj()">Start a Project</a>
+      </form>
       <ng-container *ngIf="loggedIn">
-        <div class="dropdown ms-5" style="cursor: pointer;" dropdown>
+        <div class="dropdown ms-4" style="cursor: pointer;" dropdown>
             <a dropdownToggle class="dropdown-toggle" style="text-decoration: none;color:white">
               <fa-icon class="icon" [icon]=faUser style="font-size: 15px;"></fa-icon>
             </a>
