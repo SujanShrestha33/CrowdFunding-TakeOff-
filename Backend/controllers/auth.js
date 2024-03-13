@@ -31,7 +31,7 @@ exports.signupUser = async (req, res) => {
     const userExists = await User.findOne({ email });
     console.log(userExists);
     if (userExists)
-      return res.status(500).json({ error: "User already exists" });
+      return res.status(500).json({ message: "User already exists" });
 
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -66,7 +66,7 @@ exports.signupUser = async (req, res) => {
     res.status(201).json({ message: "User registered" });
   } catch (e) {
     console.log(e.message);
-    res.status(500).json({ error: "Unable to register the user" });
+    res.status(500).json({ message: "Unable to register the user" });
   }
 };
 
@@ -75,19 +75,19 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "User doesn't exist" });
+      return res.status(401).json({ message: "User doesn't exist" });
     }
 
     const isUserVerified = user.isVerified;
 
     if (!isUserVerified) {
       return res.status(403).json({
-        error: "User is not verified, Please verify through Signup page!",
+        message: "User is not verified, Please verify through Signup page!",
       });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Incorrect password" });
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
     const { accessToken, refreshToken } = generateAccessAndRefreshTokens(user);
@@ -115,7 +115,7 @@ exports.loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ error: "No user found" });
+    res.status(500).json({ message: "No user found" });
   }
 };
 
@@ -128,7 +128,7 @@ exports.verifyUser = async (req, res) => {
     const user = await User.findOne({ email, otp });
 
     if (!user) {
-      return res.status(400).json({ error: "Invalid OTP" });
+      return res.status(400).json({ message: "Invalid OTP" });
     }
 
     // Update isVerified field to true
@@ -138,7 +138,7 @@ exports.verifyUser = async (req, res) => {
     res.status(200).json({ message: "Account verified successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -147,13 +147,13 @@ exports.getOtp = async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "User doesn't exist" });
+      return res.status(400).json({ message: "User doesn't exist" });
     }
 
     if (user.isVerified) {
       return res
         .status(400)
-        .json({ error: "Email Already Verified, Proceed to login!" });
+        .json({ message: "Email Already Verified, Proceed to login!" });
     }
 
     const mailOptions = {
@@ -169,9 +169,9 @@ exports.getOtp = async (req, res) => {
         console.log("email has been sent", info.response);
       }
     });
-    return res.status(200).json({ response: "Email successfully sent" });
+    return res.status(200).json({ message: "Email successfully sent" });
   } catch (e) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -179,7 +179,7 @@ exports.forgotPassword = async (req, res) => {
   const email = req.body.email;
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(404).json({ msg: "No user found" });
+    return res.status(404).json({ message: "No user found" });
   }
 
   const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
@@ -198,9 +198,9 @@ exports.forgotPassword = async (req, res) => {
   transporter.sendMail(mailOptions, error => {
     if (error) {
       console.error("Error sending email:", error);
-      return res.status(500).json({ msg: "Error sending email" });
+      return res.status(500).json({ message: "Error sending email" });
     }
-    res.status(200).json({ msg: "Password reset email sent" });
+    res.status(200).json({ message: "Password reset email sent" });
   });
 };
 
@@ -240,7 +240,7 @@ exports.refreshToken = async (req, res) => {
   }
 
   if (user.refreshToken !== incomingRefreshToken) {
-    return res.status(401).message({ message: "Token is expired" });
+    return res.status(401).json({ message: "Token is expired" });
   }
 
   const { accessToken, refreshToken } = generateAccessAndRefreshTokens(user);

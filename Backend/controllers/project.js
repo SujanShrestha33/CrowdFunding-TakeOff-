@@ -6,13 +6,18 @@ exports.getAllProjects = async (req, res) => {
     const projects = await Project.find({});
     return res.json({ data: projects });
   } catch (e) {
-    res.status(500).json({ err: "Some error occurred" });
+    res.status(500).json({ message: "Some error occurred" });
   }
 };
 
 exports.createProject = async (req, res) => {
   const { title, description, author, endDate, goalAmount, category } =
     req.body;
+  if (!title || !author || !endDate || !description || !goalAmount) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all the required fields" });
+  }
   try {
     const newProject = new Project({
       title,
@@ -23,10 +28,10 @@ exports.createProject = async (req, res) => {
       category,
     });
     await newProject.save();
-    return res.status(201).json({ msg: "Project created successfully" });
+    return res.status(201).json({ message: "Project created successfully" });
   } catch (e) {
     console.log(e.message);
-    res.status(500).json({ err: "Some error occurred" });
+    res.status(500).json({ message: "Some error occurred internally" });
   }
 };
 
@@ -37,6 +42,6 @@ exports.getOneProject = async (req, res) => {
     console.log(project);
     return res.json({ data: project });
   } catch (e) {
-    return res.status(500).json({ err: "Some error occurred" });
+    return res.status(500).json({ message: "Some error occurred internally" });
   }
 };
