@@ -81,7 +81,7 @@ exports.loginUser = async (req, res) => {
     const isUserVerified = user.isVerified;
 
     if (!isUserVerified) {
-      return res.status(403).json({
+      return res.status(401).json({
         message: "User is not verified, Please verify through Signup page!",
       });
     }
@@ -194,7 +194,7 @@ exports.forgotPassword = async (req, res) => {
     subject: "Password Reset",
     text: `Click on the following link to reset your password: ${resetLink}`,
   };
-
+  ``;
   transporter.sendMail(mailOptions, error => {
     if (error) {
       console.error("Error sending email:", error);

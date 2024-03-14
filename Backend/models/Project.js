@@ -1,7 +1,14 @@
 const mongoose = require("mongoose");
 
 const ProjectSchema = new mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  subtitle: {
+    type: String,
+    required: true,
+  },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -19,6 +26,7 @@ const ProjectSchema = new mongoose.Schema({
   investors: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   category: {
     type: String,
+    enum: ["Art", "Fashion", "Technology", "Food", "Music"],
   },
   startDate: {
     type: Date,

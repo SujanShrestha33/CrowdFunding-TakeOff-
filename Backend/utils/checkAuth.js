@@ -18,7 +18,6 @@ function checkAuth(req, res, next) {
   }
 
   req.userId = decoded.userId;
-  console.log(req.userId);
 
   next();
 }
