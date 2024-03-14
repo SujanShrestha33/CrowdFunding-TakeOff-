@@ -53,4 +53,9 @@ export class ProjectViewComponent implements OnInit {
       })
   }
 
+  test(event){
+    console.log('tesasd')
+    console.log(event);
+  }
+
 }

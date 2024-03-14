@@ -45,7 +45,10 @@ export class ProductService {
       });
     });
 
+  }
 
+  createProject(body : any){
+    return this.http.post(`${this.baseUrl}create-project`, body);
   }
 
 }

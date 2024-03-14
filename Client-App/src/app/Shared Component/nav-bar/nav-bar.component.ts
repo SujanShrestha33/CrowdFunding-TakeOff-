@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import {faUser, faPowerOff} from "@fortawesome/free-solid-svg-icons"
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit{
   loginDetails : any = {};
   loggedIn : boolean = false;
   faUser = faUser;
   faOff = faPowerOff;
-  startView : boolean = true;
+  // startView : boolean = true;
 
   onHidden(): void {
     console.log('Dropdown is hidden');
@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit {
     console.log('Dropdown state is changed');
   }
 
-  constructor(private authService : AuthService, private router : Router) {
+  constructor(public authService : AuthService, private router : Router, private rpute : ActivatedRoute) {
 
   }
 
@@ -42,14 +42,14 @@ export class NavBarComponent implements OnInit {
     }
     console.log(this.loggedIn);
     console.log(this.authService.startProj);
-    if(this.authService.startProj){
-      this.startView = true;
-      console.log(this.startView)
-    }else{
-      this.startView = false;
-      console.log(this.startView)
+    // if(this.authService.startProj){
+    //   this.startView = true;
+    //   console.log(this.startView)
+    // }else{
+    //   this.startView = false;
+    //   console.log(this.startView)
 
-    }
+    // }
   }
 
   logout(){
@@ -58,7 +58,8 @@ export class NavBarComponent implements OnInit {
   }
 
   startProj(){
-    this.authService.startProj = false;
+    // this.authService.startProj = false;
+    this.authService.setStartProj(false);
     this.router.navigate(['/main/init-proj'])
   }
 

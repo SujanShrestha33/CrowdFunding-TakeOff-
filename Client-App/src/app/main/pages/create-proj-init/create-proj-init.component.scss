@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+.container{
+  margin-top: 4rem !important;
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 50;
+}
+button:hover{
+  color: #073976 !important;
+  background-color: white !important;
+  outline: 3px solid #073976 !important;
+}
+button{
+  background-color: #073976; color: white;
+}
+.ques{
+  font-family: sans-serif;
+}
+.border-container{
+  border-left: 2px solid #073976;
+}
+@media only screen and (max-width: 767px) {
+  .border-container{
+    border: none;
+  }
+}

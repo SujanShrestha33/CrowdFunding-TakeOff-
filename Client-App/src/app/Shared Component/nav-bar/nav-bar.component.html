@@ -29,7 +29,7 @@
         <a class="btn btn-sm btn-outline-light" routerLink="/auth/login" type="submit">Login</a>
         <a class="btn btn-sm btn-outline-light ms-2" routerLink="/auth/signup">Register</a>
       </form>
-      <form class="d-flex" *ngIf="loggedIn && startView">
+      <form class="d-flex" *ngIf="loggedIn && authService.startProj">
         <a class="btn btn-sm btn-outline-light" (click)="startProj()">Start a Project</a>
       </form>
       <ng-container *ngIf="loggedIn">
@@ -41,8 +41,20 @@
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
               <li>
                 <a routerLink="/main/profile" class="dropdown-item">
-              <fa-icon class="icon mx-1" [icon]=faUser style="font-size: 15px;"></fa-icon>
-              Profile
+                  <i class="fa-solid fa-user"></i>
+               Profile
+                </a>
+              </li>
+              <li>
+                <a routerLink="/main/profile" class="dropdown-item">
+                  <i class="fa-solid fa-bookmark"></i>
+               Saved Campaigns
+                </a>
+              </li>
+              <li>
+                <a routerLink="/main/profile" class="dropdown-item">
+                  <i class="fa-solid fa-bars-progress"></i>
+                  My Campaigns
                 </a>
               </li>
               <!-- <li class="py-1 ">

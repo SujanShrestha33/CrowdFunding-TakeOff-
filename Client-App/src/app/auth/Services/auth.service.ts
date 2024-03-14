@@ -21,6 +21,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
+    const storedStartProj = localStorage.getItem('startProj');
 
   if (storedUserString) {
     const storedUser: ReturnUser = JSON.parse(storedUserString);
@@ -33,7 +34,16 @@ export class AuthService {
     this.loggedIn = false;
     console.log(this.loggedIn);
   }
+
+  if (storedStartProj) {
+    this.startProj = JSON.parse(storedStartProj);
+  }
   // this.startRefreshTokenTimer();
+  }
+
+  setStartProj(value: boolean) {
+    this.startProj = value;
+    localStorage.setItem('startProj', JSON.stringify(value));
   }
 
   login(email: string, password: string) {

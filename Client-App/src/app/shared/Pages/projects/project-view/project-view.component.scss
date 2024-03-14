@@ -6,3 +6,11 @@ img{
   width: 800px;
   border-radius: 20px;
 }
+button:hover{
+  color: #073976 !important;
+  background-color: white !important;
+  outline: 3px solid #073976 !important;
+}
+button{
+  background-color: #073976; color: white;
+}

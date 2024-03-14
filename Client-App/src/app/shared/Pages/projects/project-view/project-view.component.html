@@ -1,11 +1,11 @@
 <div class="main-container">
   <div class="text-center">
-    <h1>{{project['title']}}</h1>
-    <h3>Let's <span>TakeOff</span></h3>
+    <p class="h1" style="color: #073976;">{{project['title']}}</p>
+    <p class="h4">Let's <span>TakeOff</span></p>
   </div>
 </div>
 <!-- <hr> -->
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+<mat-tab-group  (selectedTabChange)="test($event)" mat-stretch-tabs="false" mat-align-tabs="center">
   <hr>
   <mat-tab label="Campaign">
     <div class="container p-4">
@@ -15,26 +15,37 @@
             <img src="../../../../../assets/Background/bg.png" alt="" class="img-fluid"> <!-- Make image responsive -->
           </div>
         </div>
-        <div class="col-lg-4"> <!-- Adjust column width based on screen size -->
+        <div class="col-lg-4 mt-2"> <!-- Adjust column width based on screen size -->
           <div class="details">
-            <h1 class="h1">{{project['title']}}</h1>
-            <p class="h4">
-              <!-- {{project['description']}} -->
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores distinctio nihil consequuntur? Non tempore, atque ab possimus nulla dolorum quia natus laborum eveniet voluptas omnis, ducimus libero, minima enim impedit.
+            <p style="color: #073976;" class="h1">{{project['title']}}</p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+              {{totalInvestors}} <br>
+              <span class="h6" style="color: black;"> Investors
+             </span>
+             </p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+              {{remDays}} <br>
+              <span class="h6" style="color: black;"> Days To Go
+             </span>
+             </p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+             Rs.{{project['currentAmount']}} <br>
+             <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
+            </span>
             </p>
-            <p class="h5">
-              {{totalInvestors}} Backers!
-            </p>
-            <p class="h5">
-              {{remDays}} Days To Go!
-            </p>
+            <button class="btn btn-lg col-12 my-4 buttons">
+              Invest In This Project
+            </button>
+            <button class="btn btn-lg col-6 my-1 buttons">
+              <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
+            </button>
           </div>
         </div>
       </div>
     </div>
 
   </mat-tab>
-  <mat-tab label="Story">Content 2</mat-tab>
+  <mat-tab  label="Story">Content 2</mat-tab>
   <mat-tab label="Rewards">Content 2</mat-tab>
   <mat-tab label="Updates">Content 2</mat-tab>
   <mat-tab label="Comments">Content 3</mat-tab>

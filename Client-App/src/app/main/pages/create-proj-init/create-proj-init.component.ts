@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 
 @Component({
@@ -6,18 +7,13 @@ import { AuthService } from 'src/app/auth/Services/auth.service';
   templateUrl: './create-proj-init.component.html',
   styleUrls: ['./create-proj-init.component.scss']
 })
-export class CreateProjInitComponent implements OnInit, OnDestroy {
-
+export class CreateProjInitComponent {
   constructor (
-    private authService : AuthService
-    ) {
-    }
+    private router : Router
+  ) {}
 
-    ngOnInit(): void {
-
-  }
-  ngOnDestroy(): void {
-    this.authService.startProj = true;
+  navigate(){
+    this.router.navigate(['/main/project-Form'])
   }
 
 }

@@ -15,6 +15,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { InnerNavbarComponent } from './Shared Component/inner-navbar/inner-navbar.component';
 import { MainComponent } from './main/main.component';
 import { DatePipe } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { DatePipe } from '@angular/common';
     FontAwesomeModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
+    NgSelectModule,
+    ToastrModule.forRoot(),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent]
