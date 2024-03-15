@@ -31,7 +31,7 @@ export class ProjectViewComponent implements OnInit {
       .subscribe({
         next : (res) => {
           console.log(res);
-          this.project = res['data'];
+          this.project = res['data'].project;
           this.totalInvestors = this.project['investors'].length;
           console.log(this.totalInvestors)
           console.log(this.project);

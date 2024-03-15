@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/Services/auth.service';
 import IdleTimer from '../shared/idle-timer.js';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-shared',
@@ -12,12 +13,15 @@ export class SharedComponent implements OnInit {
   loginDetails : any = {};
   loggedIn : boolean = false;
   timer = IdleTimer;
+  currentDate = new Date();
 
 
   constructor(
     private router : Router,
-    private authService : AuthService
-  ){}
+    private authService : AuthService,
+    private datePipe : DatePipe
+  ){
+  }
 
   ngOnInit(): void {
     console.log(this.authService.currentUserSubject);
@@ -25,7 +29,19 @@ export class SharedComponent implements OnInit {
       this.loginDetails = res;
       console.log(res);
     })
+
     if(this.loginDetails){
+      const refreshExpire = new Date(this.loginDetails.refreshExpiresIn).getTime();
+      const accessExpiresIn =new  Date(this.loginDetails.accessExpiresIn).getTime();
+      const current = this.currentDate.getTime();
+      if(current > refreshExpire){
+        this.authService.logout();
+        return;
+      }
+      if(current > refreshExpire){
+        this.authService.refreshToken();
+      }
+      console.log(refreshExpire, accessExpiresIn,current)
       this.loggedIn = true;
     }else {
       this.loggedIn = false;

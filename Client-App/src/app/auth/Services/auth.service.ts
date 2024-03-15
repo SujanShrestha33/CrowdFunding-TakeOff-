@@ -112,7 +112,7 @@ export class AuthService {
   }
 
   refreshToken(){
-    return this.http.post<any>(`${this.baseUrl}refresh-token`, this.CurrentUserValue)
+    return this.http.get<any>(`${this.baseUrl}refreshToken`)
     .pipe(
       map((response: any) => {
         console.log(response);
@@ -121,6 +121,8 @@ export class AuthService {
         console.log(this.currentUserSubject);
         localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
         return returnUser; // You can choose to return the modified object if needed
+      }, error => {
+        this.logout();
       })
     );
   }
