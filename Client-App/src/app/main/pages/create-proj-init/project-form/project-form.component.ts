@@ -12,6 +12,7 @@ export class ProjectFormComponent {
   basicsForm : boolean = false;
   imageForm : boolean = false;
   dateForm : boolean = false;
+  storyForm : boolean = false;
   location : string = '';
   title : string = '';
   subTitle : string = '';
@@ -22,6 +23,8 @@ export class ProjectFormComponent {
   isVideoDragging = false;
   imageFilename: string | null = null;
   videoFilename: string | null = null;
+  description : string = '';
+  resProj: any;
 
   constructor(private projectService : ProductService){}
 
@@ -123,6 +126,12 @@ export class ProjectFormComponent {
       .subscribe({
         next : (res) => {
           console.log(res);
+          this.resProj = res['data'];
+          this.basicsForm = false;
+          this.dateForm = false;
+          this.preForm = false;
+          this.imageForm = false;
+          this.storyForm = true;
         },
         error : err => {
           console.log(err);
@@ -131,5 +140,16 @@ export class ProjectFormComponent {
 
         }
       })
+  }
+
+  submitStory(){
+    const body = {
+      description : this.story,
+      // projectId :
+    }
+  }
+
+  navigateProject(){
+
   }
 }

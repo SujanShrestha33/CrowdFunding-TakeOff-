@@ -99,17 +99,14 @@
           <div class="row mt-2 p-5">
             <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
               <p>
-                Project Story
+                Project Description
               </p>
               <p class="h5">
-                The "story" serves as the narrative backbone, offering backers insight into the project's inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals, and impact, enticing backers to become part of its journey. This narrative not only showcases the project's uniqueness but also establishes a personal connection with potential backers, fostering trust and excitement about supporting the endeavor.
+                The description serves as the narrative backbone, offering backers insight into the project's inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals, and impact, enticing backers to become part of its journey. This narrative not only showcases the project's uniqueness but also establishes a personal connection with potential backers, fostering trust and excitement about supporting the endeavor.
               </p>
-              <!-- <p class="h6">
-                  These will help backers find your project, and you can change them later if you need to.
-              </p> -->
             </div>
             <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
-              <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="story" placeholder="Project Story">
+              <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="description" placeholder="Project Description">
                 </textarea>
             </div>
           </div>
@@ -218,6 +215,36 @@
     <div class="row mt-2 p-4 d-flex justify-content-end">
       <button (click)="submit()" class="btn btn-success col-2">
         Create Project <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="storyForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Project Story
+              </p>
+              <p class="h5">
+                The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals, and impact, enticing backers to become part of its journey. This narrative not only showcases the project's uniqueness but also establishes a personal connection with potential backers, fostering trust and excitement about supporting the endeavor.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+              <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="story" placeholder="Project Story">
+                </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="submitStory()" class="btn btn-success col-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <button (click)="navigateProject()" class="btn btn-success col-2">
+        Skip <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   </ng-container>
