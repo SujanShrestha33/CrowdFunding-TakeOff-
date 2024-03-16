@@ -19,9 +19,14 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
     ): Observable<HttpEvent<any>> {
 
-      const token = this.accountService.currentUser.subscribe((res) => {
-        return res?.accessToken;
+    let token = '';
+    this.accountService.currentUser.subscribe((res) => {
+        console.log(res)
+        console.log(res['accessToken']);
+        token = res['accessToken'];
       });
+      console.log(token)
+
 
       // console.log(token);
       if(token){

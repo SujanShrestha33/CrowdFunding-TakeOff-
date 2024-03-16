@@ -117,6 +117,7 @@ export class ProjectFormComponent {
   submit(){
     const body = {
       title : this.title,
+      subtitle:this.subTitle,
       description : this.subTitle,
       goalAmount : String(this.goalAmount),
       endDate : this.endDate
