@@ -47,7 +47,7 @@ exports.signupUser = async (req, res) => {
       otp,
     });
 
-    await newUser.save();
+    const createdUser = await newUser.save();
 
     const mailOptions = {
       from: "crowdfunding@gmail.com",
@@ -63,7 +63,7 @@ exports.signupUser = async (req, res) => {
       }
     });
 
-    res.status(201).json({ message: "User registered" });
+    res.status(201).json({ message: "User registered", data: createdUser });
   } catch (e) {
     console.log(e.message);
     res.status(500).json({ message: "Unable to register the user" });
@@ -71,6 +71,7 @@ exports.signupUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  console.log("Login route hit with data ", req.body);
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });

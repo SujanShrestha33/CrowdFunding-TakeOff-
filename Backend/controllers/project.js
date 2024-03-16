@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const Project = require("../models/Project");
 const Comment = require("../models/Comment");
 const { Story, Update } = require("../models/Update");
@@ -31,8 +31,10 @@ exports.createProject = async (req, res) => {
       endDate,
       category,
     });
-    await newProject.save();
-    return res.status(201).json({ message: "Project created successfully" });
+    const createdProject = await newProject.save();
+    return res
+      .status(201)
+      .json({ message: "Project created successfully", data: createdProject });
   } catch (e) {
     console.log(e.message);
     res.status(500).json({ message: "Some error occurred internally" });
