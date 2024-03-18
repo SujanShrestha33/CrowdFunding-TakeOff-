@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Project = require("../models/Project");
 const Comment = require("../models/Comment");
 const { Story, Update } = require("../models/Update");
+const Reward = require("../models/Reward");
+const Investor = require("../models/Investor");
 
 exports.getAllProjects = async (req, res) => {
   try {
@@ -13,10 +15,26 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.createProject = async (req, res) => {
-  const { title, subtitle, description, endDate, goalAmount, category } =
-    req.body;
+  const {
+    title,
+    subtitle,
+    description,
+    endDate,
+    goalAmount,
+    category,
+    location,
+    minimumInvestment,
+  } = req.body;
   const author = req.userId;
-  if (!title || !author || !endDate || !description || !goalAmount) {
+  if (
+    !title ||
+    !author ||
+    !endDate ||
+    !description ||
+    !goalAmount ||
+    !location ||
+    !minimumInvestment
+  ) {
     return res
       .status(400)
       .json({ message: "Please provide all the required fields" });
@@ -30,6 +48,8 @@ exports.createProject = async (req, res) => {
       goalAmount,
       endDate,
       category,
+      location,
+      minimumInvestment,
     });
     const createdProject = await newProject.save();
     return res
@@ -56,7 +76,12 @@ exports.getOneProject = async (req, res) => {
       "title description createdAt -_id",
     );
 
-    return res.json({ data: { project, comments, story, update } });
+    const investors = await Investor.find({ projectId: project._id }).populate(
+      "investorId",
+      "-_id username",
+    );
+
+    return res.json({ data: { project, comments, story, update, investors } });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some error occurred internally" });
@@ -82,5 +107,44 @@ exports.addComment = async (req, res) => {
     return res.status(500).json({
       message: "Internal error occcurred. Could not post the comment",
     });
+  }
+};
+
+exports.investInProject = async (req, res) => {
+  const projectId = req.params.projectId;
+  const investedAmount = req.body.investmentAmount;
+  try {
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid project id" });
+    }
+
+    if (investedAmount < project.minimumInvestment) {
+      return res.status(400).json({
+        message: `The minimum investment amount should be ${project.minimumInvestment}`,
+      });
+    }
+    const investor = new Investor({
+      projectId,
+      investorId: req.userId,
+      investedAmount,
+    });
+
+    await investor.save();
+
+    // creating a reward for each investor
+    const reward = new Reward({
+      projectId,
+      userId: req.userId,
+    });
+
+    await reward.save();
+
+    return res.json({ message: "Invested in the project successfully" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
   }
 };

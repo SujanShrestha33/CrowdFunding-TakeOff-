@@ -23,7 +23,7 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  investors: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
   category: {
     type: String,
     enum: ["Art", "Fashion", "Technology", "Food", "Music"],
@@ -34,6 +34,14 @@ const ProjectSchema = new mongoose.Schema({
   },
   endDate: {
     type: Date,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  minimumInvestment: {
+    type: Number,
     required: true,
   },
 });

@@ -24,4 +24,10 @@ router.post(
   projectExtraController.createUpdate,
 );
 
+router.post(
+  "/projects/:projectId/invest",
+  checkAuth,
+  projectController.investInProject,
+);
+
 module.exports = router;
