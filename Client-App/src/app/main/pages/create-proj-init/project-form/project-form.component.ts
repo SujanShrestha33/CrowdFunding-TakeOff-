@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ProductService } from 'src/app/shared/Services/product.service';
 
 @Component({
@@ -25,15 +27,25 @@ export class ProjectFormComponent {
   videoFilename: string | null = null;
   description : string = '';
   resProj: any;
+  minimumInvestment : number = 0;
+  update: any;
+  comment: any;
+  rewardForm : boolean = false;
+  mainRewardForm : boolean = false;
+  rewardBody = {
+    rewardTitle : '',
+    rewardDesc : ''
+  };
 
-  constructor(private projectService : ProductService){}
+  constructor(private projectService : ProductService, private router : Router, private toastr : ToastrService){}
 
   nextBasics(){
     if(this.selectedCategory != '' || this.location != ''){
       this.preForm = false;
       this.basicsForm = true;
     }else{
-      console.log('Please fill all the fields first.')
+      console.log('Please fill all the fields first.');
+      this.toastr.warning('Please fill all the fields first.')
     }
   }
 
@@ -114,13 +126,21 @@ export class ProjectFormComponent {
     }
   }
 
+  toggleForm(){
+    this.rewardForm = !this.rewardForm;
+  }
+
   submit(){
     const body = {
       title : this.title,
       subtitle:this.subTitle,
       description : this.subTitle,
       goalAmount : String(this.goalAmount),
-      endDate : this.endDate
+      endDate : this.endDate,
+      location: this.location,
+      category : this.selectedCategory,
+      minimumInvestement : this.minimumInvestment,
+      rewards : []
     }
     console.log(body);
     this.projectService.createProject(body)
@@ -145,10 +165,66 @@ export class ProjectFormComponent {
 
   submitStory(){
     const body = {
-      description : this.story,
-      // projectId :
+      description : this.story
     }
+    this.projectService.addStory(this.resProj._id, body)
+      .subscribe({
+        next : (res) => {
+          console.log(res);
+          this.router.navigate(['/reward-form', this.resProj['_id']]);
+          this.storyForm = false;
+          this.mainRewardForm = true;
+        },
+        error : err => {
+          console.log(err);
+        },
+        complete : () => {
+
+        }
+      })
+
   }
+
+  submitUpdate(){
+        const body = {
+          content : this.update
+        }
+        this.projectService.addUpdate(this.resProj._id, body)
+        .subscribe({
+          next : (res) => {
+            console.log(res);
+          },
+          error : err => {
+            console.log(err);
+          },
+          complete : () => {
+
+          }})
+
+    }
+
+
+  submitComment(){
+    const body = {
+      content : this.comment
+    }
+    this.projectService.addComment(this.resProj._id, body)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+      },
+      error : err => {
+        console.log(err);
+      },
+      complete : () => {
+
+      }})
+
+}
+
+submitReward(){
+  ;
+}
 
   navigateProject(){
 

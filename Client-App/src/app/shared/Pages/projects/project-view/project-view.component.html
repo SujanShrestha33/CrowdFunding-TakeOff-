@@ -54,9 +54,72 @@
     </div>
 
   </mat-tab>
-  <mat-tab  label="Story">Content 2</mat-tab>
-  <mat-tab label="Rewards">Content 2</mat-tab>
-  <mat-tab label="Updates">Content 2</mat-tab>
-  <mat-tab label="Comments">Content 3</mat-tab>
+  <mat-tab  label="Story">
+    <div class="container card col-6 p-5 mt-5 mb-5">
+      <div class="row text-center">
+        <p class="h4">
+          Story of <span style="color: #073976; text-decoration: underline;">
+            {{project['title']}}
+          </span>
+        </p>
+      </div>
+      <div class="row">
+        <p class="h6" style="color: #073976;">
+          {{projectStory}}
+        </p>
+      </div>
+      </div>
+  </mat-tab>
+  <mat-tab label="Rewards">
+    <div class="container p-4">
+      <div class="row col-12">
+        <div  style="background-color: red;" class="col-3">
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorem accusamus laudantium quas odio sunt magnam commodi ab rem cumque, nulla ratione ut eum sequi corporis voluptates, iste quia consequatur.
+        </div>
+        <div style="background-color: blue;" class="col-6">
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis molestiae, neque facere eum nisi, tempora molestias mollitia repellat, numquam corporis sapiente dolore exercitationem minus quod nobis reprehenderit maxime libero velit.
+        </div>
+        <div style="background-color: red;" class="col-3">
+Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe ex ratione, atque dicta temporibus illum aspernatur voluptatibus laborum porro excepturi, quasi aliquam officiis harum, cupiditate libero quisquam nemo iste distinctio.
+        </div>
+      </div>
+
+      </div>
+  </mat-tab>
+  <mat-tab label="Updates">
+    <div class="container card col-6 mt-5 p-4" style="background-color: #073976; color: white;">
+      <div class="row text-center">
+        <p class="h4">
+          Updates From Project Creator
+        </p>
+      </div>
+      <div class="row">
+        <div *ngFor="let item of projectUpdates" class="card my-3">
+          <div class="card-header p-4">
+            <p class="h3">{{item.title}}
+              </p>
+              <p class="h6">{{ item.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+              </p>
+              </div>
+              <div class="card-body">
+                <p class="h6">{{item.description}}</p>
+              </div>
+        </div>
+      </div>
+      </div>
+  </mat-tab>
+  <mat-tab label="Comments">
+    <div class="container card col-6 mt-5 p-4" style="background-color: #073976; color: white;">
+      <div class="row">
+        <div *ngFor="let item of comments" class="card my-3">
+          <div class="card-body">
+            <p class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span>
+              </p>
+                <p class="h6">{{item.content}}</p>
+              </div>
+        </div>
+      </div>
+      </div>
+  </mat-tab>
   <mat-tab label="About Creator">Content 3</mat-tab>
 </mat-tab-group>

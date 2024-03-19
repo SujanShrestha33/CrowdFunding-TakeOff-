@@ -51,4 +51,16 @@ export class ProductService {
     return this.http.post(`${this.baseUrl}create-project`, body);
   }
 
+  addStory(id : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/${id}/story`, body);
+  }
+
+  addUpdate(id : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/${id}/update`, body);
+  }
+
+  addComment(id : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/${id}/comment`, body);
+  }
+
 }

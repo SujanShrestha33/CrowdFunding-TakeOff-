@@ -14,6 +14,9 @@ export class ProjectViewComponent implements OnInit {
   project : Projects[] = [];
   totalInvestors : number = 0;
   remDays : number = 0;
+  projectStory : string = '';
+  projectUpdates : any[] = [];
+  comments : any[] = [];
 
   constructor (private projectService : ProductService, private route : ActivatedRoute) {}
 
@@ -32,8 +35,15 @@ export class ProjectViewComponent implements OnInit {
         next : (res) => {
           console.log(res);
           this.project = res['data'].project;
-          this.totalInvestors = this.project['investors'].length;
-          console.log(this.totalInvestors)
+          if(this.project['investors']){
+            this.totalInvestors = this.project['investors'].length;
+          }
+          this.projectStory = res['data'].story[0].description;
+          this.projectUpdates = res['data'].update;
+          this.comments = res['data'].comments;
+          // this.totalInvestors = this.project['investors'].length;
+          console.log(this.comments)
+          console.log(this.projectStory)
           console.log(this.project);
           // this.remDays=this.projectService.getRemDays(this.project)
           const endDate = new Date(this.project['endDate']);

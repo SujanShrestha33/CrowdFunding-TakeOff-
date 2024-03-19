@@ -6,12 +6,14 @@ import { CreateProjInitComponent } from './pages/create-proj-init/create-proj-in
 import { ProjectFormComponent } from './pages/create-proj-init/project-form/project-form.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { RewardFormComponent } from './pages/create-proj-init/reward-form/reward-form.component';
 
 
 @NgModule({
   declarations: [
     CreateProjInitComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    RewardFormComponent
   ],
   imports: [
     CommonModule,
