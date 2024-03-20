@@ -4,6 +4,7 @@ const Comment = require("../models/Comment");
 const { Story, Update } = require("../models/Update");
 const Reward = require("../models/Reward");
 const Investor = require("../models/Investor");
+const User = require("../models/User");
 
 exports.getAllProjects = async (req, res) => {
   try {
@@ -15,6 +16,9 @@ exports.getAllProjects = async (req, res) => {
 };
 
 exports.createProject = async (req, res) => {
+  console.log(req.file);
+  const receivedImageFile = req.file;
+
   const {
     title,
     subtitle,
@@ -33,7 +37,8 @@ exports.createProject = async (req, res) => {
     !description ||
     !goalAmount ||
     !location ||
-    !minimumInvestment
+    !minimumInvestment ||
+    !receivedImageFile
   ) {
     return res
       .status(400)
@@ -50,8 +55,11 @@ exports.createProject = async (req, res) => {
       category,
       location,
       minimumInvestment,
+      coverImage: receivedImageFile.path,
     });
+
     const createdProject = await newProject.save();
+
     return res
       .status(201)
       .json({ message: "Project created successfully", data: createdProject });
@@ -65,6 +73,7 @@ exports.getOneProject = async (req, res) => {
   const id = req.params.projectId;
   try {
     const project = await Project.findById(id);
+    console.log(project);
     const comments = await Comment.find({ projectId: project._id }).populate(
       "createdBy",
       "username -_id",
@@ -75,13 +84,16 @@ exports.getOneProject = async (req, res) => {
     const update = await Update.find({ projectId: project._id }).select(
       "title description createdAt -_id",
     );
+    const rewards = await Reward.find({ projectId: project._id });
 
     const investors = await Investor.find({ projectId: project._id }).populate(
       "investorId",
       "-_id username",
     );
 
-    return res.json({ data: { project, comments, story, update, investors } });
+    return res.json({
+      data: { project, comments, story, update, investors, rewards },
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some error occurred internally" });
@@ -115,6 +127,7 @@ exports.investInProject = async (req, res) => {
   const investedAmount = req.body.investmentAmount;
   try {
     const project = await Project.findById(projectId);
+
     if (!project) {
       return res
         .status(400)
@@ -126,13 +139,19 @@ exports.investInProject = async (req, res) => {
         message: `The minimum investment amount should be ${project.minimumInvestment}`,
       });
     }
-    const investor = new Investor({
+
+    project.currentAmount = project.currentAmount + investedAmount;
+
+    const investor = await User.findById(req.userId);
+    investor.token = investor.token + 1;
+
+    const newInvestor = new Investor({
       projectId,
       investorId: req.userId,
       investedAmount,
     });
 
-    await investor.save();
+    await newInvestor.save();
 
     // creating a reward for each investor
     const reward = new Reward({
@@ -143,6 +162,31 @@ exports.investInProject = async (req, res) => {
     await reward.save();
 
     return res.json({ message: "Invested in the project successfully" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
+  }
+};
+
+exports.createReward = async (req, res) => {
+  const projectId = req.params.projectId;
+  const { rewardTitle, rewardAmount, rewardDescription } = req.body;
+  console.log(req.body);
+  if (!rewardTitle || !rewardAmount || !rewardDescription) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all the necessary fields" });
+  }
+  try {
+    const newReward = new Reward({
+      rewardTitle,
+      rewardDescription,
+      rewardAmount,
+      projectId,
+    });
+
+    await newReward.save();
+    return res.json({ message: "Reward created successfully" });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some internal error occurred" });

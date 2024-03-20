@@ -1,11 +1,18 @@
 const router = require("express").Router();
 
+const upload = require("../middlewares/fileUpload");
+
 const projectController = require("../controllers/project");
 const projectExtraController = require("../controllers/projectExtra");
 const checkAuth = require("../utils/checkAuth");
 
 router.get("/projects", projectController.getAllProjects);
-router.post("/create-project", checkAuth, projectController.createProject);
+router.post(
+  "/create-project",
+  checkAuth,
+  upload.single("file"),
+  projectController.createProject,
+);
 router.get("/projects/:projectId", projectController.getOneProject);
 router.post(
   "/projects/:projectId/comment",
@@ -28,6 +35,11 @@ router.post(
   "/projects/:projectId/invest",
   checkAuth,
   projectController.investInProject,
+);
+router.post(
+  "/projects/:projectId/reward",
+  checkAuth,
+  projectController.createReward,
 );
 
 module.exports = router;

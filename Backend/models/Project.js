@@ -23,7 +23,6 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  rewards: [String],
   category: {
     type: String,
     enum: ["Art", "Fashion", "Technology", "Food", "Music"],
@@ -42,6 +41,10 @@ const ProjectSchema = new mongoose.Schema({
   },
   minimumInvestment: {
     type: Number,
+    required: true,
+  },
+  coverImage: {
+    type: String,
     required: true,
   },
 });

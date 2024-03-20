@@ -8,6 +8,10 @@ const session = require("express-session");
 const User = require("./models/User");
 const cookieParser = require("cookie-parser");
 
+// for file upload
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 // Middlewares
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
