@@ -145,21 +145,22 @@ exports.investInProject = async (req, res) => {
     const investor = await User.findById(req.userId);
     investor.token = investor.token + 1;
 
+    const rewards = await Reward.find({
+      projectId: projectId,
+      rewardAmount: { $lte: investedAmount },
+    });
+
     const newInvestor = new Investor({
       projectId,
       investorId: req.userId,
       investedAmount,
+      rewards: rewards,
     });
+
+    newInvestor.rewards.concat(rewards);
+    console.log(newInvestor);
 
     await newInvestor.save();
-
-    // creating a reward for each investor
-    const reward = new Reward({
-      projectId,
-      userId: req.userId,
-    });
-
-    await reward.save();
 
     return res.json({ message: "Invested in the project successfully" });
   } catch (e) {

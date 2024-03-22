@@ -16,6 +16,7 @@ const upload = multer({ dest: "uploads/" });
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static("public"));
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 app.use(

@@ -15,7 +15,7 @@ const rewardSchema = new mongoose.Schema({
   },
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "project",
+    ref: "Project",
   },
 });
 

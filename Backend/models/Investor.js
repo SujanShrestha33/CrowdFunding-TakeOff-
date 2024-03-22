@@ -14,6 +14,12 @@ const investorSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  rewards: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reward",
+    },
+  ],
 });
 
 const Investor = mongoose.model("Investor", investorSchema);
