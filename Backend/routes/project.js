@@ -42,4 +42,15 @@ router.post(
   projectController.createReward,
 );
 
+router.post(
+  "/projects/:projectId/addMedia",
+  upload.fields([
+    { name: "videoFile", maxCount: 1 },
+    { name: "imageFileOne", maxCount: 1 },
+    { name: "imageFileTwo", maxCount: 1 },
+    { name: "imageFileThree", maxCount: 1 },
+  ]),
+  projectController.addMediaAssets,
+);
+
 module.exports = router;

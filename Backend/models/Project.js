@@ -47,6 +47,7 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  mediaAssets: [String],
 });
 
 const Project = mongoose.model("Project", ProjectSchema);

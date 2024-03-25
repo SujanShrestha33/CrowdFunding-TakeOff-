@@ -113,6 +113,7 @@ exports.loginUser = async (req, res) => {
       refreshToken,
       accessExpiresIn: accessExpirationDate,
       refreshExpiresIn: refreshExpirationDate,
+      userId: user._id,
     });
   } catch (error) {
     console.log(error.message);
