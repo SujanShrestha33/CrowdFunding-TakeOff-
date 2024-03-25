@@ -55,7 +55,7 @@ exports.createProject = async (req, res) => {
       category,
       location,
       minimumInvestment,
-      coverImage: receivedImageFile.path,
+      coverImage: "uploads/" + req.file.filename,
     });
 
     const createdProject = await newProject.save();
