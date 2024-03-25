@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function checkAuth(req, res, next) {
+  console.log("Inside auth checking");
   const tokenData = req.headers.authorization;
 
   if (!tokenData) {

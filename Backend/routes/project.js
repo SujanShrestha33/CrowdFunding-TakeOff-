@@ -44,6 +44,7 @@ router.post(
 
 router.post(
   "/projects/:projectId/addMedia",
+  checkAuth,
   upload.fields([
     { name: "videoFile", maxCount: 1 },
     { name: "imageFileOne", maxCount: 1 },
@@ -51,6 +52,20 @@ router.post(
     { name: "imageFileThree", maxCount: 1 },
   ]),
   projectController.addMediaAssets,
+);
+
+router.get("/users/myProjects", checkAuth, projectController.getUserProjects);
+
+router.post(
+  "/projects/createBookmark/:projectId",
+  checkAuth,
+  projectController.createBookmark,
+);
+
+router.get(
+  "/projects/bookmarks/myBookmarks",
+  checkAuth,
+  projectController.getUserBookmarks,
 );
 
 module.exports = router;

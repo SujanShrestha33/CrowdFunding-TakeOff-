@@ -5,6 +5,7 @@ const { Story, Update } = require("../models/Update");
 const Reward = require("../models/Reward");
 const Investor = require("../models/Investor");
 const User = require("../models/User");
+const Bookmark = require("../models/Bookmark");
 
 exports.getAllProjects = async (req, res) => {
   try {
@@ -206,12 +207,66 @@ exports.addMediaAssets = async (req, res) => {
   try {
     const project = await Project.findById(projectId);
     if (!project) {
-      return res.status(200).json({ message: "No such project found!" });
+      return res.status(400).json({ message: "No such project found!" });
     }
 
     project.mediaAssets = pathStringArray;
     await project.save();
   } catch (e) {
     console.log(e.message);
+  }
+};
+
+exports.getUserProjects = async (req, res) => {
+  const userId = req.userId;
+  if (!userId) {
+    return res.status(400).json({ message: "No user found" });
+  }
+  try {
+    const userProjects = await Project.find({ author: userId });
+    console.log(userProjects);
+    return res.json({ data: userProjects });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some error occurred internally" });
+  }
+};
+
+exports.createBookmark = async (req, res) => {
+  const userId = req.userId;
+  const projectId = req.params.projectId;
+  const project = await Project.findById(projectId);
+  if (!project) {
+    return res
+      .status(400)
+      .json({ message: "No such project found with id " + projectId });
+  }
+  const bookmark = await Bookmark.find({ userId, projectId });
+  console.log("Bookmark is ", bookmark.length);
+  if (bookmark.length > 0) {
+    return res.status(400).json({ message: "Project is already bookmarked" });
+  }
+  try {
+    const newBookmark = new Bookmark({ userId, projectId });
+    await newBookmark.save();
+    return res
+      .status(201)
+      .json({ message: "Successfully bookmarked the project" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some error occurred internally" });
+  }
+};
+
+exports.getUserBookmarks = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const bookmarks = await Bookmark.find({ userId })
+      .populate("projectId")
+      .select("projectId -_id");
+    console.log(bookmarks);
+    return res.json({ data: bookmarks });
+  } catch (e) {
+    console.log(e.messsage);
   }
 };
