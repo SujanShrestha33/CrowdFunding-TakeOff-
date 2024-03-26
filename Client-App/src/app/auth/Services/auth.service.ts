@@ -18,6 +18,7 @@ export class AuthService {
   currentUser = this.currentUserSubject.asObservable();
   loggedIn : boolean = false;
   startProj : boolean= true;
+  userId : string = '';
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
@@ -28,8 +29,11 @@ export class AuthService {
     console.log(storedUser);
     this.currentUserSubject.next(storedUser);
     console.log(this.currentUserSubject);
+    this.userId = storedUser.userId;
     this.loggedIn = true;
+    console.log(this.userId)
     console.log(this.loggedIn);
+    console.log(this.userId)
   }else{
     this.loggedIn = false;
     console.log(this.loggedIn);
@@ -76,6 +80,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.stopRefreshTokenTimer();
     this.router.navigate(['']);
+    this.loggedIn = false;
   }
 
   sendForVerification(verifyEmail : string){

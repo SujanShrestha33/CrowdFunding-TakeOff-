@@ -70,7 +70,8 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           console.error('Login failed:', error);
-          this.error = error.error.error;
+          this.error = error.error.message;
+          console.log(this.error)
 
           this.loading = false;
         },

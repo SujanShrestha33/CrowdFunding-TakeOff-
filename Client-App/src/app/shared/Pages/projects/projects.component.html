@@ -9,7 +9,7 @@
     <div class="col-lg-4" *ngFor="let item of projects">
       <div class="card p-3 mt-2 text-start">
         <div class="img-container">
-          <img src="../../../../assets/Background/bg.png" alt="">
+          <img [src]="getCoverImageUrl(item.coverImage)" alt="">
         </div>
         <div class="px-4">
           <hr style="color: #073976; border-width: 2px;" class="mx-1">
@@ -19,7 +19,7 @@
               <!-- <svg class="save-icon" style="height: 17px; margin-top: 3px" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 603.511 603.511" xml:space="preserve">
                 <!-- SVG code -->
               <!-- </svg> -->
-              <i class="fa-regular fa-bookmark save-icon"></i>
+              <i  *ngIf="pageType == 'new'" (click)="createBookmark(item['_id'])" class="fa-regular fa-bookmark save-icon"></i>
             </div>
             <p class="h6">Creator Name</p>
             <div class="d-flex justify-content-space-between">

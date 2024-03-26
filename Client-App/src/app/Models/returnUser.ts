@@ -3,4 +3,5 @@ export interface ReturnUser{
   refreshToken : string;
   accessExpiresIn : string;
   refreshExpiresIn : string;
+  userId : string;
 }

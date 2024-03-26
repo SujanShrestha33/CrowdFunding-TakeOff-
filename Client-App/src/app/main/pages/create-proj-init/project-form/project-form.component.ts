@@ -34,8 +34,12 @@ export class ProjectFormComponent {
   mainRewardForm : boolean = false;
   rewardBody = {
     rewardTitle : '',
-    rewardDesc : ''
+    rewardDesc : '',
+    investmentAmount : 0
   };
+  coverImage : File | null = null;
+  newProjectid : string = '';
+  newProjRewards : any;
 
   constructor(private projectService : ProductService, private router : Router, private toastr : ToastrService){}
 
@@ -91,6 +95,7 @@ export class ProjectFormComponent {
   handleImageFiles(files: FileList) {
     if (files.length > 0) {
       const file = files[0];
+      this.coverImage = file;
       this.imageFilename = file.name;
       console.log('Image file selected:', this.imageFilename);
     }
@@ -130,22 +135,71 @@ export class ProjectFormComponent {
     this.rewardForm = !this.rewardForm;
   }
 
-  submit(){
+  addRewards(){
     const body = {
-      title : this.title,
-      subtitle:this.subTitle,
-      description : this.subTitle,
-      goalAmount : String(this.goalAmount),
-      endDate : this.endDate,
-      location: this.location,
-      category : this.selectedCategory,
-      minimumInvestement : this.minimumInvestment,
-      rewards : []
+      rewardTitle : this.rewardBody.rewardTitle,
+      rewardDescription : this.rewardBody.rewardDesc,
+      rewardAmount : this.rewardBody.investmentAmount
+
     }
-    console.log(body);
-    this.projectService.createProject(body)
+    this.projectService.addRewards(this.newProjectid, body)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        this.rewardForm = false;
+        this.getProjectDetails();
+        this.rewardBody = {
+          rewardTitle : '',
+          rewardDesc : '',
+          investmentAmount : 0
+        };
+        this.toastr.success('Reward added successfully');
+        // this.router.navigate(['/project', this.newProjectid]);
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error(err.error.message)
+      },
+      complete : () => {
+
+      }
+    })
+  }
+
+  skipStory(){
+    this.storyForm = false;
+    this.mainRewardForm = true;
+  }
+
+  skipReward(){
+    this.mainRewardForm = false;
+    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+  }
+
+    submit() {
+    if (!this.coverImage) {
+      this.toastr.warning('Please select an image');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.coverImage);
+
+    // Append each field of the body individually
+    formData.append('title', this.title);
+    formData.append('subtitle', this.subTitle);
+    formData.append('description', this.description);
+    formData.append('goalAmount', this.goalAmount.toString());
+    formData.append('endDate', this.endDate);
+    formData.append('location', this.location);
+    formData.append('category', this.selectedCategory);
+    formData.append('minimumInvestment', this.minimumInvestment.toString());
+
+    console.log(formData); // Check formData before sending
+
+    this.projectService.createProject(formData)
       .subscribe({
-        next : (res) => {
+        next: (res) => {
           console.log(res);
           this.resProj = res['data'];
           this.basicsForm = false;
@@ -153,6 +207,25 @@ export class ProjectFormComponent {
           this.preForm = false;
           this.imageForm = false;
           this.storyForm = true;
+          this.newProjectid = this.resProj['_id'];
+          console.log(this.newProjectid);
+          this.toastr.success('Project created successfully');
+        },
+        error: err => {
+          console.log(err);
+        },
+        complete: () => {}
+      });
+  }
+
+  getProjectDetails(){
+    this.projectService.getSpecificProject(this.newProjectid)
+      .subscribe({
+        next : (res) => {
+          console.log(res);
+          // this.resProj = res['data'].project;
+          this.newProjRewards = res['data'].rewards;
+          console.log(this.newProjRewards);
         },
         error : err => {
           console.log(err);
@@ -171,7 +244,8 @@ export class ProjectFormComponent {
       .subscribe({
         next : (res) => {
           console.log(res);
-          this.router.navigate(['/reward-form', this.resProj['_id']]);
+          this.toastr.success('Story added successfully');
+          // this.router.navigate(['/reward-form', this.resProj['_id']]);
           this.storyForm = false;
           this.mainRewardForm = true;
         },
@@ -222,9 +296,6 @@ export class ProjectFormComponent {
 
 }
 
-submitReward(){
-  ;
-}
 
   navigateProject(){
 

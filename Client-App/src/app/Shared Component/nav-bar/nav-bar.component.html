@@ -13,8 +13,9 @@
           <a class="nav-link" aria-current="page" href="#">Home</a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer;" routerLink="/discover" routerLinkActive="active">Discover</a>
-        </li>
+          <a class="nav-link" [routerLink]="['/discover', 'new']" routerLinkActive="active">Discover</a>
+      </li>
+
         <!-- <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li> -->
@@ -46,13 +47,13 @@
                 </a>
               </li>
               <li>
-                <a routerLink="/main/profile" class="dropdown-item">
+                <a class="dropdown-item" [routerLink]="['/discover', 'saved']">
                   <i class="fa-solid fa-bookmark"></i>
                Saved Campaigns
                 </a>
               </li>
               <li>
-                <a routerLink="/main/profile" class="dropdown-item">
+                <a [routerLink]="['/discover', 'mycampaign']" class="dropdown-item">
                   <i class="fa-solid fa-bars-progress"></i>
                   My Campaigns
                 </a>

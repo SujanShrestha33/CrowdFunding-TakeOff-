@@ -62,5 +62,4 @@ export class NavBarComponent implements OnInit{
     this.authService.setStartProj(false);
     this.router.navigate(['/main/init-proj'])
   }
-
 }

@@ -12,4 +12,5 @@ export class Projects {
   remainingDays : number;
 
   fundPercent : number;
+  coverImage : string;
 }

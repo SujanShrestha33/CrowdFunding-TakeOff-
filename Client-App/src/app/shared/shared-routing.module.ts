@@ -6,8 +6,8 @@ import { ProjectViewComponent } from './Pages/projects/project-view/project-view
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
-  {path : 'discover', component: ProjectsComponent},
-  {path : 'project-view/:id', component : ProjectViewComponent}
+  {path : 'discover/:type', component: ProjectsComponent},
+  {path : 'project-view/:id/:type', component : ProjectViewComponent}
 ];
 
 @NgModule({

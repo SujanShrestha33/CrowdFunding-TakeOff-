@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { faClock, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { Projects } from 'src/app/Models/projects.model';
 import { ProductService } from '../../Services/product.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/Services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 // import { DatePipe } from '@angular/common';
 
 @Component({
@@ -17,11 +19,51 @@ export class ProjectsComponent implements OnInit {
   projects: Projects[] = [];
   projectCount: number = 0;
   currentFormattedDate: string = '';
+  currentUser = this.authService.userId;
+  pageType : string = '';
 
-  constructor(private projectService: ProductService, private router : Router) {}
+  constructor(private projectService: ProductService, private router : Router, private authService : AuthService, private route : ActivatedRoute, private toastr : ToastrService) {}
 
   ngOnInit(): void {
-    this.getProjects();
+    this.route.params.subscribe((res) => {
+      console.log(res);
+      this.pageType = res['type'];
+      if(this.pageType === 'new'){
+        this.getProjects();
+      }else if (this.pageType === 'mycampaign'){
+        this.getUserSpecificProjects();
+      }else if (this.pageType === 'saved'){
+        this.getSavedProjects();
+      }
+    });
+
+
+  }
+
+  getUserSpecificProjects() {
+    this.loading = true;
+    this.projectService.getProductsList().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.projects = res['data'] as Projects[];
+        console.log(this.projects);
+        console.log(this.projectCount);
+        console.log(this.currentUser);
+        this.projects = this.projects.filter((elem) => elem['author'] === this.currentUser);
+        // this.projects.forEach(elem => {
+          //   elem.remainingDays = this.currentFormattedDate - elem.endDate
+          // })
+          this.projectCount = this.projects.length;
+        console.log(this.projects);
+        this.loading = false;
+        this.projectService.getRemDays(this.projects);
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {},
+    });
   }
 
   getProjects() {
@@ -31,14 +73,16 @@ export class ProjectsComponent implements OnInit {
         console.log(res);
         this.projects = res['data'] as Projects[];
         console.log(this.projects);
-        this.projectCount = this.projects.length;
         console.log(this.projectCount);
+        console.log(this.currentUser);
+        this.projects = this.projects.filter((elem) => elem['author'] !== this.currentUser);
         // this.projects.forEach(elem => {
-        //   elem.remainingDays = this.currentFormattedDate - elem.endDate
-        // })
-        this.projectService.getRemDays(this.projects);
+          //   elem.remainingDays = this.currentFormattedDate - elem.endDate
+          // })
+          this.projectCount = this.projects.length;
         console.log(this.projects);
         this.loading = false;
+        this.projectService.getRemDays(this.projects);
       },
       error: (err) => {
         console.log(err);
@@ -46,6 +90,11 @@ export class ProjectsComponent implements OnInit {
       },
       complete: () => {},
     });
+  }
+
+  getCoverImageUrl(path : string): string {
+    // console.log(path);
+      return `http://localhost:8080/${path}`;
   }
 
   getSpecificProject(id: string) {
@@ -65,6 +114,51 @@ export class ProjectsComponent implements OnInit {
   }
 
   navigate(id : string) {
-    this.router.navigate([`project-view/${id}`]);
+    this.router.navigate([`project-view/${id}/${this.pageType}`]);
+  }
+
+  createBookmark(id : string){
+    this.projectService.createBookmark(id)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error('Already Saved, check your saved campaigns');
+      },
+      complete : () => {
+
+      }
+    })
+  }
+
+  getSavedProjects(){
+    this.loading = true;
+    this.projectService.getBookmarks()
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        let projs = res['data'] as Projects[];
+        this.projects = [];
+        this.projects.push(projs[0]['projectId']);
+        // console.log(proj);
+        // this.projects = this.projects.filter((elem) => elem['author'] !== this.currentUser);
+        // this.projects.forEach(elem => {
+          //   elem.remainingDays = this.currentFormattedDate - elem.endDate
+          // })
+          this.projectCount = this.projects.length;
+        console.log(this.projects);
+        this.loading = false;
+        this.projectService.getRemDays(this.projects);
+      },
+      error : err => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete : () => {
+
+      }
+    })
   }
 }

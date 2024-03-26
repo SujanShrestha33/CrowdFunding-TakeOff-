@@ -259,11 +259,15 @@
       <button (click)="submitStory()" class="btn btn-success col-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button (click)="navigateProject()" class="btn btn-success col-2">
+      <button (click)="skipStory()" class="btn btn-success col-2">
         Skip <i class="fa-solid fa-arrow-right"></i>
       </button>
+      <div class="text-end">
+        Please skip if the project will not consist any story!
+      </div>
     </div>
   </ng-container>
+  <!-- *ngIf="mainRewardForm" -->
   <ng-container *ngIf="mainRewardForm">
     <div class="row mt-2 p-4">
       <div class="card">
@@ -282,12 +286,12 @@
             </div>
             <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
               <div *ngIf="!rewardForm" class="row ms-5 mb-3">
-                <div class="reward-list">
+                <div class="reward-list my-2" *ngFor="let item of newProjRewards">
                   <div class="card">
                     <div class="card-body">
-                      <p class="h5 text-center">Title</p>
-                      <p class="h6">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio, esse dolorem rerum impedit blanditiis at molestiae consequatur repudiandae tempore quam veniam sunt deleniti, omnis maiores cumque eligendi ex cupiditate. Quibusdam.</p>
-                      <p class="h5 text-center">Invest more than Rs.1000 Amount</p>
+                      <p class="h5 text-center">{{item.rewardTitle}}</p>
+                      <p class="h6">{{item.rewardDescription}}</p>
+                      <p class="h5 text-center">Invest more than {{item.rewardAmount}} Amount</p>
                     </div>
                   </div>
                 </div>
@@ -306,7 +310,7 @@
                         <input type="number" class="form-control" [(ngModel)]="rewardBody['rewardAmount']" placeholder="Reward Amount">
                       </div> -->
                       <div class="col-lg-12 my-2">
-                        <input type="number" class="form-control" [(ngModel)]="rewardBody['investmentAmount']" placeholder="Investment Amount">
+                        <input type="number" class="form-control" [(ngModel)]="rewardBody['investmentAmount']" placeholder="Minimum Investment Amount">
                       </div>
 
                     </div>
@@ -314,10 +318,10 @@
                 </div>
               </div>
               <div class="row d-flex justify-content-center ms-4">
-                <button *ngIf="!rewardForm" class="btn btn-success mx-4 col-6" (click)="toggleForm()">
-                  Add Reward
+                <button *ngIf="!rewardForm" class="btn mx-4 col-6" (click)="toggleForm()" >
+                  Add Rewards
                 </button>
-                <button *ngIf="rewardForm" class="btn btn-success mx-4 col-6" (click)="toggleForm()">
+                <button *ngIf="rewardForm" class="btn btn-success mx-4 col-6"  (click)="addRewards()">
                  Submit
                 </button>
               </div>
@@ -327,12 +331,16 @@
       </div>
     </div>
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="submitStory()" class="btn btn-success col-2">
-        Next <i class="fa-solid fa-arrow-right"></i>
+      <div class="text-end ">
+        Dont add rewards if you dont want to!
+      </div>
+      <button (click)="skipReward()" class="btn col-2 me-2">
+        Lets TakeOff <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button (click)="navigateProject()" class="btn btn-success col-2">
+      <!-- <button (click)="skipReward()" class="btn col-2">
         Skip <i class="fa-solid fa-arrow-right"></i>
-      </button>
+      </button> -->
+
     </div>
   </ng-container>
 </div>

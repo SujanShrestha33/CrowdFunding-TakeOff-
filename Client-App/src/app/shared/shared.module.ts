@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DashboardComponent } from './Pages/dashboard/dashboard.component';
 import { ProjectViewComponent } from './Pages/projects/project-view/project-view.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     CommonModule,
     SharedRoutingModule,
     FontAwesomeModule,
-    MatTabsModule
+    MatTabsModule,
+    FormsModule
   ]
 })
 export class SharedModule { }

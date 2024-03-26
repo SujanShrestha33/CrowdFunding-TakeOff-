@@ -67,7 +67,8 @@ export class SharedComponent implements OnInit {
               this.timer.cleanUp();
               alert("You have been logged out for being inactive")
               const returnModule = location.hash.substring(2);
-              this.router.navigate(['/'], { queryParams: { returnUrl: returnModule } });
+              this.router.navigate(['/']);
+              location.reload();
           }
       });
   }

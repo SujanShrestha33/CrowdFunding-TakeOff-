@@ -39,15 +39,19 @@ export class ProductService {
       const timeDiff = endDate.getTime() - currentDate.getTime(); // Difference in milliseconds
       const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
       elem.remainingDays = diffDays;
+      console.log(elem.remainingDays);
       projects.forEach(elem => {
         const fundPercent = (elem.currentAmount / elem.goalAmount) * 100; // Calculate fund percentage
+        console.log(fundPercent);
         elem.fundPercent = Number(fundPercent.toFixed(2)); // Round off to two decimal places and convert to number
       });
     });
 
   }
 
-  createProject(body : any){
+
+
+  createProject(body : FormData){
     return this.http.post(`${this.baseUrl}create-project`, body);
   }
 
@@ -61,6 +65,18 @@ export class ProductService {
 
   addComment(id : string, body : any){
     return this.http.post(`${this.baseUrl}projects/${id}/comment`, body);
+  }
+
+  addRewards(id : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/${id}/reward`, body);
+  }
+
+  createBookmark(id : string){
+    return this.http.post(`${this.baseUrl}projects/createBookmark/${id}`, {});
+  }
+
+  getBookmarks(){
+    return this.http.get(`${this.baseUrl}projects/bookmarks/myBookmarks`);
   }
 
 }
