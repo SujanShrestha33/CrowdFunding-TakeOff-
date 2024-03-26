@@ -212,8 +212,10 @@ exports.addMediaAssets = async (req, res) => {
 
     project.mediaAssets = pathStringArray;
     await project.save();
+    return res.status(200).json({ message: "Media successfully added" });
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({ message: "Some error occurred internally" });
   }
 };
 
