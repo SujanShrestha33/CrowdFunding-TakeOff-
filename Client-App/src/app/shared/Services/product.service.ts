@@ -79,4 +79,8 @@ export class ProductService {
     return this.http.get(`${this.baseUrl}projects/bookmarks/myBookmarks`);
   }
 
+  addMedia(formData : FormData, projectId : string){
+    return this.http.post(`${this.baseUrl}projects/${projectId}/addMedia`, formData);
+  }
+
 }

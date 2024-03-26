@@ -40,6 +40,9 @@ export class ProjectFormComponent {
   coverImage : File | null = null;
   newProjectid : string = '';
   newProjRewards : any;
+  files : FileList;
+  video : FileList;
+  mediaForm : boolean = false;
 
   constructor(private projectService : ProductService, private router : Router, private toastr : ToastrService){}
 
@@ -73,12 +76,14 @@ export class ProjectFormComponent {
   onImageSelected(event: any) {
     const files: FileList = event.target.files;
     this.handleImageFiles(files);
+    this.files = files;
   }
 
   onImageDrop(event: any) {
     event.preventDefault();
     this.isImageDragging = false;
     const files: FileList = event.dataTransfer.files;
+    this.files = files;
     this.handleImageFiles(files);
   }
 
@@ -93,6 +98,7 @@ export class ProjectFormComponent {
   }
 
   handleImageFiles(files: FileList) {
+    console.log(files);
     if (files.length > 0) {
       const file = files[0];
       this.coverImage = file;
@@ -104,6 +110,7 @@ export class ProjectFormComponent {
   onVideoSelected(event: any) {
     const files: FileList = event.target.files;
     this.handleVideoFiles(files);
+    this.video = files;
   }
 
   onVideoDrop(event: any) {
@@ -111,6 +118,7 @@ export class ProjectFormComponent {
     this.isVideoDragging = false;
     const files: FileList = event.dataTransfer.files;
     this.handleVideoFiles(files);
+    this.video = files;
   }
 
   onVideoDragOver(event: any) {
@@ -166,6 +174,11 @@ export class ProjectFormComponent {
     })
   }
 
+  backToStory(){
+    this.storyForm = true;
+    this.mainRewardForm = false;
+  }
+
   skipStory(){
     this.storyForm = false;
     this.mainRewardForm = true;
@@ -173,7 +186,7 @@ export class ProjectFormComponent {
 
   skipReward(){
     this.mainRewardForm = false;
-    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+    this.mediaForm = true;
   }
 
     submit() {
@@ -216,6 +229,60 @@ export class ProjectFormComponent {
         },
         complete: () => {}
       });
+  }
+
+  submitMedia(){
+    console.log('submit media');
+    console.log(this.files);
+    const formData = new FormData();
+    if(this.files.length == 0){
+      this.toastr.warning('Please Select Media Files!');
+      return;
+    }
+    if(this.files.length == 1){
+      formData.append('imageFileOne', this.files[0]);
+    }
+    if(this.files.length == 2){
+      formData.append('imageFileOne', this.files[0]);
+      formData.append('imageFileTwo', this.files[1]);
+    }
+
+    if(this.files.length == 3){
+      formData.append('imageFileOne', this.files[0]);
+      formData.append('imageFileTwo', this.files[1]);
+      formData.append('imageFileThree', this.files[2]);
+    }
+
+    if(this.files.length > 3){
+      this.toastr.warning('Only three images except cover image is allowed for an projecrt!');
+      return;
+    }
+
+    if(this.video.length == 1){
+      formData.append('videoFile', this.video[0]);
+    }
+
+    if(this.video.length > 1){
+      this.toastr.warning('Only one video is allowed for a project!');
+      return;
+    }
+
+    this.projectService.addMedia(formData, this.newProjectid)
+      .subscribe({
+        next : (res) => {
+          console.log(res);
+          this.toastr.success('Media added successfully');
+    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+
+        }, error : err => {
+          console.log(err);
+        },
+        complete : () =>{
+
+        }
+      })
+
+
   }
 
   getProjectDetails(){
@@ -300,4 +367,8 @@ export class ProjectFormComponent {
   navigateProject(){
 
   }
+
+  // navigateOut(){
+
+  // }
 }

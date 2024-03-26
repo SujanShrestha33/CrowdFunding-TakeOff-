@@ -145,7 +145,7 @@ export class RegisterComponent {
           },
           error: (error) => {
             console.error('Registeration failed:', error);
-            this.error = error.error.error;
+            this.error = error.error.message;
             this.loading = false;
           },
           complete: () => {
@@ -155,7 +155,7 @@ export class RegisterComponent {
   }
 
   navigate() : void{
-    this.router.navigate(['/'])
+    this.router.navigate(['/auth/login'])
   }
 
   verifyOtp(){
@@ -175,7 +175,7 @@ export class RegisterComponent {
         },
         error : (error) => {
           console.error('Verification failed:', error);
-            this.verificationError = error.error.error;
+            this.verificationError = error.error.message;
             this.innerLoading = false;
         },
         complete: () => {
@@ -202,7 +202,7 @@ export class RegisterComponent {
           this.isVerified = false;
         },
         error : (error) => {
-          this.alreadyExistsError = error.error.error;
+          this.alreadyExistsError = error.error.message;
           this.isVerifying = true;
           this.innerLoading = false;
           console.log(error);

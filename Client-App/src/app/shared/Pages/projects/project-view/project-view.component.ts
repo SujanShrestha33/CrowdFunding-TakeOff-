@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Projects } from 'src/app/Models/projects.model';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import { ProductService } from 'src/app/shared/Services/product.service';
@@ -28,7 +28,7 @@ export class ProjectViewComponent implements OnInit {
   canUpdate : boolean = false;
   pageType : string = '';
 
-  constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService) {}
+  constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((res) => {
@@ -67,6 +67,9 @@ export class ProjectViewComponent implements OnInit {
             this.canUpdate = true;
           }
           console.log(this.canUpdate, this.currentUser, this.project['author']);
+          if(this.project['author'] !== this.currentUser){
+            this.router.navigate(['/project-view', this.productId, 'new']);
+          }
           if(this.project['investors']){
             this.totalInvestors = this.project['investors'].length;
           }

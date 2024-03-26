@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="nextBasics()" class="btn btn-success col-2">
+      <button (click)="nextBasics()" class="btn col-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
@@ -121,25 +121,26 @@
       </div>
     </div>
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="nextImage()" class="btn btn-success col-2">
+      <button (click)="nextImage()" class="btn col-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   </ng-container>
   <ng-container *ngIf="imageForm">
+    <!-- *ngIf="imageForm" -->
     <div class="row mt-2 p-4">
       <div class="card">
         <div class="card-body">
           <div class="row mt-2 p-5">
             <div class="col-lg-6 text-center my-2 mx-auto">
-              <p>First, Let's Get Started With Category,</p>
-              <p class="h5">Select a primary Category For Your Project</p>
+              <p>Select a Cover Picture for your campaign,</p>
+              <p class="h5">An image that will attract the backers towards your project.</p>
               <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
             </div>
             <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
               (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
               <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
-                <input type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" multiple />
+                <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" />
                 <label for="image-input">
                   <span>Drag & Drop or Click Here to Upload Image</span>
                 </label>
@@ -149,7 +150,7 @@
         </div>
       </div>
     </div>
-    <div class="row mt-2 p-4">
+    <!-- <div class="row mt-2 p-4">
       <div class="card">
         <div class="card-body">
           <div class="row mt-2 p-5">
@@ -170,9 +171,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="nextDate()" class="btn btn-success col-2">
+      <button (click)="nextDate()" class="btn col-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
@@ -224,7 +225,7 @@
       </div>
     </div>
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="submit()" class="btn btn-success col-2">
+      <button (click)="submit()" class="btn col-2">
         Create Project <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
@@ -256,10 +257,10 @@
       </div>
     </div>
     <div class="row mt-2 p-4 d-flex justify-content-end">
-      <button (click)="submitStory()" class="btn btn-success col-2">
+      <button (click)="submitStory()" class="btn col-2 me-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button (click)="skipStory()" class="btn btn-success col-2">
+      <button (click)="skipStory()" class="btn col-2">
         Skip <i class="fa-solid fa-arrow-right"></i>
       </button>
       <div class="text-end">
@@ -321,7 +322,7 @@
                 <button *ngIf="!rewardForm" class="btn mx-4 col-6" (click)="toggleForm()" >
                   Add Rewards
                 </button>
-                <button *ngIf="rewardForm" class="btn btn-success mx-4 col-6"  (click)="addRewards()">
+                <button *ngIf="rewardForm" class="btn mx-4 col-6"  (click)="addRewards()">
                  Submit
                 </button>
               </div>
@@ -334,13 +335,72 @@
       <div class="text-end ">
         Dont add rewards if you dont want to!
       </div>
+      <button (click)="backToStory()" class="btn col-2 me-2">
+        Back To Story <i class="fa-solid fa-arrow-right"></i>
+      </button>
       <button (click)="skipReward()" class="btn col-2 me-2">
-        Lets TakeOff <i class="fa-solid fa-arrow-right"></i>
+        Next <i class="fa-solid fa-arrow-right"></i>
       </button>
       <!-- <button (click)="skipReward()" class="btn col-2">
         Skip <i class="fa-solid fa-arrow-right"></i>
       </button> -->
 
+    </div>
+  </ng-container>
+  <!-- *ngIf="mediaForm" -->
+  <ng-container >
+    <!-- *ngIf="imageForm" -->
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Select Images Related To Your Project</p>
+              <p class="h5">An image that will attract the backers towards your project.</p>
+              <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
+              (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
+                <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" multiple/>
+                <label for="image-input">
+                  <span>Drag & Drop or Click Here to Upload Image</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Next, Let's Select Video,</p>
+              <p class="h5">Select a Video for Your Project</p>
+              <p class="h6">You can upload video files to showcase your project to potential backers.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
+              (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isVideoDragging}">
+                <input style="border: none !important;" type="file" id="video-input" (change)="onVideoSelected($event)" accept="video/*"/>
+                <label for="video-input">
+                  <span>Drag & Drop or Click Here to Upload Video</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <div class="text-center">
+        You can add upto three images to your project excluding cover image and a single video! You can skip the process as well by clicking the button below!
+      </div>
+      <button (click)="submitMedia()" class="btn col-2 mt-4">
+        Lets TakeOff <i class="fa-solid fa-arrow-right"></i>
+      </button>
     </div>
   </ng-container>
 </div>

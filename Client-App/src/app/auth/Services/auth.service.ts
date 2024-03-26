@@ -24,6 +24,7 @@ export class AuthService {
     const storedUserString = localStorage.getItem('ReturnUser');
     const storedStartProj = localStorage.getItem('startProj');
 
+
   if (storedUserString) {
     const storedUser: ReturnUser = JSON.parse(storedUserString);
     console.log(storedUser);
