@@ -53,6 +53,17 @@ router.post(
   ]),
   projectController.addMediaAssets,
 );
+router.post(
+  "/projects/:projectId/updateMedia",
+  checkAuth,
+  upload.fields([
+    { name: "videoFile", maxCount: 1 },
+    { name: "imageFileOne", maxCount: 1 },
+    { name: "imageFileTwo", maxCount: 1 },
+    { name: "imageFileThree", maxCount: 1 },
+  ]),
+  projectController.updateMediaAssets,
+);
 
 router.get("/users/myProjects", checkAuth, projectController.getUserProjects);
 

@@ -272,3 +272,27 @@ exports.getUserBookmarks = async (req, res) => {
     console.log(e.messsage);
   }
 };
+
+exports.updateMediaAssets = async (req, res) => {
+  const projectId = req.params.projectId;
+  const assetsArray = Object.values(req.files);
+
+  const pathStringArray = assetsArray.map(file => {
+    return "uploads/" + file[0].filename;
+  });
+  console.log(pathStringArray);
+
+  try {
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(400).json({ message: "No such project found!" });
+    }
+
+    project.mediaAssets = pathStringArray;
+    await project.save();
+    return res.status(200).json({ message: "Media successfully updated" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some error occurred internally" });
+  }
+};
