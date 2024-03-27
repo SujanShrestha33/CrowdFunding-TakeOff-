@@ -85,8 +85,10 @@ app.get(
 
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
+const profileRoutes = require("./routes/profile");
 app.use(authRoutes);
 app.use(projectRoutes);
+app.use(profileRoutes);
 
 connectDb()
   .then(res => {
