@@ -244,10 +244,14 @@ exports.createBookmark = async (req, res) => {
       .json({ message: "No such project found with id " + projectId });
   }
   const bookmark = await Bookmark.find({ userId, projectId });
+
   console.log("Bookmark is ", bookmark.length);
   if (bookmark.length > 0) {
     return res.status(400).json({ message: "Project is already bookmarked" });
   }
+  project.bookmarkCount = project.bookmarkCount + 1;
+  await project.save({ validateBeforeSave: false });
+
   try {
     const newBookmark = new Bookmark({ userId, projectId });
     await newBookmark.save();
@@ -294,5 +298,18 @@ exports.updateMediaAssets = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some error occurred internally" });
+  }
+};
+
+exports.getTrendingProjects = async (req, res) => {
+  try {
+    const trendingProjects = await Project.find({})
+      .sort({ bookmarkCount: -1 })
+      .limit(10);
+    console.log(trendingProjects);
+    return res.json({ data: trendingProjects });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
   }
 };

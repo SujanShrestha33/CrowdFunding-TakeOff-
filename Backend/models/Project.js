@@ -48,6 +48,14 @@ const ProjectSchema = new mongoose.Schema({
     required: true,
   },
   mediaAssets: [String],
+  bookmarkCount: {
+    type: Number,
+    default: 0,
+  },
+  flagCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Project = mongoose.model("Project", ProjectSchema);

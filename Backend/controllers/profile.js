@@ -1,4 +1,6 @@
+const Project = require("../models/Project");
 const User = require("../models/User");
+const Flagged = require("../models/Flagged");
 
 exports.getUserProfile = async (req, res) => {
   const userId = req.userId;

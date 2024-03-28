@@ -79,4 +79,12 @@ router.get(
   projectController.getUserBookmarks,
 );
 
+router.get("/trendingProjects", projectController.getTrendingProjects);
+
+router.post(
+  "/flagProject/:projectId",
+  checkAuth,
+  projectExtraController.flagProject,
+);
+
 module.exports = router;
