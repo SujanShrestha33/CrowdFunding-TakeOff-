@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+
+
+.main-container {
+  position: sticky;
+  top: 0; /* Set the desired distance from the top of the viewport */
+  background-color: #fff; /* Optionally, add a background color if needed */
+  z-index: 100; /* Set a z-index to ensure it stays on top of other elements */
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+}
+.cat-links :hover{
+  text-decoration: underline;
+  cursor: pointer;
+}

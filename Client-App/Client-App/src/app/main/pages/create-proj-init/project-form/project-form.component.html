@@ -1,0 +1,406 @@
+<div class="container">
+  <div class="row mt-2 p-4 mini-container">
+    <div class="col-lg-12 text-center"> <!-- Adjust column width based on screen size -->
+      <p class="h1">Ready To Launch Your Campaign</p>
+      <p class="h3">"Lets TakeOff"</p>
+    </div>
+  </div>
+  <ng-container *ngIf="preForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                First, Let's Get Started With Category,
+              </p>
+              <p class="h5">
+                Select a primary Category For Your Project
+              </p>
+              <p class="h6">
+                These will help backers find your project, and you can change them later if you need to.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5"> <!-- Adjust column width based on screen size -->
+              <ng-select class="form-control" id="month" [searchable]="true" placeholder="Select Category"
+                [clearable]="false" style="font-weight: 400" [(ngModel)]="selectedCategory">
+                <ng-option value="" disabled>Select Category</ng-option>
+                <ng-option value="Art">Art</ng-option>
+                <ng-option value="Technology">Technology</ng-option>
+                <ng-option value="Fashion">Fashion</ng-option>
+                <!-- <ng-option *ngFor="let item of payCyclePeriods" [value]="item.nepaliMonth">
+                  {{ item.nepaliMonth }}
+              </ng-option> -->
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Set Location For Your Project,
+              </p>
+              <p class="h5">
+                Enter your local residence if you’re raising funds as an individual. If you’re raising funds for a
+                business or nonprofit, enter the country where the entity’s tax ID is registered.
+              </p>
+              <!-- <p class="h6">
+                  These will help backers find your project, and you can change them later if you need to.
+              </p> -->
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5"> <!-- Adjust column width based on screen size -->
+              <input type="text" class="form-control ms-3" [(ngModel)]="location" placeholder="Location">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="nextBasics()" class="btn col-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="basicsForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Project Title
+              </p>
+              <p class="h5">
+                Write a clear, brief title and subtitle to help people quickly understand your project. Both will appear
+                on your project and pre-launch pages.
+              </p>
+              <p class="h6">
+                Potential backers will also see them if your project appears on category pages, search results, or in
+                emails we send to our community.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5"> <!-- Adjust column width based on screen size -->
+              <!-- <label for="" class="form-label">Project Title</label> -->
+              <input type="text" class="form-control ms-3" [(ngModel)]="title" placeholder="Project Title">
+              <!-- <label for="" class="form-label">Project Sub-Title</label> -->
+              <input type="text" class="form-control ms-3 mt-4" [(ngModel)]="subTitle" placeholder="Project Sub-Title">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Project Description
+              </p>
+              <p class="h5">
+                The description serves as the narrative backbone, offering backers insight into the project's
+                inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's
+                essence, goals, and impact, enticing backers to become part of its journey. This narrative not only
+                showcases the project's uniqueness but also establishes a personal connection with potential backers,
+                fostering trust and excitement about supporting the endeavor.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+              <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="description"
+                placeholder="Project Description">
+                </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="nextImage()" class="btn col-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="imageForm">
+    <!-- *ngIf="imageForm" -->
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Select a Cover Picture for your campaign,</p>
+              <p class="h5">An image that will attract the backers towards your project.</p>
+              <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
+              (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
+                <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" />
+                <label for="image-input">
+                  <span>Drag & Drop or Click Here to Upload Image</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Next, Let's Select Video,</p>
+              <p class="h5">Select a Video for Your Project</p>
+              <p class="h6">You can upload video files to showcase your project to potential backers.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
+              (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isVideoDragging}">
+                <input type="file" id="video-input" (change)="onVideoSelected($event)" accept="video/*" multiple />
+                <label for="video-input">
+                  <span>Drag & Drop or Click Here to Upload Video</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="nextDate()" class="btn col-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="dateForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Campaign duration
+              </p>
+              <p class="h5">
+                Set a time limit for your campaign. You won’t be able to change this after you launch.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
+              <label for="" class="form-label h6 ps-3">End Date</label>
+              <input type="date" class="form-control ms-3" [(ngModel)]="endDate"
+                placeholder="Enter the end date of the campaign">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Set Project Goal
+              </p>
+              <p class="h5">
+                Enter amount you want to pledge.
+              </p>
+              <!-- <p class="h6">
+                  These will help backers find your project, and you can change them later if you need to.
+              </p> -->
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-3"> <!-- Adjust column width based on screen size -->
+              <input type="number" class="form-control ms-3" [(ngModel)]="goalAmount"
+                placeholder="Enter amount in Rupees">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="submit()" class="btn col-2">
+        Create Project <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="storyForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Project Story
+              </p>
+              <p class="h5">
+                The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration,
+                creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals,
+                and impact, enticing backers to become part of its journey. This narrative not only showcases the
+                project's uniqueness but also establishes a personal connection with potential backers, fostering trust
+                and excitement about supporting the endeavor.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+              <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="story"
+                placeholder="Project Story">
+                </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="submitStory()" class="btn col-2 me-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <button (click)="skipStory()" class="btn col-2">
+        Skip <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <div class="text-end">
+        Please skip if the project will not consist any story!
+      </div>
+    </div>
+  </ng-container>
+  <!-- *ngIf="mainRewardForm" -->
+  <ng-container *ngIf="mainRewardForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Rewards
+              </p>
+              <p class="h5">
+                TakeOff rewards are incentives offered by project creators to backers who support their projects
+                financially. These rewards typically range from exclusive merchandise, early access to the product,
+                personalized experiences, or acknowledgments in the project credits. They serve as a way to entice
+                backers to contribute to the project and provide tangible benefits for their support.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+              <div *ngIf="!rewardForm" class="row ms-5 mb-3">
+                <div class="reward-list my-2" *ngFor="let item of newProjRewards">
+                  <div class="card">
+                    <div class="card-body">
+                      <p class="h5 text-center">{{item.rewardTitle}}</p>
+                      <p class="h6">{{item.rewardDescription}}</p>
+                      <p class="h5 text-center">Invest more than {{item.rewardAmount}} Amount</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="rewardForm" class="row ms-5 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-12 my-2">
+                        <input type="text" class="form-control" [(ngModel)]="rewardBody['rewardTitle']" placeholder="Reward Title">
+                      </div>
+                      <div class="col-lg-12 my-2">
+                        <textarea class="form-control" [(ngModel)]="rewardBody['rewardDesc']" placeholder="Reward Description"></textarea>
+                      </div>
+                      <!-- <div class="col-lg-12 my-2">
+                        <input type="number" class="form-control" [(ngModel)]="rewardBody['rewardAmount']" placeholder="Reward Amount">
+                      </div> -->
+                      <div class="col-lg-12 my-2">
+                        <input type="number" class="form-control" [(ngModel)]="rewardBody['investmentAmount']" placeholder="Minimum Investment Amount">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center ms-4">
+                <button *ngIf="!rewardForm" class="btn mx-4 col-6" (click)="toggleForm()" >
+                  Add Rewards
+                </button>
+                <button *ngIf="rewardForm" class="btn mx-4 col-6"  (click)="addRewards()">
+                 Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <div class="text-end ">
+        Dont add rewards if you dont want to!
+      </div>
+      <button (click)="backToStory()" class="btn col-2 me-2">
+        Back To Story <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <button (click)="skipReward()" class="btn col-2 me-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <!-- <button (click)="skipReward()" class="btn col-2">
+        Skip <i class="fa-solid fa-arrow-right"></i>
+      </button> -->
+
+    </div>
+  </ng-container>
+  <!-- *ngIf="mediaForm" -->
+  <ng-container >
+    <!-- *ngIf="imageForm" -->
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Select Images Related To Your Project</p>
+              <p class="h5">An image that will attract the backers towards your project.</p>
+              <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
+              (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
+                <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" multiple/>
+                <label for="image-input">
+                  <span>Drag & Drop or Click Here to Upload Image</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto">
+              <p>Next, Let's Select Video,</p>
+              <p class="h5">Select a Video for Your Project</p>
+              <p class="h6">You can upload video files to showcase your project to potential backers.</p>
+            </div>
+            <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
+              (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">
+              <div class="file-upload" [ngClass]="{'dragover': isVideoDragging}">
+                <input style="border: none !important;" type="file" id="video-input" (change)="onVideoSelected($event)" accept="video/*"/>
+                <label for="video-input">
+                  <span>Drag & Drop or Click Here to Upload Video</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 p-4 d-flex justify-content-end">
+      <div class="text-center">
+        You can add upto three images to your project excluding cover image and a single video! You can skip the process as well by clicking the button below!
+      </div>
+      <button (click)="submitMedia()" class="btn col-2 mt-4">
+        Lets TakeOff <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+</div>

@@ -34,8 +34,11 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "@ng-select/ng-select/themes/default.theme.css",
               "./node_modules/ngx-toastr/toastr.css",
+<<<<<<< HEAD:angular.json
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
     "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
+=======
+>>>>>>> f8e3fe274413269cb76e75b7f711ccc7c1e96088:Client-App/angular.json
               "src/styles.scss"
             ],
             "scripts": [

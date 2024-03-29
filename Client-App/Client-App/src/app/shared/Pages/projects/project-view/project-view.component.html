@@ -1,0 +1,192 @@
+<div class="main-container">
+  <div class="text-center">
+    <p class="h1" style="color: #073976;">{{project['title']}}</p>
+    <p class="h4">Let's <span>TakeOff</span></p>
+  </div>
+</div>
+<!-- <hr> -->
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <hr>
+  <mat-tab label="Campaign">
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-lg-8"> <!-- Adjust column width based on screen size -->
+          <div class="image">
+            <img [src]="getCoverImageUrl(project['coverImage'])" alt="" class="img-fluid">
+            <!-- Make image responsive -->
+          </div>
+        </div>
+        <div class="col-lg-4 mt-2"> <!-- Adjust column width based on screen size -->
+          <div class="details">
+            <p style="color: #073976;" class="h1">{{project['title']}}</p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+              {{totalInvestors}} <br>
+              <span class="h6" style="color: black;"> Investors
+              </span>
+            </p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+              {{remDays}} <br>
+              <span class="h6" style="color: black;"> Days To Go
+              </span>
+            </p>
+            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+              Rs.{{project['currentAmount']}} <br>
+              <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
+              </span>
+            </p>
+            <button *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
+              Invest In This Project
+            </button>
+            <div class="row ms-1" *ngIf="pageType == 'new'">
+              <button class="btn btn-lg col-6 my-1 buttons">
+                <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
+              </button>
+              <div class="col-6 pt-2">
+                <i class="fa-brands fa-facebook icons"></i>
+                <i class="fa-brands fa-twitter icons"></i>
+                <i class="fa-brands fa-linkedin icons"></i>
+                <i class="fa-brands fa-youtube icons"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+  <mat-tab *ngIf="projectStory" label="Story">
+    <div class="container card col-6 p-5 mt-5 mb-5">
+      <div class="row text-center">
+        <p class="h4">
+          Story of <span style="color: #073976; text-decoration: underline;">
+            {{project['title']}}
+          </span>
+        </p>
+      </div>
+      <div class="row">
+        <p class="h6" style="color: #073976;">
+          {{projectStory}}
+        </p>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Rewards">
+    <div class="container p-4" *ngIf="rewards.length > 0">
+      <div class="title">
+        <div class="row text-center">
+          <p class="h4">Available Rewards for {{project['title']}}</p>
+        </div>
+        <hr style="color: grey;">
+      </div>
+        <div class="row px-4 align-items-start"> <!-- align-items-start to align items at the top -->
+          <div class="card col-3 mx-5" *ngFor="let item of rewards">
+            <div class="card-header text-center">
+              <p class="h4">{{item.rewardTitle}}</p>
+            </div>
+            <div class="card-body">
+              <p class="h6">{{item.rewardDescription}}</p>
+              <p class="h6">Minimum Investment For Reward: Rs. 1000</p>
+              <button *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
+                Invest In This Reward
+              </button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="container p-4" *ngIf="rewards.length == 0">
+      <div class="title">
+        <div class="row text-center">
+          <p class="h4">No Rewards Available for {{project['title']}}</p>
+          <p class="h6">
+            This campaign doesn't provide any update, You can invest in the project if you want to support it without any rewards.
+          </p>
+        </div>
+        <hr style="color: grey;">
+      </div>
+    </div>
+</mat-tab>
+  <mat-tab label="Updates">
+    <div class="container card col-6 mt-5 p-4 mb-5" style="background-color: #073976; color: white;">
+      <div class="row text-center">
+        <p class="h4">
+          Updates From Project Creator
+        </p>
+      </div>
+      <div class="row" *ngIf="!updateForm">
+        <div *ngFor="let item of projectUpdates" class="card my-3">
+          <div class="card-header p-4">
+            <p class="h3">{{item.title}}
+            </p>
+            <p class="h6">{{ item.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+            </p>
+          </div>
+          <div class="card-body">
+            <p class="h6">{{item.description}}</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="projectUpdates.length == 0" class="text-center">
+        No Updates Till Now
+      </div>
+      <div *ngIf="updateForm" class="row">
+        <label for="" class="form-control-label">Update Title</label>
+        <input type="text" class="form-control" [(ngModel)]="updateTitle">
+        <label for="" class="form-control-label">Update Description</label>
+        <textarea class="form-control" [(ngModel)]="updateDescription">
+        </textarea>
+      </div>
+      <div class="text-center">
+        <button *ngIf="!updateForm && authService.loggedIn && canUpdate" class="btn mt-2" (click)="toggleUpdate()">
+          Add Update
+        </button>
+        <button *ngIf="updateForm" class="btn mt-2" (click)="submitUpdate()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Comments">
+    <div class="container card col-6 mt-5 p-4 mb-4" style="background-color: #073976; color: white;">
+      <div class="row text-center">
+        <p class="h4">Comments for {{project['title']}}</p>
+      </div>
+      <div *ngIf="comments.length == 0" class="text-center">
+        No comments Yet. Be the first one to comment.
+      </div>
+      <div class="row" *ngIf="!commentForm"  style="max-height: 400px !important; overflow: scroll;">
+        <div *ngFor="let item of comments" class="card my-3">
+          <div class="card-body">
+            <p class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span>
+            </p>
+            <hr>
+            <p class="h6">{{item.content}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="commentForm">
+        <div class="card">
+          <div class="card-body">
+            <label for="" class="form-control-label">Comment</label>
+            <textarea class="form-control" [(ngModel)]="content">
+            </textarea>
+            <div class="text-end">
+
+              <button class="btn my-2" (click)="submitComment()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-end mt-2">
+        <button class="btn" *ngIf="!commentForm && authService.loggedIn" (click)="toggleComment()">
+          Add Your Comment
+        </button>
+        <button class="btn" *ngIf="commentForm" (click)="toggleComment()">
+          Back
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="About Creator">Content 3</mat-tab>
+</mat-tab-group>
