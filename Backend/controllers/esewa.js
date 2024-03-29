@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-
-
-exports.verifyPayment = async (req, res, next) => {
-  const data = req.query.data
-  let decodedString = atob(data);
-  console.log("dec_string", decodedString)
-=======
 const crypto = require("crypto");
 const Project = require("../models/Project");
 const Reward = require("../models/Reward");
