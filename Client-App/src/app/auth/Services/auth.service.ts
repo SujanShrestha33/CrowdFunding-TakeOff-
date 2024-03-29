@@ -19,10 +19,7 @@ export class AuthService {
   loggedIn : boolean = false;
   startProj : boolean= true;
   userId : string = '';
-<<<<<<< HEAD:src/app/auth/Services/auth.service.ts
   currentEmail : string = '';
-=======
->>>>>>> f8e3fe274413269cb76e75b7f711ccc7c1e96088:Client-App/src/app/auth/Services/auth.service.ts
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
@@ -35,10 +32,7 @@ export class AuthService {
     this.currentUserSubject.next(storedUser);
     console.log(this.currentUserSubject);
     this.userId = storedUser.userId;
-<<<<<<< HEAD:src/app/auth/Services/auth.service.ts
     this.currentEmail = localStorage.getItem('email')!;
-=======
->>>>>>> f8e3fe274413269cb76e75b7f711ccc7c1e96088:Client-App/src/app/auth/Services/auth.service.ts
     this.loggedIn = true;
     console.log(this.userId)
     console.log(this.loggedIn);

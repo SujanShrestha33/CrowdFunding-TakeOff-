@@ -27,10 +27,7 @@
     "bootstrap": "^5.2.3",
     "crypto-js": "^4.2.0",
     "ngx-bootstrap": "^11.0.2",
-<<<<<<< HEAD:package.json
     "ngx-owl-carousel-o": "^16.0.0",
-=======
->>>>>>> f8e3fe274413269cb76e75b7f711ccc7c1e96088:Client-App/package.json
     "ngx-toastr": "^17.0.2",
     "popper.js": "^1.16.1",
     "rxjs": "~7.8.0",
