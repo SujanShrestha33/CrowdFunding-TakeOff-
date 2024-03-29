@@ -266,13 +266,19 @@ export class ProjectFormComponent {
       this.toastr.warning('Only one video is allowed for a project!');
       return;
     }
+    console.log(formData);
 
-    this.projectService.addMedia(formData, this.newProjectid)
+    if(this.files.length == 0 && this.video.length == 0){
+    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+    }else{
+
+
+      this.projectService.addMedia(formData, this.newProjectid)
       .subscribe({
         next : (res) => {
           console.log(res);
           this.toastr.success('Media added successfully');
-    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+          this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
 
         }, error : err => {
           console.log(err);
@@ -281,6 +287,7 @@ export class ProjectFormComponent {
 
         }
       })
+    }
 
 
   }

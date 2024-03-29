@@ -19,6 +19,7 @@ export class AuthService {
   loggedIn : boolean = false;
   startProj : boolean= true;
   userId : string = '';
+  currentEmail : string = '';
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
@@ -31,6 +32,7 @@ export class AuthService {
     this.currentUserSubject.next(storedUser);
     console.log(this.currentUserSubject);
     this.userId = storedUser.userId;
+    this.currentEmail = localStorage.getItem('email')!;
     this.loggedIn = true;
     console.log(this.userId)
     console.log(this.loggedIn);
@@ -61,6 +63,7 @@ export class AuthService {
         console.log(this.currentUserSubject);
         localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
         localStorage.setItem('email', email);
+        this.currentEmail = email;
         return returnUser; // You can choose to return the modified object if needed
       })
     );

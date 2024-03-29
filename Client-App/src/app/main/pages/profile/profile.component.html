@@ -1,0 +1,109 @@
+<div class="main-container">
+  <div class="row mt-5 justify-content-center">
+    <div class="card col-lg-4 col-md-6 col-sm-8 col-10 mt-5">
+      <div class="card-header text-center" style="background-color: white !important;">
+        <p class="h3">Profile</p>
+      </div>
+      <div class="card-body">
+        <div class="row text-center p-4 mb-4">
+          <i style="font-size: 6rem;" class="fa-regular fa-user"></i>
+        </div>
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">First Name :</div>
+          <div class="col-6">{{profileData.firstName}}</div>
+        </div>
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">Last Name :</div>
+          <div class="col-6">{{profileData.lastName}}</div>
+        </div>
+
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">Username :</div>
+          <div class="col-6">{{profileData.username}}</div>
+        </div>
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">Email :</div>
+          <div class="col-6">{{profileData.email}}</div> <!-- Changed lastName to email -->
+        </div>
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">Phone Number :</div>
+          <div class="col-6">{{profileData.phoneNumber}}</div>
+        </div>
+        <div class="row col-12 h5">
+          <div class="col-6 text-end">Address :</div>
+          <div class="col-6">{{profileData.address}}</div>
+        </div>
+      </div>
+      <div class="text-center my-3">
+        <button (click)="openModal(template)" class="btn btn-lg button">
+          <span><i class="fa-solid fa-pen-to-square"></i></span>  Edit
+        </button>
+        <button class="btn btn-lg button mx-2" (click)="sendForVerification()">
+          <span><i class="fa-solid fa-lock"></i></span>  Change Password
+          <div style="color: white;" class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="innerLoading">
+            <span class="sr-only"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #template>
+  <!-- <h4 class="modal-title pull-left">Modal</h4> -->
+  <div class="modal-header" style="outline: none !important; border: none !important;">
+    <h2 class="modal-title">Edit Profile</h2>
+    <button type="button" class="btn-close close pull-right mt-1 mx-2" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+<div class="modal-body text-center mt-3">
+  <div class="form-group ">
+    <div class="form text-start">
+      <label for="" class="form-control-label">First Name</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.firstName">
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <div class="form text-start">
+      <label for="" class="form-control-label">Last Name</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.lastName">
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <div class="form text-start">
+      <label for="" class="form-control-label">Username</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.username">
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <div class="form text-start">
+      <label for="" class="form-control-label">Email</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.email" disabled>
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <div class="form text-start">
+      <label for="" class="form-control-label">Phone Number</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.phoneNumber">
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <div class="form text-start">
+      <label for="" class="form-control-label">Address</label>
+      <input type="text" class="form-control" [(ngModel)]="profileData.address">
+    </div>
+  </div>
+  <div class="text-center">
+    <button (click)="submitEdit()" (click)="modalRef?.hide()" class="btn button">
+      Submit
+      <div class="spinner-border spinner-border-sm ml-1" role="status" *ngIf="innerLoading">
+        <span class="sr-only"></span>
+      </div>
+    </button>
+  </div>
+
+
+</div>
+</ng-template>

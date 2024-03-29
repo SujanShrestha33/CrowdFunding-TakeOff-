@@ -27,6 +27,8 @@ export class ProjectViewComponent implements OnInit {
   currentUser = this.authService.userId;
   canUpdate : boolean = false;
   pageType : string = '';
+  currentMediaIndex = 0;
+  medias : any[] = [];
 
   constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router) {}
 
@@ -50,6 +52,30 @@ export class ProjectViewComponent implements OnInit {
       })
     }
     this.getProjectDetails();
+    }
+
+    prevMedia() {
+      if (this.currentMediaIndex > 0) {
+        this.currentMediaIndex--;
+      } else {
+        this.currentMediaIndex = this.project['mediaAssets'].length - 1;
+      }
+    }
+
+    nextMedia() {
+      if (this.currentMediaIndex < this.project['mediaAssets'].length - 1) {
+        this.currentMediaIndex++;
+      } else {
+        this.currentMediaIndex = 0;
+      }
+    }
+
+    isImage(asset: string): boolean {
+      return asset.endsWith('.png') || asset.endsWith('.jpg') || asset.endsWith('.jpeg');
+    }
+
+    isVideo(asset: string): boolean {
+      return asset.endsWith('.mp4') || asset.endsWith('.webm') || asset.endsWith('.ogg');
     }
 
     toggleUpdate(){
@@ -83,7 +109,14 @@ export class ProjectViewComponent implements OnInit {
           console.log(res['data'].rewards)
           console.log(this.rewards);
           console.log(this.rewards.length);
-
+          this.medias.push(this.project['coverImage']);
+          console.log(this.medias);
+          if(this.project['mediaAssets']){
+            this.project['mediaAssets'].forEach((elem : any) => {
+              this.medias.push(elem);
+            })
+          }
+          console.log(this.medias);
           // this.totalInvestors = this.project['investors'].length;
           console.log(this.comments)
           console.log(this.projectStory)
@@ -155,6 +188,10 @@ export class ProjectViewComponent implements OnInit {
 
       }})
 
+}
+
+navigateInvest(){
+  this.router.navigate(['/main/invest', this.productId]);
 }
 
 

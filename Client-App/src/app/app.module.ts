@@ -17,6 +17,7 @@ import { MainComponent } from './main/main.component';
 import { DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { ToastrModule } from 'ngx-toastr';
     BsDropdownModule.forRoot(),
     NgSelectModule,
     ToastrModule.forRoot(),
+    CarouselModule,
+
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent]

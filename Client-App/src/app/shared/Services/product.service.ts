@@ -39,10 +39,10 @@ export class ProductService {
       const timeDiff = endDate.getTime() - currentDate.getTime(); // Difference in milliseconds
       const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
       elem.remainingDays = diffDays;
-      console.log(elem.remainingDays);
+      // console.log(elem.remainingDays);
       projects.forEach(elem => {
         const fundPercent = (elem.currentAmount / elem.goalAmount) * 100; // Calculate fund percentage
-        console.log(fundPercent);
+        // console.log(fundPercent);
         elem.fundPercent = Number(fundPercent.toFixed(2)); // Round off to two decimal places and convert to number
       });
     });
@@ -81,6 +81,10 @@ export class ProductService {
 
   addMedia(formData : FormData, projectId : string){
     return this.http.post(`${this.baseUrl}projects/${projectId}/addMedia`, formData);
+  }
+
+  getTopProjects(){
+    return this.http.get(`${this.baseUrl}trendingProjects`);
   }
 
 }

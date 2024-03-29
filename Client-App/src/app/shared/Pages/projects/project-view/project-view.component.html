@@ -9,32 +9,46 @@
   <hr>
   <mat-tab label="Campaign">
     <div class="container p-4">
-      <div class="row">
-        <div class="col-lg-8"> <!-- Adjust column width based on screen size -->
-          <div class="image">
-            <img [src]="getCoverImageUrl(project['coverImage'])" alt="" class="img-fluid">
-            <!-- Make image responsive -->
+      <div class="row d-flex">
+        <div class="text-center mt-3 col-lg-8">
+          <ng-container *ngFor="let asset of medias; let i = index">
+            <ng-container *ngIf="i === currentMediaIndex">
+              <ng-container *ngIf="isImage(asset)">
+                <img [src]="getCoverImageUrl(asset)" alt="Image" class="img-fluid">
+              </ng-container>
+              <ng-container *ngIf="isVideo(asset)">
+                <video height="350" width="200" controls autoplay class="img-fluid">
+                  <source [src]="getCoverImageUrl(asset)" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <div *ngIf="medias.length > 1" class="text-center mt-3">
+            <button (click)="prevMedia()" class="btn btn-sm btn-secondary mx-4">Previous</button>
+            <button (click)="nextMedia()" class="btn btn-sm btn-secondary">Next</button>
           </div>
         </div>
-        <div class="col-lg-4 mt-2"> <!-- Adjust column width based on screen size -->
+        <div class="col-lg-4 mt-2">
           <div class="details">
             <p style="color: #073976;" class="h1">{{project['title']}}</p>
-            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+            <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
               {{totalInvestors}} <br>
               <span class="h6" style="color: black;"> Investors
               </span>
             </p>
-            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+            <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
               {{remDays}} <br>
               <span class="h6" style="color: black;"> Days To Go
               </span>
             </p>
-            <p style="color: #073976; font-size: 2rem; margin: 50px 0px 0px 0px; font-weight: 700;">
+            <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
               Rs.{{project['currentAmount']}} <br>
               <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
               </span>
             </p>
-            <button *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
+            <button (click)="navigateInvest()" *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
               Invest In This Project
             </button>
             <div class="row ms-1" *ngIf="pageType == 'new'">
@@ -52,7 +66,6 @@
         </div>
       </div>
     </div>
-
   </mat-tab>
   <mat-tab *ngIf="projectStory" label="Story">
     <div class="container card col-6 p-5 mt-5 mb-5">

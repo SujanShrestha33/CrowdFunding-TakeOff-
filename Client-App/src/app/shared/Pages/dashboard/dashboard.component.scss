@@ -4,12 +4,12 @@
   margin-top: 1rem !important;
 }
 
-span{
-  color: #073976;
-  font-family: "Madimi One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
+// span{
+//   color: #073976;
+//   font-family: "Madimi One", sans-serif;
+//   font-weight: 400;
+//   font-style: normal;
+// }
 
 
 .card{
@@ -21,33 +21,7 @@ span{
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-.space-between{
-  display: flex;
-  justify-content: space-between;
-}
 
-.save-icon{
-  transition: transform .2s;
-  cursor: pointer;
-}
-
-.img-container{
-  height: 280px;
-  border-radius: 15px;
-}
-
-.img-contain{
-  padding: 20px;
-}
-
-.save-icon:hover{
-  // color: white;
-  // border: 2px solid black;
-  color: #073976;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.5);
-}
 
 .project-title{
   font-size: 2rem;
@@ -60,19 +34,7 @@ span{
 
 }
 
-.description{
-  font-size: 1.4rem;
-  font-weight: 400;
-  margin-top: 1rem;
-}
 
-.creator{
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-
-}
 
 .card-container{
   padding: 0rem 4rem 4rem 4rem;
@@ -86,98 +48,98 @@ span{
   font-weight: 500;
 }
 
-.cards-container{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  grid-auto-rows: minmax(10.5rem, auto);
-  height: 50rem;
-  padding: 0rem 4rem 4rem 4rem;
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+.coverImage{
+  height: 450px;
+  width: 600px;
+  border-radius: 20px;
+}
+button{
+  color: #073976 !important;
+  background-color: white !important;
+  outline: 3px solid #073976 !important;
+}
+button:hover{
+  background-color: #073976 !important; color: white !important; border: 2px solid white !important;
+}
+.icons{
+  font-size: 1.5rem;
+  margin: 10px 0px 10px 10px;
+}
+input{
+  border: 2px solid grey !important;
+}
+.card-img{
+  height: 100%;
+  width: auto;
+  border-radius: 5px;
 }
 
-.card-1{
-  grid-column: 1;
-    grid-row: 1/3;
-    background-color: #073976;
+.img-container{
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 
-.card-2{
-  grid-column: 2;
-    grid-row: 1;
-    background-color: #073976;
+// .card{
+//   border: none;
+//   // cursor : pointer;
+// }
+
+.cards{
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px !important;
+  border-radius: 10px;
 }
 
-.card-3{
-  grid-column: 2;
-    grid-row: 2;
-    background-color: #073976;
+.space-between{
+  display: flex;
+  justify-content: space-between;
 }
 
-.card-4{
-  grid-column: 3;
-    grid-row: 1;
-    background-color: #073976;
-}
-.card-5{
-  grid-column: 3;
-    grid-row: 2;
-    background-color: #073976;
+.save-icon{
+  transition: transform .2s;
+  cursor: pointer;
 }
 
-.card-1, .card-2, .card-3, .card-4, .card-5 {
-  border-radius: 15px;
-  margin: 15px;
+.save-icon:hover{
+  // color: white;
+  // border: 2px solid black;
+  color: #073976;
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5);
 }
+
+.project-title:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.spinner{
+  display: flex;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
 
 @media only screen and (max-width: 767px) {
-  .project-title{
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-  .description{
-    font-size: 1rem;
-    font-weight: 400;
-    margin-top: 0;
-  }
-
-  .creator{
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 0rem;
-    margin-bottom: 0rem;
-
-  }
-  .img-container{
-    height: 135px;
-    border-radius: 15px;
-  }
-
-  .card-container{
-    padding: 0;
-  }
-
-  .cards-container {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    // height: 80rem;
-    padding: 1rem;
-  }
-
-  .card-1, .card-2, .card-3, .card-4, .card-5 {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  /* Add a specific background color for mobile view */
-  .card-1 { background-color: #073976; }
-  .card-2 { background-color: #073976; }
-  .card-3 { background-color: #073976; }
-  .card-4 { background-color: #073976; }
-  .card-5 { background-color: #073976; }
 
   .titles{
     display: none;
   }
+  .coverImage{
+    height: 250px;
+    width: 400px;
+    border-radius: 20px;
+  }
 }
+
 
 

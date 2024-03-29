@@ -9,6 +9,7 @@ import { DashboardComponent } from './Pages/dashboard/dashboard.component';
 import { ProjectViewComponent } from './Pages/projects/project-view/project-view.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     SharedRoutingModule,
     FontAwesomeModule,
     MatTabsModule,
-    FormsModule
+    FormsModule,
+    CarouselModule
   ]
 })
 export class SharedModule { }

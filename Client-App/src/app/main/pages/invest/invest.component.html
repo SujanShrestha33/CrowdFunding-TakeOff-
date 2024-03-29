@@ -1,0 +1,18 @@
+<div class="main-container">
+  <form (ngSubmit)="submitForm()" #paymentForm="ngForm">
+    <input type="text" id="amount" name="amount" [(ngModel)]="formData.amount" required>
+    <input type="text" id="tax_amount" name="tax_amount" [(ngModel)]="formData.tax_amount" required>
+    <input type="text" id="total_amount" name="total_amount" [(ngModel)]="formData.total_amount" required>
+    <input type="text" id="transaction_uuid" name="transaction_uuid" [(ngModel)]="formData.transaction_uuid" required>
+    <input type="text" id="product_code" name="product_code" [(ngModel)]="formData.product_code" required>
+    <input type="text" id="product_service_charge" name="product_service_charge" [(ngModel)]="formData.product_service_charge" required>
+    <input type="text" id="product_delivery_charge" name="product_delivery_charge" [(ngModel)]="formData.product_delivery_charge" required>
+    <input type="text" id="success_url" name="success_url" [(ngModel)]="formData.success_url" required>
+    <input type="text" id="failure_url" name="failure_url" [(ngModel)]="formData.failure_url" required>
+    <input type="text" id="signed_field_names" name="signed_field_names" [(ngModel)]="formData.signed_field_names" value="total_amount,transaction_uuid,product_code" required>
+    <input type="text" id="signature" name="signature" [(ngModel)]="formData.signature" required>
+    <button type="submit">Submit</button>
+  </form>
+
+
+</div>

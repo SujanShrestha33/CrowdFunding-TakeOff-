@@ -1,0 +1,18 @@
+.main-container{
+    margin-top: 4rem !important;
+}
+.flex-d{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.button:hover{
+  background-color: #073976 !important; color: white !important;
+}
+.button{
+  color: #073976 !important;
+  background-color: white !important;
+  outline: 3px solid #073976 !important;
+}
