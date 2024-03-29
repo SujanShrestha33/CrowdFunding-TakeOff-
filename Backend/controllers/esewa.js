@@ -69,5 +69,4 @@ exports.verifyPayment = async (req, res, next) => {
     console.log(err);
     return res.status(400).json({ error: err?.message || "No Orders found" });
   }
->>>>>>> f8e3fe274413269cb76e75b7f711ccc7c1e96088
 };
