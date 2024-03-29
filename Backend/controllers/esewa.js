@@ -1,29 +1,72 @@
-const FormData = require("form-data");
-const fetch = require("node-fetch");
+const crypto = require("crypto");
+const Project = require("../models/Project");
+const Reward = require("../models/Reward");
+const Investor = require("../models/Investor");
+const User = require("../models/User");
 
 exports.verifyPayment = async (req, res, next) => {
   try {
-    const { amt, refId, oid } = req.body;
-    var form = new FormData();
-    form.append("amt", amt);
-    form.append("rid", refId);
-    form.append("pid", oid);
-    form.append("scd", process.env.ESEWA_MERCHANT_CODE);
+    const { data } = req.query;
+    const decodedData = JSON.parse(
+      Buffer.from(data, "base64").toString("utf-8"),
+    );
+    console.log(decodedData);
 
-    const response = await fetch(process.env.ESEWA_URL + "/epay/transrec", {
-      method: "POST",
-      body: form,
+    if (decodedData.status !== "COMPLETE") {
+      return res.status(400).json({ messgae: "errror" });
+    }
+    const message = decodedData.signed_field_names
+      .split(",")
+      .map(field => `${field}=${decodedData[field] || ""}`)
+      .join(",");
+    console.log(message);
+    const signature = this.createSignature(message);
+
+    if (signature !== decodedData.signature) {
+      res.json({ message: "integrity error" });
+    }
+
+    const project = await Project.findById(decodedData.transaction_uuid);
+    const investedAmount = Number(decodedData.total_amount);
+    console.log("The investment amount is " + investedAmount);
+
+    if (!project) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid project id" });
+    }
+
+    if (investedAmount < project.minimumInvestment) {
+      return res.status(400).json({
+        message: `The minimum investment amount should be ${project.minimumInvestment}`,
+      });
+    }
+
+    project.currentAmount = project.currentAmount + investedAmount;
+
+    const investor = await User.findById(req.userId);
+    investor.token = investor.token + 1;
+
+    const rewards = await Reward.find({
+      projectId: projectId,
+      rewardAmount: { $lte: investedAmount },
     });
 
-    const body = await response.text();
+    const newInvestor = new Investor({
+      projectId,
+      investorId: req.userId,
+      investedAmount,
+      rewards: rewards,
+    });
 
-    console.log(body);
+    newInvestor.rewards.concat(rewards);
+    console.log(newInvestor);
 
-    if (body.includes("Success")) {
-      next();
-    }
+    await newInvestor.save();
+
+    return res.json({ message: "Invested in the project successfully" });
   } catch (err) {
     console.log(err);
-    return res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err?.message || "No Orders found" });
   }
 };
