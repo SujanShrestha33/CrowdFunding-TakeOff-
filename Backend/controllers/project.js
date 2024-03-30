@@ -317,3 +317,16 @@ exports.getTrendingProjects = async (req, res) => {
     return res.status(500).json({ message: "Some internal error occurred" });
   }
 };
+
+exports.getUserInvestments = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const investments = await Investor.find({ investorId: userId }).populate(
+      "projectId",
+    );
+    return res.json({ data: investments });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
+  }
+};
