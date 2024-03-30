@@ -14,10 +14,10 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-exports.getAnyUserProfile = async (req, res) => {
-  const userId = req.params.userId;
+exports.getUserToken = async (req, res) => {
+  const userId = req.userId;
   try {
-    const userAccount = await User.findById(userId).select("-_id -password");
+    const userAccount = await User.findById(userId).select("token -_id");
 
     if (!userAccount) {
       return res.status(404).json({ message: "User not found" });

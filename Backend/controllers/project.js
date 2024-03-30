@@ -74,7 +74,10 @@ exports.createProject = async (req, res) => {
 exports.getOneProject = async (req, res) => {
   const id = req.params.projectId;
   try {
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate(
+      "author",
+      "-_id -password",
+    );
     console.log(project);
     const comments = await Comment.find({ projectId: project._id }).populate(
       "createdBy",
@@ -200,7 +203,7 @@ exports.addMediaAssets = async (req, res) => {
   const projectId = req.params.projectId;
   const assetsArray = Object.values(req.files);
 
-  const pathStringArray = assetsArray.map(file => {
+  const pathStringArray = assetsArray.map((file) => {
     return "uploads/" + file[0].filename;
   });
   console.log(pathStringArray);
@@ -282,7 +285,7 @@ exports.updateMediaAssets = async (req, res) => {
   const projectId = req.params.projectId;
   const assetsArray = Object.values(req.files);
 
-  const pathStringArray = assetsArray.map(file => {
+  const pathStringArray = assetsArray.map((file) => {
     return "uploads/" + file[0].filename;
   });
   console.log(pathStringArray);

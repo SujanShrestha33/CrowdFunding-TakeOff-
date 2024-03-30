@@ -4,7 +4,7 @@ const profileController = require("../controllers/profile");
 
 router.get("/profile/my", checkAuth, profileController.getUserProfile);
 
-router.get("/profile/user/:userId", profileController.getAnyUserProfile);
+router.get("/profile/myToken", checkAuth, profileController.getUserToken);
 
 router.post(
   "/profile/my/update",
