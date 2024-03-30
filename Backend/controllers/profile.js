@@ -5,9 +5,23 @@ const Flagged = require("../models/Flagged");
 exports.getUserProfile = async (req, res) => {
   const userId = req.userId;
   try {
-    const userAccount = await User.findById(userId).select(
-      "-_id firstName lastName phoneNumber address username",
-    );
+    const userAccount = await User.findById(userId).select("-_id -password");
+
+    return res.status(200).json({ data: userAccount });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
+  }
+};
+
+exports.getAnyUserProfile = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const userAccount = await User.findById(userId).select("-_id -password");
+
+    if (!userAccount) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     return res.status(200).json({ data: userAccount });
   } catch (e) {

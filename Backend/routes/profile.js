@@ -4,6 +4,8 @@ const profileController = require("../controllers/profile");
 
 router.get("/profile/my", checkAuth, profileController.getUserProfile);
 
+router.get("/profile/user/:userId", profileController.getAnyUserProfile);
+
 router.post(
   "/profile/my/update",
   checkAuth,
