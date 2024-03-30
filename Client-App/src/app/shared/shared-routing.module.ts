@@ -7,7 +7,7 @@ import { InvestmentSuccessComponent } from './Pages/investment-success/investmen
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
-  {path : 'discover/:type', component: ProjectsComponent},
+  {path : 'discover/:type/:cat', component: ProjectsComponent},
   {path : 'project-view/:id/:type', component : ProjectViewComponent},
   {path : "investment-success", component : InvestmentSuccessComponent}
 ];

@@ -19,4 +19,6 @@ export class ProfileService {
   editProfile(body : any){
     return this.http.post(`${this.baseUrl}profile/my/update`, body);
   }
+
+
 }

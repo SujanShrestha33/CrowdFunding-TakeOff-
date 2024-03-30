@@ -10,7 +10,7 @@ const crypto = require("crypto");
 
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find({});
+    const projects = await Project.find({}).populate("author", "-_id -password");
     return res.json({ data: projects });
   } catch (e) {
     res.status(500).json({ message: "Some error occurred" });
@@ -309,7 +309,8 @@ exports.getTrendingProjects = async (req, res) => {
   try {
     const trendingProjects = await Project.find({})
       .sort({ bookmarkCount: -1 })
-      .limit(10);
+      .limit(10)
+      .populate("author", "-_id -password");
     console.log(trendingProjects);
     return res.json({ data: trendingProjects });
   } catch (e) {

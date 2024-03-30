@@ -14,6 +14,19 @@ button{
 button:hover{
   background-color: #073976 !important; color: white !important; border: 2px solid white !important;
 }
+
+.report-button{
+  background-color: red !important;
+  color: white !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.report-button:hover{
+  background-color: white !important;
+  color: red !important;
+  border: 2px solid red !important;
+}
 .icons{
   font-size: 1.5rem;
   margin: 10px 0px 10px 10px;

@@ -21,6 +21,7 @@ export class ProjectsComponent implements OnInit {
   currentFormattedDate: string = '';
   currentUser = this.authService.userId;
   pageType : string = '';
+  cat : string = "";
 
   constructor(private projectService: ProductService, private router : Router, private authService : AuthService, private route : ActivatedRoute, private toastr : ToastrService) {}
 
@@ -28,12 +29,15 @@ export class ProjectsComponent implements OnInit {
     this.route.params.subscribe((res) => {
       console.log(res);
       this.pageType = res['type'];
+      this.cat = res['cat'];
       if(this.pageType === 'new'){
         this.getProjects();
       }else if (this.pageType === 'mycampaign'){
         this.getUserSpecificProjects();
       }else if (this.pageType === 'saved'){
         this.getSavedProjects();
+      }else if(this.pageType === 'myinvestment'){
+        this.getinvestedProject();
       }
     });
 
@@ -76,6 +80,9 @@ export class ProjectsComponent implements OnInit {
         console.log(this.projectCount);
         console.log(this.currentUser);
         this.projects = this.projects.filter((elem) => elem['author'] !== this.currentUser);
+        if(this.cat !== 'All'){
+          this.projects = this.projects.filter((elem) => elem['category'] === this.cat);
+        }
         // this.projects.forEach(elem => {
           //   elem.remainingDays = this.currentFormattedDate - elem.endDate
           // })
@@ -118,10 +125,15 @@ export class ProjectsComponent implements OnInit {
   }
 
   createBookmark(id : string){
+    if(this.authService.loggedIn === false){
+      this.toastr.error('Please login to save this campaign');
+      return;
+    }
     this.projectService.createBookmark(id)
     .subscribe({
       next : (res) => {
         console.log(res);
+      this.toastr.success('Campaign saved successfully');
       },
       error : err => {
         console.log(err);
@@ -140,13 +152,40 @@ export class ProjectsComponent implements OnInit {
       next : (res) => {
         console.log(res);
         let projs = res['data'] as Projects[];
+        console.log(projs);
         this.projects = [];
-        this.projects.push(projs[0]['projectId']);
-        // console.log(proj);
-        // this.projects = this.projects.filter((elem) => elem['author'] !== this.currentUser);
-        // this.projects.forEach(elem => {
-          //   elem.remainingDays = this.currentFormattedDate - elem.endDate
-          // })
+        projs.forEach(elem => {
+          this.projects.push(elem['projectId']);
+        })
+        // this.projects.push(projs[0]['projectId']);
+          this.projectCount = this.projects.length;
+        console.log(this.projects);
+        this.loading = false;
+        this.projectService.getRemDays(this.projects);
+      },
+      error : err => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete : () => {
+
+      }
+    })
+  }
+
+  getinvestedProject(){
+    this.loading = true;
+    this.projectService.getInvestedProject()
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        let projs = res['data'] as Projects[];
+        console.log(projs);
+        this.projects = [];
+        projs.forEach(elem => {
+          this.projects.push(elem['projectId']);
+        })
+        // this.projects.push(projs[0]['projectId']);
           this.projectCount = this.projects.length;
         console.log(this.projects);
         this.loading = false;

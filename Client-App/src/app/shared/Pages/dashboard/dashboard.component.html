@@ -38,11 +38,11 @@
                     <span class="h6" style="color: black;"> of Rs.{{topProject['goalAmount']}} goal
                     </span>
                   </p>
-                  <button class="btn btn-lg col-12 my-4 buttons">
-                    Invest In This Project
+                  <button class="btn btn-lg col-12 my-4 buttons" (click)="openProject(topProject._id)">
+                    View More About This Project
                   </button>
                   <div class="row ms-1">
-                    <button class="btn btn-lg col-6 my-1 buttons">
+                    <button (click)="createBookmark(topProject._id)" class="btn btn-lg col-6 my-1 buttons">
                       <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
                     </button>
                     <div class="col-6 pt-2">
@@ -71,9 +71,9 @@
                       <!-- <svg class="save-icon" style="height: 17px; margin-top: 3px" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 603.511 603.511" xml:space="preserve">
                         <!-- SVG code -->
                       <!-- </svg> -->
-                      <i class="fa-regular fa-bookmark save-icon"></i>
+                      <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
                     </div>
-                    <p class="h6">Creator Name</p>
+                    <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
                     <div class="d-flex justify-content-space-between">
                       <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
                       <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>

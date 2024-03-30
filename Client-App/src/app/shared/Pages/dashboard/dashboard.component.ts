@@ -3,6 +3,8 @@ import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { Projects } from 'src/app/Models/projects.model';
 import { ProductService } from '../../Services/product.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/auth/Services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   constructor (
-    private projectService : ProductService, private router : Router
+    private projectService : ProductService, private router : Router, private toastr : ToastrService, private authService : AuthService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,30 @@ export class DashboardComponent implements OnInit {
 
   openProject(projectId){
     this.router.navigate([`project-view/${projectId}/new`]);
+  }
+
+
+  createBookmark(id : string){
+    if(this.authService.loggedIn === false){
+      this.toastr.error('Please login to save this campaign');
+      return;
+    }
+
+
+    this.projectService.createBookmark(id)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        this.toastr.success('Campaign saved successfully');
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error('Already Saved, check your saved campaigns');
+      },
+      complete : () => {
+
+      }
+    })
   }
 
 }

@@ -91,4 +91,15 @@ export class ProductService {
     return this.http.post(`${this.baseUrl}projects/esewa/${id}/invest`, body);
   }
 
+  reportProject(id : string){
+    return this.http.post(`${this.baseUrl}flagProject/${id}`, {});
+  }
+
+  getMyToken(){
+   return this.http.get(`${this.baseUrl}profile/myToken`)
+  }
+
+  getInvestedProject(){
+    return this.http.get(`${this.baseUrl}user/investments`);
+  }
 }

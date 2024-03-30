@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import {faUser, faPowerOff} from "@fortawesome/free-solid-svg-icons"
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from 'src/app/shared/Services/product.service';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class NavBarComponent implements OnInit{
   loggedIn : boolean = false;
   faUser = faUser;
   faOff = faPowerOff;
+  token : any;
   // startView : boolean = true;
 
   onHidden(): void {
@@ -26,7 +28,7 @@ export class NavBarComponent implements OnInit{
     console.log('Dropdown state is changed');
   }
 
-  constructor(public authService : AuthService, private router : Router, private rpute : ActivatedRoute) {
+  constructor(public authService : AuthService, private router : Router, private rpute : ActivatedRoute, private projectService : ProductService) {
 
   }
 
@@ -37,6 +39,7 @@ export class NavBarComponent implements OnInit{
     })
     if(this.loginDetails){
       this.loggedIn = true;
+      this.getMyToken();
     }else {
       this.loggedIn = false;
     }
@@ -61,5 +64,20 @@ export class NavBarComponent implements OnInit{
     // this.authService.startProj = false;
     this.authService.setStartProj(false);
     this.router.navigate(['/main/init-proj'])
+  }
+
+  getMyToken(){
+    this.projectService.getMyToken()
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.token = res['data'].token;
+
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {}
+      })
   }
 }

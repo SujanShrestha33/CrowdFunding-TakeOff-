@@ -63,6 +63,8 @@ export class AuthService {
         console.log(this.currentUserSubject);
         localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
         localStorage.setItem('email', email);
+        this.userId = returnUser.userId;
+        this.loggedIn = true;
         this.currentEmail = email;
         return returnUser; // You can choose to return the modified object if needed
       })

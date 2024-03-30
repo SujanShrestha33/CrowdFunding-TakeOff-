@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { Projects } from 'src/app/Models/projects.model';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import { ProductService } from 'src/app/shared/Services/product.service';
@@ -34,9 +35,12 @@ export class ProjectViewComponent implements OnInit {
   modalRef?: BsModalRef;
   investmentAmount : number = 0;
   investmentFormData : any;
+  innerloading: boolean;
+  token: any;
+  profileData : any;
 
 
-    constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router, private modalService : BsModalService, private http : HttpClient) {}
+    constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router, private modalService : BsModalService, private http : HttpClient, private toastr : ToastrService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((res) => {
@@ -125,6 +129,7 @@ export class ProjectViewComponent implements OnInit {
           this.projectUpdates = res['data'].update;
           this.comments = res['data'].comments;
           this.rewards = res['data'].rewards;
+          console.log(this.profileData);
           console.log(res['data'].rewards)
           console.log(this.rewards);
           console.log(this.rewards.length);
@@ -140,6 +145,8 @@ export class ProjectViewComponent implements OnInit {
           console.log(this.comments)
           console.log(this.projectStory)
           console.log(this.project);
+          this.profileData = this.project['author'];
+          console.log(this.profileData);
           // this.remDays=this.projectService.getRemDays(this.project)
           const endDate = new Date(this.project['endDate']);
           const currentDate = new Date();
@@ -255,6 +262,69 @@ esewaCall = (formData: any) => {
   // console.log(form.);
   form.submit();
 };
+
+investAmount(amount : number){
+  this.investmentAmount = amount;
+}
+
+createBookmark(){
+  console.log(this.authService.loggedIn)
+  if(this.authService.loggedIn === false){
+    this.toastr.error('Please login to save this campaign');
+    return;
+  }
+  this.projectService.createBookmark(this.productId)
+  .subscribe({
+    next : (res) => {
+      console.log(res);
+      this.toastr.success('Campaign saved successfully');
+    },
+    error : err => {
+      console.log(err);
+      this.toastr.error('Already Saved, check your saved campaigns');
+    },
+    complete : () => {
+
+    }
+  })
+}
+
+reportProject(){
+  this.innerloading = true;
+  this.projectService.reportProject(this.productId)
+  .subscribe({
+    next : (res) => {
+      console.log(res);
+      this.toastr.success('Campaign reported successfully');
+      this.innerloading = false;
+    },
+    error : err => {
+      console.log(err);
+      this.toastr.error(err.error.message);
+      this.innerloading = false;
+    },
+    complete : () => {
+
+    }
+  })
+
+}
+
+getToken(){
+  this.projectService.getMyToken()
+  .subscribe({
+    next : (res) => {
+      console.log(res);
+      this.token = res['data'].token;
+    },
+    error : err => {
+      console.log(err);
+    },
+    complete : () => {
+
+    }
+  })
+}
 
 }
 interface InvestmentFormData {

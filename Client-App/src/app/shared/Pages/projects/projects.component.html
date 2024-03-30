@@ -21,7 +21,7 @@
               <!-- </svg> -->
               <i  *ngIf="pageType == 'new'" (click)="createBookmark(item['_id'])" class="fa-regular fa-bookmark save-icon"></i>
             </div>
-            <p class="h6">Creator Name</p>
+            <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
             <div class="d-flex justify-content-space-between">
               <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
               <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
