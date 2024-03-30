@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { verifyPayment } = require("../controllers/esewa");
+const {
+  verifyPayment,
+  createInvestmentOrder,
+} = require("../controllers/esewa");
 const { investInProject } = require("../controllers/project");
 
 router.get("/esewa/verify-payment", verifyPayment);
-router.post("/esewa/orders/create", investInProject);
+router.post("/projects/esewa/:pid/invest", createInvestmentOrder);
 
 module.exports = router;

@@ -125,38 +125,50 @@ exports.addComment = async (req, res) => {
 };
 
 exports.investInProject = async (req, res) => {
-  const { investmentAmount } = req.body;
-  const projectId = req.params.projectId;
-  const signature = this.createSignature(
-    `total_amount=${investmentAmount},transaction_uuid=${projectId},product_code=EPAYTEST`,
-  );
-  const formData = {
-    amount: investmentAmount,
-    failure_url: "http://localhost:4200",
-    product_delivery_charge: "0",
-    product_service_charge: "0",
-    product_code: "EPAYTEST",
-    signature: signature,
-    signed_field_names: "total_amount,transaction_uuid,product_code",
-    success_url: "http://localhost:8080/esewa/verify-payment",
-    tax_amount: "0",
-    total_amount: investmentAmount,
-    transaction_uuid: projectId,
-  };
-  res.json({
-    message: "Order Created Sucessfully",
-    formData,
-  });
-};
+  try {
+    const project = await Project.findById(decodedData.transaction_uuid);
+    const investedAmount = Number(decodedData.total_amount);
+    console.log("The investment amount is " + investedAmount);
 
-exports.createSignature = message => {
-  const secret = "8gBm/:&EnhH.1/q";
-  const hmac = crypto.createHmac("sha256", secret);
-  hmac.update(message);
+    if (!project) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid project id" });
+    }
 
-  // Get the digest in base64 format
-  const hashInBase64 = hmac.digest("base64");
-  return hashInBase64;
+    if (investedAmount < project.minimumInvestment) {
+      return res.status(400).json({
+        message: `The minimum investment amount should be ${project.minimumInvestment}`,
+      });
+    }
+
+    project.currentAmount = project.currentAmount + investedAmount;
+
+    const investor = await User.findById(req.userId);
+    investor.token = investor.token + 1;
+
+    const rewards = await Reward.find({
+      projectId: projectId,
+      rewardAmount: { $lte: investedAmount },
+    });
+
+    const newInvestor = new Investor({
+      projectId,
+      investorId: req.userId,
+      investedAmount,
+      rewards: rewards,
+    });
+
+    newInvestor.rewards.concat(rewards);
+    console.log(newInvestor);
+
+    await newInvestor.save();
+
+    return res.json({ message: "Invested in the project successfully" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some error occurred internally" });
+  }
 };
 
 exports.createReward = async (req, res) => {

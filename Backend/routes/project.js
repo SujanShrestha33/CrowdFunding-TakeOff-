@@ -33,7 +33,7 @@ router.post(
 
 router.post(
   "/projects/:projectId/invest",
-  checkAuth,
+  // checkAuth,
   projectController.investInProject,
 );
 router.post(
