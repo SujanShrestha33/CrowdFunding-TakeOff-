@@ -4,10 +4,11 @@ const Reward = require("../models/Reward");
 const Investor = require("../models/Investor");
 const User = require("../models/User");
 const fetch = require("node-fetch");
+const { v4 } = require("uuid");
 
 exports.createInvestmentOrder = async (req, res, next) => {
   const { investmentAmount } = req.body;
-  const projectId = req.params.pid + "abcd";
+  const projectId = req.params.pid + "-" + v4();
   console.log(
     "The project id and invest amount  is ",
     projectId,
@@ -59,7 +60,7 @@ exports.verifyPayment = async (req, res, next) => {
         `http://localhost:4200/project-view/${decodedData.transaction_uuid}/new`,
       );
     }
-    const projectId = decodedData.transaction_uuid;
+    const projectId = decodedData.transaction_uuid.split("-")[0];
     const project = await Project.findById(decodedData.transaction_uuid);
     const investedAmount = Number(decodedData.total_amount);
     console.log("The investment amount is " + investedAmount);
