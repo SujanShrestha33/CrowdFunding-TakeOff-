@@ -128,6 +128,10 @@ input{
   gap: 10px;
 }
 
+.title:hover{
+  text-decoration: underline !important;
+}
+
 
 @media only screen and (max-width: 767px) {
 

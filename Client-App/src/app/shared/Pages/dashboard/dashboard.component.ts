@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { Projects } from 'src/app/Models/projects.model';
 import { ProductService } from '../../Services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import { ProductService } from '../../Services/product.service';
 })
 export class DashboardComponent implements OnInit {
   constructor (
-    private projectService : ProductService,
+    private projectService : ProductService, private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -55,5 +56,9 @@ export class DashboardComponent implements OnInit {
       return `http://localhost:8080/${path}`;
   }
 
+
+  openProject(projectId){
+    this.router.navigate([`project-view/${projectId}/new`]);
+  }
 
 }

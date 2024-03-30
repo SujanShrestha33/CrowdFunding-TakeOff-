@@ -10,6 +10,7 @@ import { ProjectViewComponent } from './Pages/projects/project-view/project-view
 import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { InvestmentSuccessComponent } from './Pages/investment-success/investment-success.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     ProjectsComponent,
         DashboardComponent,
         ProjectViewComponent,
+        InvestmentSuccessComponent,
   ],
   imports: [
     CommonModule,

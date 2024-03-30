@@ -87,4 +87,8 @@ export class ProductService {
     return this.http.get(`${this.baseUrl}trendingProjects`);
   }
 
+  investInProject(id : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/esewa/${id}/invest`, body);
+  }
+
 }

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Projects } from 'src/app/Models/projects.model';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import { ProductService } from 'src/app/shared/Services/product.service';
@@ -29,8 +31,12 @@ export class ProjectViewComponent implements OnInit {
   pageType : string = '';
   currentMediaIndex = 0;
   medias : any[] = [];
+  modalRef?: BsModalRef;
+  investmentAmount : number = 0;
+  investmentFormData : any;
 
-  constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router) {}
+
+    constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router, private modalService : BsModalService, private http : HttpClient) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((res) => {
@@ -54,6 +60,10 @@ export class ProjectViewComponent implements OnInit {
     this.getProjectDetails();
     }
 
+    openModal(template: TemplateRef<void>) {
+      this.modalRef = this.modalService.show(template);
+    }
+
     prevMedia() {
       if (this.currentMediaIndex > 0) {
         this.currentMediaIndex--;
@@ -71,11 +81,20 @@ export class ProjectViewComponent implements OnInit {
     }
 
     isImage(asset: string): boolean {
-      return asset.endsWith('.png') || asset.endsWith('.jpg') || asset.endsWith('.jpeg');
+      if(asset){
+        return asset.endsWith('.png') || asset.endsWith('.jpg') || asset.endsWith('.jpeg');
+      }else{
+        return false;
+      }
     }
 
     isVideo(asset: string): boolean {
-      return asset.endsWith('.mp4') || asset.endsWith('.webm') || asset.endsWith('.ogg');
+      if(asset){
+
+        return asset.endsWith('.mp4') || asset.endsWith('.webm') || asset.endsWith('.ogg');
+      }else{
+        return false;
+      }
     }
 
     toggleUpdate(){
@@ -194,5 +213,62 @@ navigateInvest(){
   this.router.navigate(['/main/invest', this.productId]);
 }
 
+investInProj(){
+  let formdatatest : InvestmentFormData;
+  const body = {
+    investmentAmount : this.investmentAmount
+  }
+  this.projectService.investInProject(this.productId, body)
+  .subscribe({
+    next : (res) => {
+      console.log(res);
+      formdatatest = res['formData'];
+      console.log(formdatatest);
+
+      this.esewaCall(formdatatest);
+    },
+    error : err => {
+      console.log(err);
+    },
+    complete : () => {
+
+    }})
+}
+
+esewaCall = (formData: any) => {
+  console.log(formData);
+  var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+  var form = document.createElement("form");
+  form.setAttribute("method", "POST");
+  form.setAttribute("action", path);
+
+  for (var key in formData) {
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", key);
+    hiddenField.setAttribute("value", formData[key]);
+    form.appendChild(hiddenField);
+  }
+
+  document.body.appendChild(form);
+  // console.log(form.);
+  form.submit();
+};
 
 }
+interface InvestmentFormData {
+  amount: number;
+  failure_url: string;
+  product_delivery_charge: string;
+  product_service_charge: string;
+  product_code: string;
+  signature: string;
+  signed_field_names: string;
+  success_url: string;
+  tax_amount: string;
+  total_amount: number;
+  transaction_uuid: string;
+  // Add any additional properties if present in the response
+}
+

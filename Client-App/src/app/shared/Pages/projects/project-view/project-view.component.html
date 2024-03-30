@@ -48,7 +48,7 @@
               <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
               </span>
             </p>
-            <button (click)="navigateInvest()" *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
+            <button *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
               Invest In This Project
             </button>
             <div class="row ms-1" *ngIf="pageType == 'new'">
@@ -203,3 +203,29 @@
   </mat-tab>
   <mat-tab label="About Creator">Content 3</mat-tab>
 </mat-tab-group>
+
+
+<!-- For Modal -->
+
+<ng-template #template>
+  <!-- <h4 class="modal-title pull-left">Modal</h4> -->
+  <div class="modal-header" style="outline: none !important; border: none !important;">
+    <h2 class="modal-title">Invest In {{project['title']}}</h2>
+    <button type="button" class="btn-close close pull-right mt-1 mx-2" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+<div class="modal-body text-center mt-3">
+  <div class="form-group ">
+    <div class="form">
+      <label for="amount" class="form-control-label mb-3">Please Enter The Amount You Would Like To Invest In Rs.</label>
+      <input id="#amount" name="amount" type="number" [(ngModel)]="investmentAmount" class="form-control" required>
+    </div>
+    <div class="text-center mt-3">
+      <button class="btn" (click)="investInProj()">
+        Invest
+      </button>
+    </div>
+  </div>
+</div>
+</ng-template>

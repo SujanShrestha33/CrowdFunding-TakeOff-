@@ -3,12 +3,11 @@ const Project = require("../models/Project");
 const Reward = require("../models/Reward");
 const Investor = require("../models/Investor");
 const User = require("../models/User");
-const fetch = require("node-fetch");
 const { v4 } = require("uuid");
 
 exports.createInvestmentOrder = async (req, res, next) => {
   const { investmentAmount } = req.body;
-  const projectId = req.params.pid + "-" + v4();
+  const projectId = req.params.pid + "-" + v4() + "-" + req.userId;
   console.log(
     "The project id and invest amount  is ",
     projectId,
@@ -55,14 +54,20 @@ exports.verifyPayment = async (req, res, next) => {
       .join(",");
     console.log(message);
 
-    if (decodedData.signature !== "COMPLETE") {
+    const projectId = decodedData.transaction_uuid.split("-")[0];
+    const decodedArray = decodedData.transaction_uuid.split("-") ;
+    const userId = decodedArray[decodedArray.length - 1];
+    console.log("The project id is " + projectId);
+
+
+    if (decodedData.status !== "COMPLETE") {
+      console.log("The status is not complete");
       return res.redirect(
-        `http://localhost:4200/project-view/${decodedData.transaction_uuid}/new`,
+        `http://localhost:4200/project-view/${projectId}/new`,
       );
     }
-    const projectId = decodedData.transaction_uuid.split("-")[0];
-    const project = await Project.findById(decodedData.transaction_uuid);
-    const investedAmount = Number(decodedData.total_amount);
+    const project = await Project.findById(projectId);
+    const investedAmount = parseFloat(decodedData.total_amount.replace(/,/g,  ""));
     console.log("The investment amount is " + investedAmount);
 
     if (!project) {
@@ -79,8 +84,10 @@ exports.verifyPayment = async (req, res, next) => {
 
     project.currentAmount = project.currentAmount + investedAmount;
 
-    const investor = await User.findById(req.userId);
+    const investor = await User.findById(userId);
+    console.log("The investor user is ", investor);
     investor.token = investor.token + 1;
+    await investor.save();
 
     const rewards = await Reward.find({
       projectId: projectId,
@@ -89,7 +96,7 @@ exports.verifyPayment = async (req, res, next) => {
 
     const newInvestor = new Investor({
       projectId,
-      investorId: req.userId,
+      investorId: userId,
       investedAmount,
       rewards: rewards,
     });
@@ -99,9 +106,9 @@ exports.verifyPayment = async (req, res, next) => {
 
     await newInvestor.save();
 
-    return res.redirect("http://localhost:4200/main/investment-success");
+    res.redirect("http://localhost:4200/investment-success");
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     return res.status(400).json({ error: err?.message || "No Orders found" });
   }
 };

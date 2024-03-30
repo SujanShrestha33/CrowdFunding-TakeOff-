@@ -25,7 +25,7 @@ const ProjectSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Art", "Fashion", "Technology", "Food", "Music"],
+    enum: ["Art", "Fashion", "Technology", "Food", "Music", "Games", "Books"],
   },
   startDate: {
     type: Date,

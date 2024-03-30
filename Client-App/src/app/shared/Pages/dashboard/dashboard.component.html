@@ -22,7 +22,7 @@
               </div>
               <div class="col-lg-4 mt-2">
                 <div class="details">
-                  <p style="color: #073976;" class="h1">{{topProject['title']}}</p>
+                  <p style="color: #073976; cursor: pointer;" class="h1 title" (click)="openProject(topProject._id)">{{topProject['title']}}</p>
                   <p style="color: #073976; font-size: 1rem; margin-top: 25px; font-weight: 400;">
                     <!-- {{totalInvestors}} {{topProject['investors'].length}} -->
                     {{topProject['description']}}
@@ -67,7 +67,7 @@
                   <hr style="color: #073976; border-width: 2px;" class="mx-1">
                   <div class="mx-1">
                     <div class="space-between">
-                      <p class="h4 project-title">{{item.title}}</p>
+                      <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
                       <!-- <svg class="save-icon" style="height: 17px; margin-top: 3px" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 603.511 603.511" xml:space="preserve">
                         <!-- SVG code -->
                       <!-- </svg> -->

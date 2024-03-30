@@ -84,6 +84,8 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.stopRefreshTokenTimer();
     this.router.navigate(['']);
+    this.userId = '';
+    this.currentEmail = '';
     this.loggedIn = false;
   }
 
