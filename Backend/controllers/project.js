@@ -10,7 +10,10 @@ const crypto = require("crypto");
 
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find({}).populate("author", "-_id -password");
+    const projects = await Project.find({}).populate(
+      "author",
+      "-_id -password",
+    );
     return res.json({ data: projects });
   } catch (e) {
     res.status(500).json({ message: "Some error occurred" });
@@ -271,9 +274,10 @@ exports.createBookmark = async (req, res) => {
 exports.getUserBookmarks = async (req, res) => {
   const userId = req.userId;
   try {
-    const bookmarks = await Bookmark.find({ userId })
-      .populate("projectId")
-      .select("projectId -_id");
+    const bookmarks = await Bookmark.find({ userId }).populate({
+      path: "projectId",
+      populate: { path: "author", select: "-_id -password" },
+    });
     console.log(bookmarks);
     return res.json({ data: bookmarks });
   } catch (e) {
@@ -322,9 +326,10 @@ exports.getTrendingProjects = async (req, res) => {
 exports.getUserInvestments = async (req, res) => {
   const userId = req.userId;
   try {
-    const investments = await Investor.find({ investorId: userId }).populate(
-      "projectId",
-    );
+    const investments = await Investor.find({ investorId: userId }).populate({
+      path: "projectId",
+      populate: { path: "author", select: "-_id -password" },
+    });
     return res.json({ data: investments });
   } catch (e) {
     console.log(e.message);
