@@ -238,7 +238,10 @@ exports.getUserProjects = async (req, res) => {
     return res.status(400).json({ message: "No user found" });
   }
   try {
-    const userProjects = await Project.find({ author: userId });
+    const userProjects = await Project.find({ author: userId }).populate(
+      "author",
+      "-_id -password",
+    );
     console.log(userProjects);
     return res.json({ data: userProjects });
   } catch (e) {

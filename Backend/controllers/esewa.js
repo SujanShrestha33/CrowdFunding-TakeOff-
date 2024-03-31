@@ -84,6 +84,8 @@ exports.verifyPayment = async (req, res, next) => {
 
     project.currentAmount = project.currentAmount + investedAmount;
 
+    await project.save();
+
     const investor = await User.findById(userId);
     console.log("The investor user is ", investor);
     investor.token = investor.token + 1;
