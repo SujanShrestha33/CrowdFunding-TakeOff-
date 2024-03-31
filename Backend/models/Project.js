@@ -62,6 +62,11 @@ const ProjectSchema = new mongoose.Schema({
     enum: ["active", "failed", "completed"],
     default: "active",
   },
+  // add a field to allow twitter , facebook and instagram links for the project
+  socialLinks: {
+    type: Map,
+    of: String,
+  },
 });
 
 // create a method that runs just before the project is saved to validate the expiry date and update the status based on the goalAmount vs currentAmount

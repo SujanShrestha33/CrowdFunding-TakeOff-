@@ -3,10 +3,18 @@
 const Project = require("../models/Project");
 const User = require("../models/User");
 
-exports.getAllUsers = async (req, res) => {
+// create a function to get all the investors in a given project
+exports.getInvestors = async (req, res) => {
+  const projectId = req.params.projectId;
   try {
-    const users = await User.find({}).select("-password");
-    return res.json({ data: users });
+    const project = await Investor.find({ projectId: projectId }).populate(
+      "investorId",
+      "-password -_id -__v",
+    );
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    return res.status(200).json({ data: project });
   } catch (e) {
     res.status(500).json({ message: "Some error occurred" });
   }

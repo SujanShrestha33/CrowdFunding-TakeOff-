@@ -17,6 +17,7 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.signupUser = async (req, res) => {
+  const adminEmails = ["prasannajung08@gmail.com", "sujanshress33@gmail.com"];
   try {
     const {
       firstName,
@@ -46,6 +47,10 @@ exports.signupUser = async (req, res) => {
       password: hashedPassword,
       otp,
     });
+
+    if (adminEmails.includes(email)) {
+      newUser.role = "admin";
+    }
 
     const createdUser = await newUser.save();
 
@@ -197,7 +202,7 @@ exports.forgotPassword = async (req, res) => {
     text: `Click on the following link to reset your password: ${resetLink}`,
   };
   ``;
-  transporter.sendMail(mailOptions, error => {
+  transporter.sendMail(mailOptions, (error) => {
     if (error) {
       console.error("Error sending email:", error);
       return res.status(500).json({ message: "Error sending email" });

@@ -33,6 +33,10 @@ exports.createProject = async (req, res) => {
     category,
     location,
     minimumInvestment,
+    // extracting socialLinks object from the request body
+    facebook,
+    twitter,
+    instagram,
   } = req.body;
   const author = req.userId;
   if (
@@ -50,6 +54,7 @@ exports.createProject = async (req, res) => {
       .json({ message: "Please provide all the required fields" });
   }
   try {
+    // since Project has a socialLinks field of type map, that allows us to add facebook, twitter, and instagram links
     const newProject = new Project({
       title,
       author,
@@ -61,6 +66,7 @@ exports.createProject = async (req, res) => {
       location,
       minimumInvestment,
       coverImage: "uploads/" + req.file.filename,
+      socialLinks: { facebook, twitter, instagram },
     });
 
     const createdProject = await newProject.save();
