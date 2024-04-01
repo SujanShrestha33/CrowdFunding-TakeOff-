@@ -4,4 +4,5 @@ export interface ReturnUser{
   accessExpiresIn : string;
   refreshExpiresIn : string;
   userId : string;
+  userRole : string;
 }

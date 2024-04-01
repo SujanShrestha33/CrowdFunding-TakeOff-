@@ -31,7 +31,11 @@ export class LoginComponent implements OnInit {
     private modalService: BsModalService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(this.authService.loggedIn){
+      this.router.navigate(['']);
+    }
+  }
 
   openModal(template: TemplateRef<void>) {
     this.emailForVerification = '';

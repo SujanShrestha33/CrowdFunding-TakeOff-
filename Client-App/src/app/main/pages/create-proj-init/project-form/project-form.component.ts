@@ -43,11 +43,15 @@ export class ProjectFormComponent {
   files : FileList;
   video : FileList;
   mediaForm : boolean = false;
+  facebook : string = '';
+  twitter : string = '';
+  instagram : string = '';
+  linkForm : boolean = false;
 
   constructor(private projectService : ProductService, private router : Router, private toastr : ToastrService){}
 
   nextBasics(){
-    if(this.selectedCategory != '' || this.location != ''){
+    if(this.selectedCategory != '' && this.location != ''){
       this.preForm = false;
       this.basicsForm = true;
     }else{
@@ -57,19 +61,36 @@ export class ProjectFormComponent {
   }
 
   nextImage(){
-    if(this.title != '' || this.subTitle != '' || this.story != ''){
+    console.log(this.title, this.subTitle, this.description)
+    if(this.title != '' && this.subTitle != '' && this.description != ''){
       this.preForm = false;
       this.basicsForm = false;
       this.imageForm = true;
     }else{
       console.log('Please fill all the fields first.')
+      this.toastr.warning('Please fill all the fields first.')
     }
   }
 
-  nextDate(){
+  nextLinks(){
+    // console.log(this.coverImage)
+    if(!this.coverImage){
+      this.toastr.warning('Please select an image');
+      return;
+    }
     this.preForm = false;
     this.basicsForm = false;
     this.imageForm = false;
+    this.dateForm = false;
+    this.linkForm = true;
+  }
+
+  nextDate(){
+    console.log(this.facebook, this.twitter, this.instagram);
+    this.preForm = false;
+    this.basicsForm = false;
+    this.imageForm = false;
+    this.linkForm = false;
     this.dateForm = true;
   }
 
@@ -207,6 +228,17 @@ export class ProjectFormComponent {
     formData.append('location', this.location);
     formData.append('category', this.selectedCategory);
     formData.append('minimumInvestment', this.minimumInvestment.toString());
+    if(this.facebook){
+      formData.append('facebook', this.facebook);
+    }
+
+    if(this.twitter){
+      formData.append('twitter', this.twitter);
+    }
+
+    if(this.instagram){
+      formData.append('instagram', this.instagram);
+    }
 
     console.log(formData); // Check formData before sending
 
@@ -221,6 +253,7 @@ export class ProjectFormComponent {
           this.imageForm = false;
           this.storyForm = true;
           this.newProjectid = this.resProj['_id'];
+          this.files = null;
           console.log(this.newProjectid);
           this.toastr.success('Project created successfully');
         },
@@ -311,6 +344,10 @@ export class ProjectFormComponent {
   }
 
   submitStory(){
+    if(this.story == ''){
+      this.toastr.warning('Please fill the story field');
+      return;
+    }
     const body = {
       description : this.story
     }

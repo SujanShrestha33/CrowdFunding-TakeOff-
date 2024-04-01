@@ -11,6 +11,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { InvestmentSuccessComponent } from './Pages/investment-success/investment-success.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -28,7 +29,9 @@ import { InvestmentSuccessComponent } from './Pages/investment-success/investmen
     FontAwesomeModule,
     MatTabsModule,
     FormsModule,
-    CarouselModule
+    CarouselModule,
+    NgSelectModule,
+
   ]
 })
 export class SharedModule { }

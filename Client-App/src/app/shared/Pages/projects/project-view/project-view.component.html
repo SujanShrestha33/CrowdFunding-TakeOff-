@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="text-center">
     <p class="h1" style="color: #073976;">{{project['title']}}</p>
-    <p class="h4">Let's <span>TakeOff</span></p>
+    <p class="h6">{{project['subtitle']}}</p>
   </div>
 </div>
 <!-- <hr> -->
@@ -48,18 +48,29 @@
               <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
               </span>
             </p>
-            <button *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
+            <button *ngIf="pageType == 'new' && !canUpdate && authService.userRole == 'user' && !invested" class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
               Invest In This Project
             </button>
+            <ng-container *ngIf="invested">
+              <p style="color: #073976; font-size: 1rem; margin-top: 50px; font-weight: 700;">
+               You Have Already Invested In This Project, Please Check My Investments Page!
+              </p>
+            </ng-container>
             <div class="row ms-1" *ngIf="pageType == 'new'">
-              <button (click)="createBookmark()" class="btn btn-lg col-6 my-1 buttons">
+              <button *ngIf="!canUpdate && authService.userRole == 'user'" (click)="createBookmark()" class="btn btn-lg col-6 my-1 buttons">
                 <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
               </button>
-              <div class="col-6 pt-2">
-                <i class="fa-brands fa-facebook icons"></i>
-                <i class="fa-brands fa-twitter icons"></i>
-                <i class="fa-brands fa-linkedin icons"></i>
-                <i class="fa-brands fa-youtube icons"></i>
+              <div class="col-6 pt-2"  *ngIf="socialLinks != undefined || socialLinks != null">
+                <a [href]="socialLinks['facebook']" target="_blank" *ngIf="socialLinks['facebook']">
+                  <i class="fa-brands fa-facebook icons"></i>
+                </a>
+                <a [href]="socialLinks['twitter']" target="_blank" *ngIf="socialLinks['twitter']">
+                  <i class="fa-brands fa-twitter icons"></i>
+
+                </a>
+                <a [href]="socialLinks['instagram']" target="_blank" *ngIf="socialLinks['instagram']">
+                  <i class="fa-brands fa-linkedin icons"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -99,9 +110,10 @@
             <div class="card-body">
               <p class="h6">{{item.rewardDescription}}</p>
               <p class="h6">Minimum Investment For Reward: Rs.{{item.rewardAmount}}</p>
-              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)" *ngIf="pageType == 'new'" class="btn btn-lg col-12 my-4 buttons">
+              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)" *ngIf="pageType == 'new' && !invested && !canUpdate" class="btn btn-lg col-12 my-4 buttons">
                 Invest In This Reward
               </button>
+              <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
             </div>
           </div>
         </div>
@@ -159,47 +171,39 @@
     </div>
   </mat-tab>
   <mat-tab label="Comments">
-    <div class="container card col-6 mt-5 p-4 mb-4" style="background-color: #073976; color: white;">
-      <div class="row text-center">
-        <p class="h4">Comments for {{project['title']}}</p>
+    <div class="container card mt-5 p-4 mb-4" style="background-color: #073976; color: white; border-radius: 10px; width: 400px;">
+      <div class="row text-center mb-3">
+        <h4>Comments for {{project['title']}}</h4>
       </div>
-      <div *ngIf="comments.length == 0" class="text-center">
-        No comments Yet. Be the first one to comment.
+      <div *ngIf="comments.length === 0" class="text-center mb-3">
+        No comments yet. Be the first one to comment.
       </div>
-      <div class="row" *ngIf="!commentForm"  style="max-height: 400px !important; overflow: scroll;">
-        <div *ngFor="let item of comments" class="card my-3">
+      <div *ngIf="!commentForm" class="row" style="max-height: 300px; overflow-y: auto;">
+        <div *ngFor="let item of comments" class="card my-3" style="background-color: #f0f0f0; color: #073976;">
           <div class="card-body">
-            <p class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span>
-            </p>
-            <hr>
+            <p class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span></p>
+            <hr style="background-color: #073976;">
             <p class="h6">{{item.content}}</p>
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="commentForm">
-        <div class="card">
+      <div class="row mt-3" *ngIf="commentForm">
+        <div class="card" style="background-color: #f0f0f0; color: #073976; width: 100%;">
           <div class="card-body">
             <label for="" class="form-control-label">Comment</label>
-            <textarea class="form-control" [(ngModel)]="content">
-            </textarea>
-            <div class="text-end">
-
-              <button class="btn my-2" (click)="submitComment()">
-                Submit
-              </button>
+            <textarea class="form-control" [(ngModel)]="content" style="background-color: white; color: #073976; border-color: #073976;"></textarea>
+            <div class="text-end mt-2">
+              <button class="btn btn-primary" (click)="submitComment()">Submit</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-end mt-2">
-        <button class="btn" *ngIf="!commentForm && authService.loggedIn" (click)="toggleComment()">
-          Add Your Comment
-        </button>
-        <button class="btn" *ngIf="commentForm" (click)="toggleComment()">
-          Back
-        </button>
+      <div class="text-end mt-3">
+        <button class="btn btn-primary" *ngIf="!commentForm && authService.loggedIn" (click)="toggleComment()">Add Your Comment</button>
+        <button class="btn btn-secondary" *ngIf="commentForm" (click)="toggleComment()">Back</button>
       </div>
     </div>
+
   </mat-tab>
   <mat-tab label="About Creator">
     <!-- <div class="main-container"> -->
@@ -242,12 +246,12 @@
     <!-- </div> -->
 
   </mat-tab>
-  <mat-tab *ngIf="token > 10" label="Reporting">
+  <mat-tab *ngIf="token > 10 || authService.userRole == 'admin'" label="Reporting">
     <div class="container">
       <div class="row">
         <div class="col-4 offset-4">
           <div class="card mt-5 p-2">
-            <div class="card-body">
+            <div class="card-body" *ngIf="authService.userRole == 'user'">
               <div class="title">
                 <p class="h4 text-center">Reporting</p>
               </div>
@@ -262,6 +266,60 @@
                 <button (click)="reportProject()" class="btn btn-danger report-button">
                   Report This Project
                 </button>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="authService.userRole == 'admin'">
+
+              <div class="title">
+                <p class="h4 text-center">Change Project Status</p>
+              </div>
+
+              <hr>
+              <div class="h6 text-center">
+                Current Project Status = {{project['status'] | uppercase}}
+              </div>
+              <hr>
+              <div class="body">
+                <div class="text-center">
+                  <div class="row">
+
+                    <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+                      <ng-select class="form-control" id="month" [searchable]="true" placeholder="Select Category"
+                      [clearable]="false" style="font-weight: 400" [(ngModel)]="selectedStatus">
+                      <ng-option value="" disabled>Select Status</ng-option>
+                      <ng-option value="failed">Failed</ng-option>
+                      <ng-option value="completed">Completed</ng-option>
+                      <ng-option value="active">Active</ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="col-lg-6">
+                    <button class="btn mt-2" (click)="changeStatus()">
+                      Change Status
+                    </button>
+                  </div>
+                </div>
+                </div>
+
+            </div>
+            </div>
+            <div class="card-body" *ngIf="authService.userRole == 'admin'">
+              <div class="title">
+                <p class="h4 text-center">Reporting</p>
+              </div>
+              <hr>
+              <div class="body">
+                <p class="h6 text-center text-danger">
+                  Report Count : {{reportCount}}
+                </p>
+                <p>Users with more than 9 TakeOff Tokens can report the project if the project violates the Terms and Conditions!
+                  <br>
+                  The project will be taken down if it receives more than 10 reports.
+                </p>
+                <div class="text-center">
+                  <button (click)="deleteProject()" class="btn report-button">
+                    Take This Project Down
+                  </button>
+                </div>
               </div>
             </div>
           </div>

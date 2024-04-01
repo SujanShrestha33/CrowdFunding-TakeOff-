@@ -38,6 +38,12 @@ export class ProjectViewComponent implements OnInit {
   innerloading: boolean;
   token: any;
   profileData : any;
+  investors : any[] = [];
+  currentEmail = this.authService.currentEmail;
+  invested : boolean = false;
+  reportCount : number;
+  selectedStatus : string = '';
+  socialLinks : any[] = [];
 
 
     constructor (private projectService : ProductService, private route : ActivatedRoute, public authService : AuthService, private router : Router, private modalService : BsModalService, private http : HttpClient, private toastr : ToastrService) {}
@@ -72,12 +78,13 @@ export class ProjectViewComponent implements OnInit {
       if (this.currentMediaIndex > 0) {
         this.currentMediaIndex--;
       } else {
-        this.currentMediaIndex = this.project['mediaAssets'].length - 1;
+        this.currentMediaIndex = this.medias.length - 1;
       }
     }
 
     nextMedia() {
-      if (this.currentMediaIndex < this.project['mediaAssets'].length - 1) {
+      console.log(this.medias);
+      if (this.currentMediaIndex < this.medias.length - 1) {
         this.currentMediaIndex++;
       } else {
         this.currentMediaIndex = 0;
@@ -93,8 +100,10 @@ export class ProjectViewComponent implements OnInit {
     }
 
     isVideo(asset: string): boolean {
+      // console.log(asset);
       if(asset){
-
+        // console.log('here')
+        // console.log(asset.endsWith('.mp4') || asset.endsWith('.webm') || asset.endsWith('.ogg'));
         return asset.endsWith('.mp4') || asset.endsWith('.webm') || asset.endsWith('.ogg');
       }else{
         return false;
@@ -112,16 +121,16 @@ export class ProjectViewComponent implements OnInit {
         next : (res) => {
           console.log(res);
           this.project = res['data'].project;
-          if(this.project['author'] === this.currentUser){
+          this.reportCount = this.project['flagCount'];
+          // console.log(this.reportCount);
+          if(this.project['author']['email'] === this.currentEmail){
             this.canUpdate = true;
           }
           console.log(this.canUpdate, this.currentUser, this.project['author']);
           if(this.project['author'] !== this.currentUser){
             this.router.navigate(['/project-view', this.productId, 'new']);
           }
-          if(this.project['investors']){
-            this.totalInvestors = this.project['investors'].length;
-          }
+
           if(this.project['story']){
             this.projectStory = res['data'].story[0].description;
           }
@@ -129,12 +138,22 @@ export class ProjectViewComponent implements OnInit {
           this.projectUpdates = res['data'].update;
           this.comments = res['data'].comments;
           this.rewards = res['data'].rewards;
+          this.investors = res['data'].investors;
+          if(this.investors.length > 0){
+            this.totalInvestors = this.investors.length;
+          }
+          console.log(this.investors);
+          this.invested = this.investors.some((elem) => elem['investorId']['_id'] === this.currentUser);
+          console.log(this.invested);
+          console.log(this.totalInvestors)
           console.log(this.profileData);
           console.log(res['data'].rewards)
           console.log(this.rewards);
           console.log(this.rewards.length);
           this.medias.push(this.project['coverImage']);
+          // this.reportCount = res['data'].reportCount;
           console.log(this.medias);
+          console.log(this.project['mediaAssets']);
           if(this.project['mediaAssets']){
             this.project['mediaAssets'].forEach((elem : any) => {
               this.medias.push(elem);
@@ -145,6 +164,8 @@ export class ProjectViewComponent implements OnInit {
           console.log(this.comments)
           console.log(this.projectStory)
           console.log(this.project);
+          this.socialLinks = this.project['socialLinks'];
+          console.log(this.socialLinks);
           this.profileData = this.project['author'];
           console.log(this.profileData);
           // this.remDays=this.projectService.getRemDays(this.project)
@@ -166,6 +187,10 @@ export class ProjectViewComponent implements OnInit {
   }
 
   submitComment(){
+    if(this.content === ''){
+      this.toastr.error('Please fill the comment field');
+      return;
+    }
     const body = {
       content : this.content
     }
@@ -174,6 +199,7 @@ export class ProjectViewComponent implements OnInit {
       next : (res) => {
         console.log(res);
         this.getProjectDetails();
+        this.content = '';
         this.commentForm = false;
       },
       error : err => {
@@ -196,6 +222,10 @@ export class ProjectViewComponent implements OnInit {
   }
 
   submitUpdate(){
+    if(this.updateTitle === '' || this.updateDescription === ''){
+      this.toastr.error('Please fill all the fields');
+      return;
+    }
     const body = {
       title : this.updateTitle,
       description : this.updateDescription
@@ -221,6 +251,10 @@ navigateInvest(){
 }
 
 investInProj(){
+  if(this.investmentAmount === 0){
+    this.toastr.error('Please enter the amount to invest');
+    return;
+  }
   let formdatatest : InvestmentFormData;
   const body = {
     investmentAmount : this.investmentAmount
@@ -325,6 +359,55 @@ getToken(){
     }
   })
 }
+
+  deleteProject(){
+    this.innerloading = true;
+    this.projectService.deleteProject(this.productId)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        this.toastr.success('Campaign deleted successfully');
+        this.router.navigate(['/discover/new/All']);
+        this.innerloading = false;
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+        this.innerloading = false;
+      },
+      complete : () => {
+
+      }
+    })
+  }
+
+  changeStatus(){
+    console.log(this.selectedStatus);
+    if(this.selectedStatus === ''){
+      this.toastr.error('Please select a status');
+      return;
+    }
+
+    const body = {
+      status : this.selectedStatus
+    }
+    this.projectService.changeStatus(this.productId, body)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        this.toastr.success('Status changed successfully');
+        this.getProjectDetails();
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+      },
+      complete : () => {
+
+      }
+    })
+
+  }
 
 }
 interface InvestmentFormData {

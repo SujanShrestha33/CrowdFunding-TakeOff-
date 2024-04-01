@@ -3,6 +3,7 @@
     <h1>Soar High, Dream Big</h1>
     <h3>Let's <span>TakeOff</span></h3>
   </div>
+  <hr>
   <div class="card-container">
     <div class="card">
       <div class="card-body p-2">
@@ -43,13 +44,19 @@
                   </button>
                   <div class="row ms-1">
                     <button (click)="createBookmark(topProject._id)" class="btn btn-lg col-6 my-1 buttons">
-                      <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
+                      <i class="fa-regular fa-bookmark save-icon"></i> Save
                     </button>
-                    <div class="col-6 pt-2">
-                      <i class="fa-brands fa-facebook icons"></i>
-                      <i class="fa-brands fa-twitter icons"></i>
-                      <i class="fa-brands fa-linkedin icons"></i>
-                      <i class="fa-brands fa-youtube icons"></i>
+                    <div class="col-6 pt-2" *ngIf="socialLinks != undefined || socialLinks != null">
+                      <a [href]="socialLinks['facebook']" target="_blank" *ngIf="socialLinks['facebook']">
+                        <i class="fa-brands fa-facebook icons"></i>
+                      </a>
+                      <a [href]="socialLinks['twitter']" target="_blank" *ngIf="socialLinks['twitter']">
+                        <i class="fa-brands fa-twitter icons"></i>
+
+                      </a>
+                      <a [href]="socialLinks['instagram']" target="_blank" *ngIf="socialLinks['instagram']">
+                        <i class="fa-brands fa-linkedin icons"></i>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -81,6 +88,11 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="row pull-right text-end">
+              <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+                Explore More Campaigns!
+              </a>
             </div>
           </div>
 

@@ -10,7 +10,7 @@ export class Projects {
   startDate: Date;
   endDate: Date;
   remainingDays : number;
-
+  status : string;
   fundPercent : number;
   coverImage : string;
 }

@@ -25,10 +25,10 @@ export class JwtInterceptor implements HttpInterceptor {
         console.log(res['accessToken']);
         token = res['accessToken'];
       });
-      console.log(token)
+      // console.log(token)
 
 
-      console.log(token);
+      // console.log(token);
       if(token){
         request = request.clone({
           setHeaders :{
@@ -36,7 +36,7 @@ export class JwtInterceptor implements HttpInterceptor {
           }
         })
       }
-      console.log(request);
+      // console.log(request);
      return next.handle(request);
  }
 }

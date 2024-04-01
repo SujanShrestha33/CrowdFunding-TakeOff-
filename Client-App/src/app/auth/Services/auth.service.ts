@@ -20,6 +20,7 @@ export class AuthService {
   startProj : boolean= true;
   userId : string = '';
   currentEmail : string = '';
+  userRole : string = '';
 
   constructor(private http: HttpClient, private router : Router) {
     const storedUserString = localStorage.getItem('ReturnUser');
@@ -33,6 +34,8 @@ export class AuthService {
     console.log(this.currentUserSubject);
     this.userId = storedUser.userId;
     this.currentEmail = localStorage.getItem('email')!;
+    this.userRole = storedUser.userRole;
+    console.log(this.userRole);
     this.loggedIn = true;
     console.log(this.userId)
     console.log(this.loggedIn);
@@ -59,13 +62,16 @@ export class AuthService {
       map((response: any) => {
         console.log(response);
         const returnUser: ReturnUser = response as ReturnUser;
+        console.log(returnUser);
         this.currentUserSubject.next(returnUser);
         console.log(this.currentUserSubject);
         localStorage.setItem('ReturnUser', JSON.stringify(returnUser));
         localStorage.setItem('email', email);
         this.userId = returnUser.userId;
         this.loggedIn = true;
+        this.userRole = returnUser.userRole;
         this.currentEmail = email;
+
         return returnUser; // You can choose to return the modified object if needed
       })
     );

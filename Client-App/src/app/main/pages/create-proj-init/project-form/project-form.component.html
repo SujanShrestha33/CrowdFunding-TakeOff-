@@ -178,11 +178,62 @@
       </div>
     </div> -->
     <div class="row mt-2 p-4 d-flex justify-content-end">
+      <button (click)="nextLinks()" class="btn col-2">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </ng-container>
+
+
+  <ng-container *ngIf="linkForm">
+    <div class="row mt-2 p-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mt-2 p-5">
+            <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+              <p>
+                Social Media Links
+              </p>
+              <p class="h5">
+                Set a time limit for your campaign. You won’t be able to change this after you launch.
+              </p>
+            </div>
+            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
+              <label for="" class="form-label h6 ps-3">Facebook</label>
+              <input type="text" class="form-control ms-3" [(ngModel)]="facebook"
+                placeholder="Enter Facebook's link of your campaign!">
+
+            </div>
+            <div class="col-6"></div>
+            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
+              <label for="" class="form-label h6 ps-3">Twitter</label>
+              <input type="text" class="form-control ms-3" [(ngModel)]="twitter"
+                placeholder="Enter Twitter's link of your campaign!">
+
+            </div>
+            <div class="col-6"></div>
+
+            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
+              <label for="" class="form-label h6 ps-3">Instagram</label>
+              <input type="text" class="form-control ms-3" [(ngModel)]="instagram"
+                placeholder="Enter Instagram's link of your campaign!">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      You can leave the above fields empty, if you want to skip this process!
+    </div>
+
+    <div class="row mt-2 p-4 d-flex justify-content-end">
       <button (click)="nextDate()" class="btn col-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   </ng-container>
+
   <ng-container *ngIf="dateForm">
     <div class="row mt-2 p-4">
       <div class="card">
@@ -265,11 +316,11 @@
       <button (click)="submitStory()" class="btn col-2 me-2">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button (click)="skipStory()" class="btn col-2">
+      <!-- <button (click)="skipStory()" class="btn col-2">
         Skip <i class="fa-solid fa-arrow-right"></i>
-      </button>
+      </button> -->
       <div class="text-end">
-        Please skip if the project will not consist any story!
+        Please Add The Whole Story In One Paragraph!
       </div>
     </div>
   </ng-container>
@@ -341,7 +392,8 @@
         Dont add rewards if you dont want to!
       </div>
       <button (click)="backToStory()" class="btn col-2 me-2">
-        Back To Story <i class="fa-solid fa-arrow-right"></i>
+        <i class="fa-solid fa-arrow-left"></i>
+        Back To Story
       </button>
       <button (click)="skipReward()" class="btn col-2 me-2">
         Next <i class="fa-solid fa-arrow-right"></i>

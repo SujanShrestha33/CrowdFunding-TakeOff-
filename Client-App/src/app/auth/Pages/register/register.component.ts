@@ -99,6 +99,10 @@ export class RegisterComponent {
   }
 
   submit() {
+    if(this.f.password.value !== this.f.confirmPassword.value){
+      this.error = 'Password and Confirm Password do not match';
+      return;
+    }
     this.verificationError = '';
     this.loading = true;
     this.submitted = true;

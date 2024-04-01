@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   faClock = faClock;
   projects: Projects[] = [];
   topProject : Projects | null = null;
+  socialLinks : any[] = [];
 
   getTopProjects(){
     this.loading = true;
@@ -39,6 +40,10 @@ export class DashboardComponent implements OnInit {
         this.projects = this.projects.slice(0, 3); // Slicing to get only the top 4 projects
         // console.log(this.topProjects);
         console.log(this.topProject);
+        if(this.topProject['socialLinks'] !== null || this.topProject['socialLinks'] !== undefined){
+          this.socialLinks = this.topProject['socialLinks'];
+        }
+        console.log(this.socialLinks);
         console.log(this.projects);
         this.loading = false;
       },
@@ -85,6 +90,10 @@ export class DashboardComponent implements OnInit {
 
       }
     })
+  }
+
+  navigate(){
+    this.router.navigate(['/discover/new/All']);
   }
 
 }

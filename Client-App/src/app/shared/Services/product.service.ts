@@ -47,6 +47,17 @@ export class ProductService {
       });
     });
 
+    // projects.forEach(elem => {
+    //   elem.remainingDays = elem.remainingDays < 0 ? 0 : elem.remainingDays; // If remaining days is less than 0, set it to 0
+    // });
+
+   // Filter out projects with remaining days less than 0
+
+  }
+
+  filterProject(projects: Projects[]){
+    projects = projects.filter((elem) => elem.remainingDays >= 0);
+    return projects;
   }
 
 
@@ -101,5 +112,17 @@ export class ProductService {
 
   getInvestedProject(){
     return this.http.get(`${this.baseUrl}user/investments`);
+  }
+
+  getMyProjects(){
+    return this.http.get(`${this.baseUrl}users/myProjects`);
+  }
+
+  deleteProject(projectId : string){
+    return this.http.post(`${this.baseUrl}admin/delete/${projectId}`, {});
+  }
+
+  changeStatus(projectId : string, body : any){
+    return this.http.post(`${this.baseUrl}admin/project/status/${projectId}`, {});
   }
 }
