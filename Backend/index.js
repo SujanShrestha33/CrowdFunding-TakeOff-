@@ -87,14 +87,17 @@ const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
 const profileRoutes = require("./routes/profile");
 const esewaRoutes = require("./routes/esewa");
+const adminRoutes = require("./routes/admin");
+
 app.use(authRoutes);
 app.use(projectRoutes);
 app.use(profileRoutes);
 app.use(esewaRoutes);
+app.use(adminRoutes);
 
 connectDb()
-  .then(res => {
+  .then((res) => {
     console.log("Connected to database");
     app.listen(8080);
   })
-  .catch(e => console.log(e.message));
+  .catch((e) => console.log(e.message));

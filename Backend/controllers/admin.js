@@ -32,3 +32,22 @@ exports.deleteProject = async (req, res) => {
     res.status(500).json({ message: "Some error occurred" });
   }
 };
+
+// create a function to update the status of a project
+exports.updateProjectStatus = async (req, res) => {
+  const projectId = req.params.projectId;
+  const { status } = req.body;
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { status },
+      { new: true },
+    );
+    if (!updatedProject) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    return res.status(200).json({ data: updatedProject });
+  } catch (e) {
+    res.status(500).json({ message: "Some error occurred" });
+  }
+};

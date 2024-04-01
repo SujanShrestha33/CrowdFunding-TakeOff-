@@ -339,6 +339,7 @@ exports.getUserInvestments = async (req, res) => {
       path: "projectId",
       populate: { path: "author", select: "-_id -password" },
     });
+    2;
     return res.json({ data: investments });
   } catch (e) {
     console.log(e.message);

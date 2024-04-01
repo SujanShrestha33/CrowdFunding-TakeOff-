@@ -1,5 +1,3 @@
-// middleware to check if user is admin and the userId is stored in req.userId
-
 const User = require("../models/User");
 
 const isAdmin = async (req, res, next) => {
