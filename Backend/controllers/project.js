@@ -102,7 +102,7 @@ exports.getOneProject = async (req, res) => {
 
     const investors = await Investor.find({ projectId: project._id }).populate(
       "investorId",
-      "-_id username",
+      "-password",
     );
 
     return res.json({
