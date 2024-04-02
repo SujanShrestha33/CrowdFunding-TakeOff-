@@ -130,10 +130,14 @@ export class ProjectViewComponent implements OnInit {
           if(this.project['author'] !== this.currentUser){
             this.router.navigate(['/project-view', this.productId, 'new']);
           }
-
-          if(this.project['story']){
+          // console.log(this.project['story']);
+          // if(this.project['story']){
+          //   this.projectStory = res['data'].story[0].description;
+          // }
+          if(res['data'].story.length > 0){
             this.projectStory = res['data'].story[0].description;
           }
+          console.log(this.projectStory);
           // this.projectStory = res['data'].story[0].description;
           this.projectUpdates = res['data'].update;
           this.comments = res['data'].comments;

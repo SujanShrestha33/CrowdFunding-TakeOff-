@@ -14,13 +14,17 @@
   font-variation-settings:
     "slnt" 0;
 }
-.cat-links :hover{
-  text-decoration: underline;
-  cursor: pointer;
+
+
+a{
+  text-decoration: none !important;
+  color: #073976 !important;
 }
-.col-sm-1{
-  cursor: pointer;
+
+a:hover{
+  text-decoration: underline !important;
 }
-.col-sm-1:hover{
-  text-decoration: underline;
+
+.active{
+  text-decoration: underline !important;
 }

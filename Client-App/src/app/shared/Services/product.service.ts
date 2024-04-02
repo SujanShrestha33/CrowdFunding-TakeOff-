@@ -123,6 +123,6 @@ export class ProductService {
   }
 
   changeStatus(projectId : string, body : any){
-    return this.http.post(`${this.baseUrl}admin/project/status/${projectId}`, {});
+    return this.http.post(`${this.baseUrl}admin/project/status/${projectId}`, body);
   }
 }

@@ -30,7 +30,7 @@
         <a class="btn btn-sm btn-outline-light" routerLink="/auth/login" type="submit">Login</a>
         <a class="btn btn-sm btn-outline-light ms-2" routerLink="/auth/signup">Register</a>
       </form>
-      <form class="d-flex" *ngIf="loggedIn && authService.startProj">
+      <form class="d-flex" *ngIf="loggedIn && authService.startProj && authService.userRole == 'user'">
         <a class="btn btn-sm btn-outline-light" (click)="startProj()">Start a Project</a>
       </form>
       <ng-container *ngIf="loggedIn">
@@ -46,6 +46,8 @@
                Profile
                 </a>
               </li>
+              <ng-container *ngIf="authService.userRole == 'user'">
+
               <li>
                 <a class="dropdown-item">
                   <i class="fa-brands fa-connectdevelop"></i>
@@ -70,6 +72,8 @@
                   My Invetsments
                 </a>
               </li>
+            </ng-container>
+
               <!-- <li class="py-1 ">
                 <a routerLink="/main/apiInfo" class="dropdown-item">
                     <i class="fa fa-user-o me-3 "></i> API

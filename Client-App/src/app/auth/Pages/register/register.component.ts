@@ -159,7 +159,7 @@ export class RegisterComponent {
   }
 
   navigate() : void{
-    this.router.navigate(['/auth/login'])
+    this.router.navigate([''])
   }
 
   verifyOtp(){

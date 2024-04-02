@@ -4,7 +4,7 @@
     <h3>Let's <span>TakeOff</span></h3>
   </div>
   <hr>
-  <div class="card-container">
+  <div class="card-container" *ngIf="!loading">
     <div class="card">
       <div class="card-body p-2">
         <div class="titles">
@@ -17,35 +17,44 @@
           <div class="cards container p-4 mt-2">
             <div class="row d-flex">
               <div class="text-center mt-3 col-lg-8">
-                    <ng-container>
-                      <img class="coverImage" [src]="getCoverImageUrl(topProject.coverImage)" alt="Image">
-                    </ng-container>
+                <ng-container>
+                  <img class="coverImage" [src]="getCoverImageUrl(topProject.coverImage)" alt="Image">
+                </ng-container>
               </div>
               <div class="col-lg-4 mt-2">
                 <div class="details">
-                  <p style="color: #073976; cursor: pointer;" class="h1 title" (click)="openProject(topProject._id)">{{topProject['title']}}</p>
-                  <p style="color: #073976; font-size: 1rem; margin-top: 25px; font-weight: 400;">
+                  <p style="color: #073976; cursor: pointer;" class="h1 title" (click)="openProject(topProject._id)">
+                    {{topProject['title']}}</p>
+                  <p style="color: #073976; font-size: 1rem; margin-top: 10px; font-weight: 400;">
                     <!-- {{totalInvestors}} {{topProject['investors'].length}} -->
                     {{topProject['description']}}
                   </p>
-                  <p style="color: #073976; font-size: 2rem; margin-top:25px; font-weight: 700;">
+                  <p *ngIf="topProject['remainingDays'] != 0"
+                    style="color: #073976; font-size: 2rem; margin-top:25px; font-weight: 700;">
                     <!-- {{remDays}}  -->{{topProject['remainingDays']}}
                     <br>
                     <span class="h6" style="color: black;"> Days To Go
                     </span>
+                  </p>
+                  <p *ngIf="topProject['remainingDays'] == 0"
+                    style="color: #073976; font-size: 2rem; margin-top:25px; font-weight: 700;">
+                    Last Day
                   </p>
                   <p style="color: #073976; font-size: 2rem; margin-top: 25px; font-weight: 700;">
                     Rs.{{topProject['currentAmount']}} <br>
                     <span class="h6" style="color: black;"> of Rs.{{topProject['goalAmount']}} goal
                     </span>
                   </p>
+                  <app-progress-bar [currentAmount]="topProject['currentAmount']"
+                    [goalAmount]="topProject['goalAmount']"></app-progress-bar>
+
                   <button class="btn btn-lg col-12 my-4 buttons" (click)="openProject(topProject._id)">
                     View More About This Project
                   </button>
                   <div class="row ms-1">
-                    <button (click)="createBookmark(topProject._id)" class="btn btn-lg col-6 my-1 buttons">
+                    <!-- <button (click)="createBookmark(topProject._id)" class="btn btn-lg col-6 my-1 buttons">
                       <i class="fa-regular fa-bookmark save-icon"></i> Save
-                    </button>
+                    </button> -->
                     <div class="col-6 pt-2" *ngIf="socialLinks != undefined || socialLinks != null">
                       <a [href]="socialLinks['facebook']" target="_blank" *ngIf="socialLinks['facebook']">
                         <i class="fa-brands fa-facebook icons"></i>
@@ -97,8 +106,14 @@
           </div>
 
 
+        </div>
+      </div>
     </div>
   </div>
-  </div>
+  <div *ngIf="loading" style="height: 50vh;" class="d-flex justify-content-center align-items-center">
+    <div class="spinner-border spinner-border" style="color: #073976;" role="status">
+      <span class="sr-only"></span>
+    </div>
+
   </div>
 </div>

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { InvestmentSuccessComponent } from './Pages/investment-success/investment-success.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ProgressBarComponent } from './Pages/progress-bar/progress-bar.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         DashboardComponent,
         ProjectViewComponent,
         InvestmentSuccessComponent,
+        ProgressBarComponent,
   ],
   imports: [
     CommonModule,

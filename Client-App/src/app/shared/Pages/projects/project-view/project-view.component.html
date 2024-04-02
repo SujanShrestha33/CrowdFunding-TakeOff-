@@ -20,7 +20,7 @@
                 <video height="350" width="200" controls autoplay class="img-fluid">
                   <source [src]="getCoverImageUrl(asset)" type="video/mp4">
                   Your browser does not support the video tag.
-              </video>
+                </video>
 
               </ng-container>
             </ng-container>
@@ -33,14 +33,19 @@
         <div class="col-lg-4 mt-2">
           <div class="details">
             <p style="color: #073976;" class="h1">{{project['title']}}</p>
-            <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
+            <p style="color: #073976; font-size: 2rem; margin-top: 25px; font-weight: 700;">
               {{totalInvestors}} <br>
               <span class="h6" style="color: black;"> Investors
               </span>
             </p>
-            <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
+            <p *ngIf="remDays >= 0" style="color: #073976; font-size: 2rem; margin-top: 25px; font-weight: 700;">
               {{remDays}} <br>
               <span class="h6" style="color: black;"> Days To Go
+              </span>
+            </p>
+            <p *ngIf="remDays < 0" style="color: #073976; font-size: 2rem; margin-top: 25px; font-weight: 700;">
+              {{project['status'] | uppercase}} <br>
+              <span class="h6" style="color: black;"> Status
               </span>
             </p>
             <p style="color: #073976; font-size: 2rem; margin-top: 50px; font-weight: 700;">
@@ -48,19 +53,27 @@
               <span class="h6" style="color: black;"> of Rs.{{project['goalAmount']}} goal
               </span>
             </p>
-            <button *ngIf="pageType == 'new' && !canUpdate && authService.userRole == 'user' && !invested" class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
+            <p class="h5">Campaign Progress Bar:</p>
+            <!-- some-component.component.html -->
+
+            <app-progress-bar [currentAmount]="project['currentAmount']"
+              [goalAmount]="project['goalAmount']"></app-progress-bar>
+
+            <button *ngIf="pageType == 'new' && !canUpdate && authService.userRole == 'user' && !invested"
+              class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
               Invest In This Project
             </button>
             <ng-container *ngIf="invested">
-              <p style="color: #073976; font-size: 1rem; margin-top: 50px; font-weight: 700;">
-               You Have Already Invested In This Project, Please Check My Investments Page!
+              <p style="color: #073976; font-size: 1rem; margin-top: 10px; font-weight: 700;">
+                You Have Already Invested In This Project, Please Check My Investments Page!
               </p>
             </ng-container>
             <div class="row ms-1" *ngIf="pageType == 'new'">
-              <button *ngIf="!canUpdate && authService.userRole == 'user'" (click)="createBookmark()" class="btn btn-lg col-6 my-1 buttons">
+              <button *ngIf="!canUpdate && authService.userRole == 'user'" (click)="createBookmark()"
+                class="btn btn-lg col-6 my-1 buttons">
                 <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
               </button>
-              <div class="col-6 pt-2"  *ngIf="socialLinks != undefined || socialLinks != null">
+              <div class="col-6 pt-2" *ngIf="socialLinks != undefined || socialLinks != null">
                 <a [href]="socialLinks['facebook']" target="_blank" *ngIf="socialLinks['facebook']">
                   <i class="fa-brands fa-facebook icons"></i>
                 </a>
@@ -102,34 +115,36 @@
         </div>
         <hr style="color: grey;">
       </div>
-        <div class="row px-4 align-items-start"> <!-- align-items-start to align items at the top -->
-          <div class="card col-3 mx-5" *ngFor="let item of rewards">
-            <div class="card-header text-center">
-              <p class="h4">{{item.rewardTitle}}</p>
-            </div>
-            <div class="card-body">
-              <p class="h6">{{item.rewardDescription}}</p>
-              <p class="h6">Minimum Investment For Reward: Rs.{{item.rewardAmount}}</p>
-              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)" *ngIf="pageType == 'new' && !invested && !canUpdate" class="btn btn-lg col-12 my-4 buttons">
-                Invest In This Reward
-              </button>
-              <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
-            </div>
+      <div class="row px-4 align-items-start"> <!-- align-items-start to align items at the top -->
+        <div class="card col-3 mx-5" *ngFor="let item of rewards">
+          <div class="card-header text-center">
+            <p class="h4">{{item.rewardTitle}}</p>
+          </div>
+          <div class="card-body">
+            <p class="h6">{{item.rewardDescription}}</p>
+            <p class="h6">Minimum Investment For Reward: Rs.{{item.rewardAmount}}</p>
+            <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)"
+              *ngIf="pageType == 'new' && !invested && !canUpdate" class="btn btn-lg col-12 my-4 buttons">
+              Invest In This Reward
+            </button>
+            <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
           </div>
         </div>
+      </div>
     </div>
     <div class="container p-4" *ngIf="rewards.length == 0">
       <div class="title">
         <div class="row text-center">
           <p class="h4">No Rewards Available for {{project['title']}}</p>
           <p class="h6">
-            This campaign doesn't provide any update, You can invest in the project if you want to support it without any rewards.
+            This campaign doesn't provide any update, You can invest in the project if you want to support it without
+            any rewards.
           </p>
         </div>
         <hr style="color: grey;">
       </div>
     </div>
-</mat-tab>
+  </mat-tab>
   <mat-tab label="Updates">
     <div class="container card col-6 mt-5 p-4 mb-5" style="background-color: #073976; color: white;">
       <div class="row text-center">
@@ -171,7 +186,8 @@
     </div>
   </mat-tab>
   <mat-tab label="Comments">
-    <div class="container card mt-5 p-4 mb-4" style="background-color: #073976; color: white; border-radius: 10px; width: 400px;">
+    <div class="container card mt-5 p-4 mb-4"
+      style="background-color: #073976; color: white; border-radius: 10px; width: 400px;">
       <div class="row text-center mb-3">
         <h4>Comments for {{project['title']}}</h4>
       </div>
@@ -191,7 +207,8 @@
         <div class="card" style="background-color: #f0f0f0; color: #073976; width: 100%;">
           <div class="card-body">
             <label for="" class="form-control-label">Comment</label>
-            <textarea class="form-control" [(ngModel)]="content" style="background-color: white; color: #073976; border-color: #073976;"></textarea>
+            <textarea class="form-control" [(ngModel)]="content"
+              style="background-color: white; color: #073976; border-color: #073976;"></textarea>
             <div class="text-end mt-2">
               <button class="btn btn-primary" (click)="submitComment()">Submit</button>
             </div>
@@ -199,7 +216,8 @@
         </div>
       </div>
       <div class="text-end mt-3">
-        <button class="btn btn-primary" *ngIf="!commentForm && authService.loggedIn" (click)="toggleComment()">Add Your Comment</button>
+        <button class="btn btn-primary" *ngIf="!commentForm && authService.loggedIn && authService.userRole == 'user'"
+          (click)="toggleComment()">Add Your Comment</button>
         <button class="btn btn-secondary" *ngIf="commentForm" (click)="toggleComment()">Back</button>
       </div>
     </div>
@@ -207,58 +225,104 @@
   </mat-tab>
   <mat-tab label="About Creator">
     <!-- <div class="main-container"> -->
-      <div class="mt-5 col-12 d-flex justify-content-center">
-        <div class="card col-lg-4 col-md-6 col-sm-8 col-10">
-          <div class="card-header text-center" style="background-color: white !important;">
-            <p class="h3">About Creator</p>
-          </div>
-          <div class="card-body">
-
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">First Name :</div>
-              <div class="col-6">{{profileData.firstName}}</div>
-            </div>
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">Last Name :</div>
-              <div class="col-6">{{profileData.lastName}}</div>
-            </div>
-
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">Username :</div>
-              <div class="col-6">{{profileData.username}}</div>
-            </div>
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">Email :</div>
-              <div class="col-6">{{profileData.email}}</div>
-            </div>
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">Phone Number :</div>
-              <div class="col-6">{{profileData.phoneNumber}}</div>
-            </div>
-            <div class="row col-12 h5">
-              <div class="col-6 text-end">Address :</div>
-              <div class="col-6">{{profileData.address}}</div>
-            </div>
-          </div>
-
+    <div class="mt-5 col-12 d-flex justify-content-center">
+      <div class="card col-lg-4 col-md-6 col-sm-8 col-10">
+        <div class="card-header text-center" style="background-color: white !important;">
+          <p class="h3">About Creator</p>
         </div>
+        <div class="card-body">
+
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">First Name :</div>
+            <div class="col-6">{{profileData.firstName}}</div>
+          </div>
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">Last Name :</div>
+            <div class="col-6">{{profileData.lastName}}</div>
+          </div>
+
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">Username :</div>
+            <div class="col-6">{{profileData.username}}</div>
+          </div>
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">Email :</div>
+            <div class="col-6">{{profileData.email}}</div>
+          </div>
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">Phone Number :</div>
+            <div class="col-6">{{profileData.phoneNumber}}</div>
+          </div>
+          <div class="row col-12 h5">
+            <div class="col-6 text-end">Address :</div>
+            <div class="col-6">{{profileData.address}}</div>
+          </div>
+        </div>
+
       </div>
+    </div>
     <!-- </div> -->
 
   </mat-tab>
-  <mat-tab *ngIf="token > 10 || authService.userRole == 'admin'" label="Reporting">
-    <div class="container">
+  <mat-tab *ngIf="token > 10 || authService.userRole == 'admin' || canUpdate" label="Investors">
+    <div class="container" *ngIf="investors.length > 0">
+      <div class="title text-center mt-4 h5">
+        Total Investors : {{totalInvestors}}
+      </div>
       <div class="row">
-        <div class="col-4 offset-4">
+
+          <div class="table table-responsive mt-4">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Investor's Name</th>
+                  <th>Investor's Email</th>
+                  <th>Investor's Phone Number</th>
+                  <th>Investor's Address</th>
+                  <th style="color: green">Invested Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of investors; let i = index">
+                  <td>{{item['investorId'].username}}</td>
+                  <td>{{item['investorId'].email}}</td>
+                  <td>{{item['investorId'].phoneNumber}}</td>
+                  <td>{{item['investorId'].address}}</td>
+                  <!-- <td>{{item['createdBy'].email}}</td> -->
+                  <td style="color: green">Rs.{{item['investedAmount']}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="investors.length == 0">
+      <div class="title text-center mt-4 h5">
+        No Investors Till Now
+      </div>
+    </div>
+
+
+  </mat-tab>
+  <mat-tab *ngIf="token > 10 || authService.userRole == 'admin' || canUpdate" label="Reporting">
+    <div class="container mb-5">
+      <div class="row">
+        <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-10 offset-sm-1">
           <div class="card mt-5 p-2">
-            <div class="card-body" *ngIf="authService.userRole == 'user'">
+            <div class="card-body" *ngIf="authService.userRole == 'user' && !canUpdate">
               <div class="title">
                 <p class="h4 text-center">Reporting</p>
               </div>
               <hr>
               <div class="body">
                 <p class="h6 text-center">
-                  "Your trust and safety matter to us! If you encounter a project that appears fraudulent, copied, or if the creator has ceased providing updates for an extended period, we encourage you to report it. Users who have more than 10 tokens and have invested in more than 10 projects only can report a particular project. Your reports help maintain the integrity of our platform. Please note that if a project receives more than 10 reports, it will be taken down from our site. Thank you for helping us create a secure and reliable community for all our users."
+                  Your trust and safety matter to us! If you encounter a project that appears fraudulent, copied, or if
+                  the creator has ceased providing updates for an extended period, we encourage you to report it. Users
+                  who have more than 10 tokens and have invested in more than 10 projects only can report a particular
+                  project. Your reports help maintain the integrity of our platform. Please note that if a project
+                  receives more than 10 reports, it will be taken down from our site. Thank you for helping us create a
+                  secure and reliable community for all our users.
                 </p>
               </div>
               <hr>
@@ -268,39 +332,68 @@
                 </button>
               </div>
             </div>
-            <div class="card-body" *ngIf="authService.userRole == 'admin'">
+            <div class="card-body" *ngIf="authService.userRole == 'user' && canUpdate">
+              <div class="title">
+                <p class="h4 text-center">Reporting</p>
+              </div>
+              <hr>
+              <div class="body">
+                <p class="h6 text-center">
+                  If a project appears fraudulent, copied, or if
+                  the creator has ceased providing updates for an extended period, users are encouraged to report it. Users
+                  who have more than 10 tokens and have invested in more than 10 projects only can report a particular
+                  project. Please note that if a project
+                  receives more than 10 reports, it will be taken down from our site. Thank you for helping us create a
+                  secure and reliable community for all our users.
+                </p>
+              </div>
+              <hr>
+              <div class="text-danger text-center h5">
+                Campaign's Report Count : {{reportCount}}
+              </div>
+            </div>
 
+            <div class="card-body" *ngIf="authService.userRole == 'admin'">
               <div class="title">
                 <p class="h4 text-center">Change Project Status</p>
               </div>
-
               <hr>
               <div class="h6 text-center">
-                Current Project Status = {{project['status'] | uppercase}}
+                Current Project Status = {{project['status'] | uppercase}} <br>
+              </div>
+              <div class="h6 text-center">
+                Campaign Created At = {{project['startDate'] | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+              </div>
+              <div class="h6 text-center">
+                Campaign Ends At = {{project['endDate'] | date: 'yyyy-MM-dd HH:mm:ss'}}
+              </div>
+              <div class="h6 text-center">
+                Goal Amount = {{project['goalAmount']}}
+              </div>
+              <div class="h6 text-center">
+                Funds Raised = {{project['currentAmount']}}
               </div>
               <hr>
               <div class="body">
                 <div class="text-center">
                   <div class="row">
-
                     <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
                       <ng-select class="form-control" id="month" [searchable]="true" placeholder="Select Category"
-                      [clearable]="false" style="font-weight: 400" [(ngModel)]="selectedStatus">
-                      <ng-option value="" disabled>Select Status</ng-option>
-                      <ng-option value="failed">Failed</ng-option>
-                      <ng-option value="completed">Completed</ng-option>
-                      <ng-option value="active">Active</ng-option>
-                    </ng-select>
-                  </div>
-                  <div class="col-lg-6">
-                    <button class="btn mt-2" (click)="changeStatus()">
-                      Change Status
-                    </button>
+                        [clearable]="false" style="font-weight: 400" [(ngModel)]="selectedStatus">
+                        <ng-option value="" disabled>Select Status</ng-option>
+                        <ng-option value="failed">Failed</ng-option>
+                        <ng-option value="completed">Completed</ng-option>
+                        <ng-option value="active">Active</ng-option>
+                      </ng-select>
+                    </div>
+                    <div class="col-lg-6">
+                      <button class="btn mt-2" (click)="changeStatus()">
+                        Change Status
+                      </button>
+                    </div>
                   </div>
                 </div>
-                </div>
-
-            </div>
+              </div>
             </div>
             <div class="card-body" *ngIf="authService.userRole == 'admin'">
               <div class="title">
@@ -311,7 +404,8 @@
                 <p class="h6 text-center text-danger">
                   Report Count : {{reportCount}}
                 </p>
-                <p>Users with more than 9 TakeOff Tokens can report the project if the project violates the Terms and Conditions!
+                <p>Users with more than 9 TakeOff Tokens can report the project if the project violates the Terms and
+                  Conditions!
                   <br>
                   The project will be taken down if it receives more than 10 reports.
                 </p>
@@ -328,6 +422,8 @@
     </div>
   </mat-tab>
 
+
+
 </mat-tab-group>
 
 
@@ -341,21 +437,22 @@
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
-<div class="modal-body text-center mt-3" *ngIf="authService.loggedIn">
-  <div class="form-group ">
-    <div class="form">
-      <label for="amount" class="form-control-label mb-3">Please Enter The Amount You Would Like To Invest In Rs.</label>
-      <input id="#amount" name="amount" type="number" [(ngModel)]="investmentAmount" class="form-control" required>
-    </div>
-    <div class="text-center mt-3">
-      <button class="btn" (click)="investInProj()">
-        Invest
-      </button>
+  <div class="modal-body text-center mt-3" *ngIf="authService.loggedIn">
+    <div class="form-group ">
+      <div class="form">
+        <label for="amount" class="form-control-label mb-3">Please Enter The Amount You Would Like To Invest In
+          Rs.</label>
+        <input id="#amount" name="amount" type="number" [(ngModel)]="investmentAmount" class="form-control" required>
+      </div>
+      <div class="text-center mt-3">
+        <button class="btn" (click)="investInProj()">
+          Invest
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div class="modal-body text-center mt-3 h4 text-danger" *ngIf="!authService.loggedIn">
-  Please Login First!!! <br>
-  In order to use this feature!!
-</div>
+  <div class="modal-body text-center mt-3 h4 text-danger" *ngIf="!authService.loggedIn">
+    Please Login First!!! <br>
+    In order to use this feature!!
+  </div>
 </ng-template>

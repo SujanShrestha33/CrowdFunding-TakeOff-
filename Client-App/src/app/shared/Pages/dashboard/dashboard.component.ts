@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
   projects: Projects[] = [];
   topProject : Projects | null = null;
   socialLinks : any[] = [];
+  innerLoading : boolean = false;
 
   getTopProjects(){
     this.loading = true;
@@ -32,11 +33,14 @@ export class DashboardComponent implements OnInit {
       next : (res) => {
         console.log(res);
         this.projects = res['data'] as Projects[];
+        console.log(this.projects);
         this.projectService.getRemDays(this.projects);
+        this.projects = this.projectService.filterProject(this.projects);
         if (this.projects.length > 0) {
           this.topProject = this.projects[0]; // Assigning the top project
           this.projects = this.projects.slice(1); // Assigning the rest of the projects
         }
+
         this.projects = this.projects.slice(0, 3); // Slicing to get only the top 4 projects
         // console.log(this.topProjects);
         console.log(this.topProject);
@@ -70,6 +74,7 @@ export class DashboardComponent implements OnInit {
 
 
   createBookmark(id : string){
+    this.innerLoading = true;
     if(this.authService.loggedIn === false){
       this.toastr.error('Please login to save this campaign');
       return;
@@ -80,14 +85,16 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next : (res) => {
         console.log(res);
+        this.innerLoading = false;
         this.toastr.success('Campaign saved successfully');
       },
       error : err => {
+        this.innerLoading = false;
         console.log(err);
         this.toastr.error('Already Saved, check your saved campaigns');
       },
       complete : () => {
-
+        this.innerLoading = false;
       }
     })
   }
