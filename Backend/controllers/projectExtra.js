@@ -44,6 +44,25 @@ exports.createStory = async (req, res) => {
   }
 };
 
+exports.updateStory = async (req, res) => {
+  const { description } = req.body;
+  if (!description) {
+    return res.status(400).json({ message: "Please provide description" });
+  }
+  try {
+    const story = await Story.findOne({ projectId: req.params.projectId });
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+    story.description = description;
+    await story.save();
+    return res.json({ message: "Story successfully updated" });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some internal error occurred" });
+  }
+};
+
 exports.flagProject = async (req, res) => {
   const userId = req.userId;
   const { projectId } = req.params;
