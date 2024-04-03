@@ -280,6 +280,25 @@ exports.createBookmark = async (req, res) => {
   }
 };
 
+exports.removeBookmark = async (req, res) => {
+  const userId = req.userId;
+  const projectId = req.params.projectId;
+  const project = await Project.findById(projectId);
+  if (!project) {
+    return res
+      .status(400)
+      .json({ message: "No such project found with id " + projectId });
+  }
+  const bookmark = await Bookmark.findOneAndDelete({ userId, projectId });
+  if (!bookmark) {
+    return res.status(400).json({ message: "No such bookmark found" });
+  }
+  project.bookmarkCount = project.bookmarkCount - 1;
+  await project.save({ validateBeforeSave: false });
+
+  return res.json({ message: "Bookmark removed successfully" });
+};
+
 exports.getUserBookmarks = async (req, res) => {
   const userId = req.userId;
   try {

@@ -73,6 +73,12 @@ router.post(
   projectController.createBookmark,
 );
 
+router.post(
+  "/projects/removeBookmark/:projectId",
+  checkAuth,
+  projectController.removeBookmark,
+);
+
 router.get(
   "/projects/bookmarks/myBookmarks",
   checkAuth,
