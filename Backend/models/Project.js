@@ -69,12 +69,11 @@ const ProjectSchema = new mongoose.Schema({
   },
 });
 
-// create a method that runs just before the project is saved to validate the expiry date and update the status based on the goalAmount vs currentAmount
 ProjectSchema.pre("save", function (next) {
-  if (this.goalAmount >= this.currentAmount) {
+  if (this.currentAmount >= this.goalAmount) {
     this.status = "completed";
   }
-  if (this.endDate < Date.now() && this.goalAmount > this.currentAmount) {
+  if (this.endDate < Date.now() && this.currentAmount < this.goalAmount) {
     this.status = "failed";
   }
   next();
