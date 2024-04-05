@@ -18,7 +18,7 @@
                 Select a primary Category For Your Project
               </p>
               <p class="h6">
-                These will help backers find your project, and you can change them later if you need to.
+                These will help backers find your project, and you cannot change them later. Please select carefully!
               </p>
             </div>
             <div class="col-lg-6 border-container my-25 pt-5"> <!-- Adjust column width based on screen size -->
@@ -28,10 +28,10 @@
                 <ng-option value="Art">Art</ng-option>
                 <ng-option value="Fashion">Fashion</ng-option>
                 <ng-option value="Technology">Technology</ng-option>
-                <ng-option value="Food">Food</ng-option>
                 <ng-option value="Music">Music</ng-option>
                 <ng-option value="Games">Games</ng-option>
                 <ng-option value="Books">Books</ng-option>
+                <ng-option value="Others">Others</ng-option>
 
                 <!-- <ng-option *ngFor="let item of payCyclePeriods" [value]="item.nepaliMonth">
                   {{ item.nepaliMonth }}
@@ -140,7 +140,7 @@
             <div class="col-lg-6 text-center my-2 mx-auto">
               <p>Select a Cover Picture for your campaign,</p>
               <p class="h5">An image that will attract the backers towards your project.</p>
-              <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
+              <p class="h6">Choose an image that captivates and entices potential backers to explore your project further. Your cover picture serves as the first impression of your campaign, drawing attention and sparking interest. It's the visual gateway to your creative endeavor, guiding backers towards discovering more about what you have to offer. Feel free to change your cover picture later if necessary, ensuring that it always reflects the essence and appeal of your project.</p>
             </div>
             <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
               (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
@@ -192,33 +192,24 @@
           <div class="row mt-2 p-5">
             <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
               <p>
-                Social Media Links
+                Integrate Your Social Media Links
               </p>
               <p class="h5">
-                Set a time limit for your campaign. You won’t be able to change this after you launch.
+                Connect your campaign to the vast reach of social media by including relevant links. This enables backers to further engage with your project and share it within their networks. Once your campaign is live, these links serve as invaluable channels for amplifying your message and expanding your reach. Remember, once launched, you won't have the option to modify these links, so ensure they're accurate and up-to-date. Harness the power of social media to maximize exposure and enhance your campaign's success
               </p>
             </div>
             <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
               <label for="" class="form-label h6 ps-3">Facebook</label>
               <input type="text" class="form-control ms-3" [(ngModel)]="facebook"
                 placeholder="Enter Facebook's link of your campaign!">
-
+                <label for="" class="form-label h6 ps-3">Twitter</label>
+                <input type="text" class="form-control ms-3" [(ngModel)]="twitter"
+                  placeholder="Enter Twitter's link of your campaign!">
+                  <label for="" class="form-label h6 ps-3">LinkedIn</label>
+                  <input type="text" class="form-control ms-3" [(ngModel)]="instagram"
+                    placeholder="Enter LinkedIn's link of your campaign!">
             </div>
-            <div class="col-6"></div>
-            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
-              <label for="" class="form-label h6 ps-3">Twitter</label>
-              <input type="text" class="form-control ms-3" [(ngModel)]="twitter"
-                placeholder="Enter Twitter's link of your campaign!">
 
-            </div>
-            <div class="col-6"></div>
-
-            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
-              <label for="" class="form-label h6 ps-3">LinkedIn</label>
-              <input type="text" class="form-control ms-3" [(ngModel)]="instagram"
-                placeholder="Enter LinkedIn's link of your campaign!">
-
-            </div>
           </div>
         </div>
       </div>
@@ -233,7 +224,7 @@
       </button>
     </div>
   </ng-container>
-
+  <!-- *ngIf="dateForm" -->
   <ng-container *ngIf="dateForm">
     <div class="row mt-2 p-4">
       <div class="card">
@@ -244,11 +235,11 @@
                 Campaign duration
               </p>
               <p class="h5">
-                Set a time limit for your campaign. You won’t be able to change this after you launch.
+                Choose the optimal time frame for your campaign, as this will set the pace for your fundraising efforts. Once launched, you won't be able to modify this duration, so it's crucial to select wisely. Consider factors such as the complexity of your project, your target audience's responsiveness, and the momentum you aim to build. A well-thought-out campaign duration can create a sense of urgency, motivating backers to support your cause within the allotted time. Take your time to decide, as this decision will shape the trajectory of your crowdfunding journey.
               </p>
             </div>
             <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
-              <label for="" class="form-label h6 ps-3">End Date</label>
+              <label for="" class="form-label h6 ps-3 margin-forms">End Date</label>
               <input type="date" class="form-control ms-3" [(ngModel)]="endDate"
                 placeholder="Enter the end date of the campaign">
 
@@ -266,14 +257,14 @@
                 Set Project Goal
               </p>
               <p class="h5">
-                Enter amount you want to pledge.
+                Specify the amount you aim to raise for your project. This goal serves as a pivotal milestone, outlining the financial target needed to bring your vision to life. Be strategic and realistic when setting your project goal, considering the scope of your endeavor and the resources required to achieve it. Your pledged amount will influence backers' perceptions of your project's viability and impact. Take the time to carefully determine this figure, as it plays a crucial role in shaping the trajectory of your crowdfunding journey.
               </p>
               <!-- <p class="h6">
                   These will help backers find your project, and you can change them later if you need to.
               </p> -->
             </div>
-            <div class="col-lg-6 border-container my-25 pt-3"> <!-- Adjust column width based on screen size -->
-              <input type="number" class="form-control ms-3" [(ngModel)]="goalAmount"
+            <div class="col-lg-6 border-container pt-3"> <!-- Adjust column width based on screen size -->
+              <input type="number" class="form-control ms-3 margin-forms" [(ngModel)]="goalAmount"
                 placeholder="Enter amount in Rupees">
             </div>
           </div>
@@ -413,8 +404,8 @@
           <div class="row mt-2 p-5">
             <div class="col-lg-6 text-center my-2 mx-auto">
               <p>Select Images Related To Your Project</p>
-              <p class="h5">An image that will attract the backers towards your project.</p>
-              <p class="h6">These will help backers find your project, and you can change them later if you need to.</p>
+              <!-- <p class="h5">An image that will attract the backers towards your project.</p> -->
+              <p class="h6">Select visually captivating images that showcase the essence and allure of your project. These images serve as the first glimpse into what backers can expect, enticing them to explore further. Whether it's stunning visuals of your product, behind-the-scenes snapshots of your creative process, or compelling graphics that convey your project's mission, choose images that resonate with your audience and pique their curiosity.</p>
             </div>
             <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
               (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
@@ -435,8 +426,9 @@
           <div class="row mt-2 p-5">
             <div class="col-lg-6 text-center my-2 mx-auto">
               <p>Next, Let's Select Video,</p>
-              <p class="h5">Select a Video for Your Project</p>
-              <p class="h6">You can upload video files to showcase your project to potential backers.</p>
+              <p class="h6">Capture the essence and excitement of your project by selecting a compelling video to showcase to potential backers. Video content offers a dynamic and immersive way to tell your project's story, highlight its features, and engage your audience on a deeper level. Whether it's a product demonstration, a behind-the-scenes look at your creative process, or a heartfelt message from the creators, your video has the power to captivate and inspire.</p>
+
+              <p class="h6">Please select a mp4 file for video media!</p>
             </div>
             <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
               (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">

@@ -34,3 +34,33 @@ button:hover{
 input{
   border: 2px solid grey !important;
 }
+.story-input {
+  // width: 100%;
+  height: 300px !important; /* Adjust height according to your preference */
+  resize: vertical; /* Allow vertical resizing */
+  vertical-align: top;
+border: 2px solid grey !important;
+}
+.file-upload {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+}
+
+.file-upload label {
+  cursor: pointer;
+}
+
+.file-upload label span {
+  display: block;
+  margin-top: 10px;
+}
+
+.file-upload.dragover {
+  border-color: #4CAF50;
+}
+
+.file-upload.dragover label {
+  background-color: #f0f0f0;
+}

@@ -3,6 +3,7 @@ import { ProfileService } from '../../Services/profile.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -20,13 +21,17 @@ export class ProfileComponent implements OnInit {
     private profileService : ProfileService,
     private modalService: BsModalService,
     private toastr : ToastrService,
-    private authService : AuthService
+    private authService : AuthService,
+    private router : Router
   ) { }
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
+    if(!this.authService.loggedIn){
+      this.router.navigate(['']);
+  }else{
     this.getProfile();
   }
+}
 
   openModal(template: TemplateRef<void>) {
     this.modalRef = this.modalService.show(template);

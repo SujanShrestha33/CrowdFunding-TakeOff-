@@ -5,10 +5,10 @@
   </div>
 </div>
 <!-- <hr> -->
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" *ngIf="!loading">
   <hr>
   <mat-tab label="Campaign">
-    <div class="container p-4">
+    <div class="container p-4" *ngIf="!mediaForm">
       <div class="row d-flex">
         <div class="text-center mt-3 col-lg-8">
           <ng-container *ngFor="let asset of medias; let i = index">
@@ -25,9 +25,12 @@
               </ng-container>
             </ng-container>
           </ng-container>
-          <div *ngIf="medias.length > 1" class="text-center mt-3">
-            <button (click)="prevMedia()" class="btn btn-sm btn-secondary mx-4">Previous</button>
-            <button (click)="nextMedia()" class="btn btn-sm btn-secondary">Next</button>
+          <div class="text-center mt-3">
+            <button *ngIf="medias.length > 1" (click)="prevMedia()" class="btn btn-sm btn-secondary mx-4">Previous</button>
+            <button *ngIf="canUpdate" (click)="toggleMedia()" class="btn btn-sm btn-secondary mx-4">
+              <i class="fa-solid fa-pen-to-square"></i> Edit Media
+            </button>
+            <button *ngIf="medias.length > 1" (click)="nextMedia()" class="btn btn-sm btn-secondary mx-4">Next</button>
           </div>
         </div>
         <div class="col-lg-4 mt-2">
@@ -59,7 +62,7 @@
             <app-progress-bar [currentAmount]="project['currentAmount']"
               [goalAmount]="project['goalAmount']"></app-progress-bar>
 
-            <button *ngIf="pageType == 'new' && !canUpdate && authService.userRole == 'user' && !invested"
+            <button *ngIf="!canUpdate && authService.userRole == 'user' && !invested"
               class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
               Invest In This Project
             </button>
@@ -68,11 +71,16 @@
                 You Have Already Invested In This Project, Please Check My Investments Page!
               </p>
             </ng-container>
-            <div class="row ms-1" *ngIf="pageType == 'new'">
-              <button *ngIf="!canUpdate && authService.userRole == 'user'" (click)="createBookmark()"
+            <div class="row ms-1">
+              <button *ngIf="pageType == 'new'&& !canUpdate && authService.userRole == 'user'" (click)="createBookmark()"
                 class="btn btn-lg col-6 my-1 buttons">
                 <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
               </button>
+              <button *ngIf="pageType == 'saved' && !canUpdate && authService.userRole == 'user'" (click)="removeBookmark()"
+                class="btn btn-lg col-6 my-1 buttons">
+                <i class="fa-regular fa-bookmark save-icon"></i> Unsave
+              </button>
+
               <div class="col-6 pt-2" *ngIf="socialLinks != undefined || socialLinks != null">
                 <a [href]="socialLinks['facebook']" target="_blank" *ngIf="socialLinks['facebook']">
                   <i class="fa-brands fa-facebook icons"></i>
@@ -90,9 +98,71 @@
         </div>
       </div>
     </div>
+
+    <div class="container">
+      <ng-container *ngIf="mediaForm">
+        <!-- *ngIf="imageForm" -->
+        <div class="row mt-2 p-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row mt-2 p-5">
+                <div class="col-lg-6 text-center my-2 mx-auto">
+                  <p>Select Images Related To Your Project</p>
+                  <!-- <p class="h5">An image that will attract the backers towards your project.</p> -->
+                  <p class="h6">Select visually captivating images that showcase the essence and allure of your project. These images serve as the first glimpse into what backers can expect, enticing them to explore further. Whether it's stunning visuals of your product, behind-the-scenes snapshots of your creative process, or compelling graphics that convey your project's mission, choose images that resonate with your audience and pique their curiosity.</p>
+                </div>
+                <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
+                  (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
+                  <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
+                    <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" multiple/>
+                    <label for="image-input">
+                      <span>Drag & Drop or Click Here to Upload Image</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2 p-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row mt-2 p-5">
+                <div class="col-lg-6 text-center my-2 mx-auto">
+                  <p>Next, Let's Select Video,</p>
+                  <p class="h6">Capture the essence and excitement of your project by selecting a compelling video to showcase to potential backers. Video content offers a dynamic and immersive way to tell your project's story, highlight its features, and engage your audience on a deeper level. Whether it's a product demonstration, a behind-the-scenes look at your creative process, or a heartfelt message from the creators, your video has the power to captivate and inspire.</p>
+
+                  <p class="h6">Please select a mp4 file for video media!</p>
+                </div>
+                <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
+                  (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">
+                  <div class="file-upload" [ngClass]="{'dragover': isVideoDragging}">
+                    <input style="border: none !important;" type="file" id="video-input" (change)="onVideoSelected($event)" accept="video/*"/>
+                    <label for="video-input">
+                      <span>Drag & Drop or Click Here to Upload Video</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2 p-4 d-flex justify-content-end">
+          <div class="text-center">
+            You can add upto three images to your project excluding cover image and a single video! You can skip the process as well by clicking the button below!
+          </div>
+          <button (click)="submitMedia()" class="btn col-2 mt-4 mx-4">
+            Update
+          </button>
+          <button (click)="toggleMedia()" class="btn col-2 mt-4 report-button">
+            Cancel
+          </button>
+        </div>
+      </ng-container>
+    </div>
   </mat-tab>
   <mat-tab *ngIf="projectStory" label="Story">
-    <div class="container card col-6 p-5 mt-5 mb-5">
+    <div class="container card col-6 p-5 mt-5 mb-5" *ngIf="!storyForm">
       <div class="row text-center">
         <p class="h4">
           Story of <span style="color: #073976; text-decoration: underline;">
@@ -105,6 +175,48 @@
           {{projectStory}}
         </p>
       </div>
+      <div class="text-center" *ngIf="canUpdate">
+        <button class="btn" (click)="toggleStory()" *ngIf="!storyForm">
+          <i class="fa-solid fa-pen-to-square"></i> Edit Story
+        </button>
+      </div>
+    </div>
+    <div class="container">
+      <ng-container *ngIf="storyForm">
+        <div class="row mt-2 p-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="row mt-2 p-5">
+                <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
+                  <p>
+                    Project Story
+                  </p>
+                  <p class="h5">
+                    The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration,
+                    creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals,
+                    and impact, enticing backers to become part of its journey. This narrative not only showcases the
+                    project's uniqueness but also establishes a personal connection with potential backers, fostering trust
+                    and excitement about supporting the endeavor.
+                  </p>
+                </div>
+                <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
+                  <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="story"
+                    placeholder="Project Story">
+                    </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2 p-4 d-flex justify-content-end">
+          <button (click)="submitStory()" class="btn col-2 me-2">
+            Submit
+          </button>
+          <button class="btn col-2 report-button" (click)="toggleStory()">
+            Cancel
+          </button>
+        </div>
+      </ng-container>
     </div>
   </mat-tab>
   <mat-tab label="Rewards">
@@ -197,7 +309,8 @@
       <div *ngIf="!commentForm" class="row" style="max-height: 300px; overflow-y: auto;">
         <div *ngFor="let item of comments" class="card my-3" style="background-color: #f0f0f0; color: #073976;">
           <div class="card-body">
-            <p class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span></p>
+            <p *ngIf="profileData['username'] != item['createdBy'].username" class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span></p>
+            <p *ngIf="profileData['username'] == item['createdBy'].username" class="h6">Commented By <span style="color: #073976; text-decoration: underline;">Project Creator</span></p>
             <hr style="background-color: #073976;">
             <p class="h6">{{item.content}}</p>
           </div>
@@ -425,6 +538,12 @@
 
 
 </mat-tab-group>
+<div *ngIf="loading" style="height: 50vh;" class="d-flex justify-content-center align-items-center">
+  <div class="spinner-border spinner-border" style="color: #073976;" role="status">
+    <span class="sr-only"></span>
+  </div>
+
+</div>
 
 
 <!-- For Modal -->

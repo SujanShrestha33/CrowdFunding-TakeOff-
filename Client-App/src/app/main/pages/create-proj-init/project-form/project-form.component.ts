@@ -216,6 +216,11 @@ export class ProjectFormComponent {
       return;
     }
 
+    if(this.goalAmount == 0 || this.endDate == '' || this.goalAmount == null){
+      this.toastr.warning('Please fill all the fields');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', this.coverImage);
 
@@ -268,60 +273,63 @@ export class ProjectFormComponent {
     console.log('submit media');
     console.log(this.files);
     const formData = new FormData();
-    if(this.files.length == 0){
-      this.toastr.warning('Please Select Media Files!');
-      return;
+    if(this.files != null){
+
+      if(this.files.length == 0){
+        this.toastr.warning('Please Select Media Files!');
+        return;
+      }
+      if(this.files.length == 1){
+        formData.append('imageFileOne', this.files[0]);
+      }
+      if(this.files.length == 2){
+        formData.append('imageFileOne', this.files[0]);
+        formData.append('imageFileTwo', this.files[1]);
+      }
+
+      if(this.files.length == 3){
+        formData.append('imageFileOne', this.files[0]);
+        formData.append('imageFileTwo', this.files[1]);
+        formData.append('imageFileThree', this.files[2]);
+      }
+
+      if(this.files.length > 3){
+        this.toastr.warning('Only three images except cover image is allowed for an projecrt!');
+        return;
+      }
+
+      if(this.video.length == 1){
+        formData.append('videoFile', this.video[0]);
+      }
+
+      if(this.video.length > 1){
+        this.toastr.warning('Only one video is allowed for a project!');
+        return;
+      }
+      console.log(formData);
+
+      if(this.files.length == 0 && this.video.length == 0){
+        this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+      }else{
+
+
+        this.projectService.addMedia(formData, this.newProjectid)
+        .subscribe({
+          next : (res) => {
+            console.log(res);
+            this.toastr.success('Media added successfully');
+            this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
+
+          }, error : err => {
+            console.log(err);
+          },
+          complete : () =>{
+
+          }
+        })
+      }
+
     }
-    if(this.files.length == 1){
-      formData.append('imageFileOne', this.files[0]);
-    }
-    if(this.files.length == 2){
-      formData.append('imageFileOne', this.files[0]);
-      formData.append('imageFileTwo', this.files[1]);
-    }
-
-    if(this.files.length == 3){
-      formData.append('imageFileOne', this.files[0]);
-      formData.append('imageFileTwo', this.files[1]);
-      formData.append('imageFileThree', this.files[2]);
-    }
-
-    if(this.files.length > 3){
-      this.toastr.warning('Only three images except cover image is allowed for an projecrt!');
-      return;
-    }
-
-    if(this.video.length == 1){
-      formData.append('videoFile', this.video[0]);
-    }
-
-    if(this.video.length > 1){
-      this.toastr.warning('Only one video is allowed for a project!');
-      return;
-    }
-    console.log(formData);
-
-    if(this.files.length == 0 && this.video.length == 0){
-    this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
-    }else{
-
-
-      this.projectService.addMedia(formData, this.newProjectid)
-      .subscribe({
-        next : (res) => {
-          console.log(res);
-          this.toastr.success('Media added successfully');
-          this.router.navigate(['/project-view', this.newProjectid, 'mycampaign']);
-
-        }, error : err => {
-          console.log(err);
-        },
-        complete : () =>{
-
-        }
-      })
-    }
-
 
   }
 

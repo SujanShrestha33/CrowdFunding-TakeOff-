@@ -44,9 +44,18 @@ button{
     vertical-align: top;
   border: 2px solid grey !important;
 }
+.margin-forms{
+  margin-top: 6rem !important;
+
+}
 @media only screen and (max-width: 767px) {
   .border-container{
     border: none;
+  }
+  .margin-forms{
+    // margin-top: 6rem !important;
+    margin-top: 0 !important;
+
   }
 }
 .file-upload {

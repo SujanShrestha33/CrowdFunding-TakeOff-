@@ -40,6 +40,7 @@
   padding: 0rem 4rem 4rem 4rem;
 }
 
+
 .titles{
   // background-color: red;
   margin: 0 5rem 0 5rem;
@@ -135,14 +136,16 @@ input{
 
 @media only screen and (max-width: 767px) {
 
-  .titles{
-    display: none;
-  }
+
   .coverImage{
     height: 250px;
     width: 400px;
     border-radius: 20px;
   }
+  // .chart-container {
+  //   width: 100%;
+  //   margin-bottom: 20px;
+  // }
 }
 
 

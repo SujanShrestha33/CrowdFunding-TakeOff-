@@ -91,10 +91,11 @@ export class AuthService {
     localStorage.removeItem('ReturnUser');
     this.currentUserSubject.next(null);
     this.stopRefreshTokenTimer();
-    this.router.navigate(['']);
     this.userId = '';
     this.currentEmail = '';
     this.loggedIn = false;
+    this.userRole = '';
+    location.reload();
   }
 
   sendForVerification(verifyEmail : string){

@@ -8,7 +8,8 @@
     </div>
     <div class="row text-center" *ngIf="pageType === 'myinvestment'">
       <h1 *ngIf="projects.length == 0">You haven't invested in any campaign till now! <br>Let's support our creators. Click on discover to browse various projects!</h1>
-    </div><div class="row text-center" *ngIf="pageType === 'saved'">
+    </div>
+    <div class="row text-center" *ngIf="pageType === 'saved'">
       <h1 *ngIf="projects.length == 0">You haven't saved any campaigns till now! <br>Let's support our creators. Click on discover to browse various projects!</h1>
     </div>
     <hr style="color: grey;">
@@ -28,6 +29,7 @@
                 <!-- SVG code -->
               <!-- </svg> -->
               <i  *ngIf="pageType == 'new' && authService.userRole == 'user'" (click)="createBookmark(item['_id'])" class="fa-regular fa-bookmark save-icon"></i>
+              <i *ngIf="pageType == 'saved' && authService.userRole == 'user'" (click)="removeBookmark(item['_id'])" class="fa-solid fa-bookmark save-icon" title="Unsave"></i>
             </div>
 
             <p class="h6" *ngIf="item.author">Creator : {{item.author['firstName']}} {{item.author['lastName']}}</p>
@@ -43,4 +45,10 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="loading" style="height: 50vh;" class="d-flex justify-content-center align-items-center">
+  <div class="spinner-border spinner-border" style="color: #073976;" role="status">
+    <span class="sr-only"></span>
+  </div>
+
 </div>

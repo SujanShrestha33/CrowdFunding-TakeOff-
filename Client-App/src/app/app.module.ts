@@ -18,6 +18,7 @@ import { DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -37,8 +38,11 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     NgSelectModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right' // Configure toastr to appear at the bottom right
+    }),
     CarouselModule,
+    NgChartsModule,
 
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, DatePipe],

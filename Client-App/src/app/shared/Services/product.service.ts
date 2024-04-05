@@ -125,4 +125,18 @@ export class ProductService {
   changeStatus(projectId : string, body : any){
     return this.http.post(`${this.baseUrl}admin/project/status/${projectId}`, body);
   }
+
+  removeBookmark(projectId : string){
+    // /projects/removeBookmark/:projectId
+    return this.http.post(`${this.baseUrl}projects/removeBookmark/${projectId}`, {});
+  }
+
+  updateMedia(formData : FormData, projectId : string){
+    return this.http.post(`${this.baseUrl}projects/${projectId}/updateMedia`, formData);
+  }
+
+  updateStory(projectId : string, body : any){
+    return this.http.post(`${this.baseUrl}projects/${projectId}/updateStory`, body);
+  }
+
 }

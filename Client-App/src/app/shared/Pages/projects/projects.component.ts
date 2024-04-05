@@ -91,13 +91,13 @@ export class ProjectsComponent implements OnInit {
           //   elem.remainingDays = this.currentFormattedDate - elem.endDate
           // })
         console.log(this.projects);
-        this.loading = false;
         this.projectService.getRemDays(this.projects);
         if(this.authService.userRole != 'admin'){
-        this.projects = this.projectService.filterProject(this.projects);
+          this.projects = this.projectService.filterProject(this.projects);
         }
         this.projectCount = this.projects.length;
         console.log(this.projects);
+        this.loading = false;
 
         // this.projects = this.projects.filter(elem => elem['currentAmount'] < elem['goalAmount'], elem => elem['remainingDays'] >= 0);
       },
@@ -132,7 +132,12 @@ export class ProjectsComponent implements OnInit {
 
   navigate(id : string) {
     console.log(this.pageType);
-    this.router.navigate([`project-view/${id}/new`]);
+    if(this.pageType == 'saved'){
+      this.router.navigate([`project-view/${id}/saved`]);
+    }else{
+
+      this.router.navigate([`project-view/${id}/new`]);
+    }
   }
 
   createBookmark(id : string){
@@ -149,6 +154,24 @@ export class ProjectsComponent implements OnInit {
       error : err => {
         console.log(err);
         this.toastr.error('Already Saved, check your saved campaigns');
+      },
+      complete : () => {
+
+      }
+    })
+  }
+
+  removeBookmark(id : string){
+    this.projectService.removeBookmark(id)
+    .subscribe({
+      next : (res) => {
+        console.log(res);
+        this.getSavedProjects();
+        this.toastr.success('Campaign removed successfully');
+      },
+      error : err => {
+        console.log(err);
+        this.toastr.error('Campaign could not be removed');
       },
       complete : () => {
 
