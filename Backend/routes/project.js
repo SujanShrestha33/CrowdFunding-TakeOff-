@@ -25,6 +25,13 @@ router.post(
   checkAuth,
   projectExtraController.createStory,
 );
+
+router.post(
+  "/projects/:projectId/updateStory",
+  checkAuth,
+  projectExtraController.updateStory,
+);
+
 router.post(
   "/projects/:projectId/update",
   checkAuth,
