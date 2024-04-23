@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./User");
 
 const ProjectSchema = new mongoose.Schema({
   title: {
@@ -69,12 +70,59 @@ const ProjectSchema = new mongoose.Schema({
   },
 });
 
-ProjectSchema.pre("save", function (next) {
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: "developertest1401@gmail.com",
+    pass: "fubs qbll xfgf uamo",
+  },
+});
+
+ProjectSchema.pre("save", async function (next) {
   if (this.currentAmount >= this.goalAmount) {
     this.status = "completed";
+    // find the author by id first
+    const author = await User.findById(this.author);
+    console.log("Thr author inside project status is ", author);
+    // send email to the author
+    const mailOptions = {
+      from: "crowdfunding@gmail.com",
+      to: author.email,
+      subject: "Project Completed",
+      text: ` Congratulations! Your project ${this.title} has been successfully completed.`,
+    };
+    transporter.sendMail(mailOptions, (e, info) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log("email has been sent", info.response);
+      }
+    });
   }
   if (this.endDate < Date.now() && this.currentAmount < this.goalAmount) {
     this.status = "failed";
+
+    const author = await User.findById(this.author);
+    console.log("Thr author inside project status is ", author);
+
+    // send email to the author
+    const mailOptions = {
+      from: "crowdfunding@gmail.com",
+      to: author.email,
+      subject: "Project Failed",
+      text: ` We are sorry to inform you that your project ${this.title} has failed to reach its goal amount.`,
+    };
+    transporter.sendMail(mailOptions, (e, info) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log("email has been sent", info.response);
+      }
+    });
   }
   next();
 });
