@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./User");
+const Investor = require("./Investor");
 
 const ProjectSchema = new mongoose.Schema({
   title: {
@@ -88,10 +89,21 @@ ProjectSchema.pre("save", async function (next) {
     // find the author by id first
     const author = await User.findById(this.author);
     console.log("Thr author inside project status is ", author);
+
+    // get investor emails
+    const investors = await Investor.find({ projectId: this._id });
+    // now get the investor users based on the investorId
+    const investorUsers = await User.find({
+      _id: { $in: investors.map((investor) => investor.investorId) },
+    });
+
+    console.log("The investors are ", investorUsers);
+    const investorEmails = investorUsers.map((investor) => investor.email);
+    console.log("The investor emails are ", investorEmails);
     // send email to the author
     const mailOptions = {
       from: "crowdfunding@gmail.com",
-      to: author.email,
+      to: investorEmails.concat(author.email),
       subject: "Project Completed",
       text: ` Congratulations! Your project ${this.title} has been successfully completed.`,
     };
@@ -112,6 +124,7 @@ ProjectSchema.pre("save", async function (next) {
     // send email to the author
     const mailOptions = {
       from: "crowdfunding@gmail.com",
+
       to: author.email,
       subject: "Project Failed",
       text: ` We are sorry to inform you that your project ${this.title} has failed to reach its goal amount.`,
