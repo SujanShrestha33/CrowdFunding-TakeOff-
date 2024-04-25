@@ -19,6 +19,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgChartsModule } from 'ng2-charts';
+import { ErrorInterceptor } from './Helper/error.interceptor';
+import { FooterComponent } from './Shared Component/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { NgChartsModule } from 'ng2-charts';
     SharedComponent,
     NavBarComponent,
     InnerNavbarComponent,
-    MainComponent
+    MainComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,11 @@ import { NgChartsModule } from 'ng2-charts';
     NgChartsModule,
 
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, DatePipe],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorInterceptor,
+    multi: true
+  }, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

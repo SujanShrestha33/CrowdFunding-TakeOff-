@@ -5,7 +5,8 @@
   </div>
 </div>
 <!-- <hr> -->
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" *ngIf="!loading">
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" *ngIf="!loading"
+  (selectedIndexChange)="onTabChange($event)">
   <hr>
   <mat-tab label="Campaign">
     <div class="container p-4" *ngIf="!mediaForm">
@@ -26,7 +27,8 @@
             </ng-container>
           </ng-container>
           <div class="text-center mt-3">
-            <button *ngIf="medias.length > 1" (click)="prevMedia()" class="btn btn-sm btn-secondary mx-4">Previous</button>
+            <button *ngIf="medias.length > 1" (click)="prevMedia()"
+              class="btn btn-sm btn-secondary mx-4">Previous</button>
             <button *ngIf="canUpdate" (click)="toggleMedia()" class="btn btn-sm btn-secondary mx-4">
               <i class="fa-solid fa-pen-to-square"></i> Edit Media
             </button>
@@ -73,31 +75,36 @@
             </ng-container>
             <ng-container *ngIf="invested && project['status'] == 'failed'">
               <p style="color: red; font-size: 1rem; margin-top: 10px; font-weight: 700;">
-                Unfortunately, this campaign has failed to meet its goal on specified duration, Your investment will be refunded soon through TakeOff Administration!
+                Unfortunately, this campaign has failed to meet its goal on specified duration, Your investment will be
+                refunded soon through TakeOff Administration!
               </p>
             </ng-container>
             <ng-container *ngIf="invested && project['status'] == 'completed'">
               <p style="color: green; font-size: 1rem; margin-top: 10px; font-weight: 700;">
-                Congratulations, this campaign has successfully met its goal during specified duration, You will soon receive your rewards according to the investment you made! You will be contacted by creator or TakOff Team Soon!
+                Congratulations, this campaign has successfully met its goal during specified duration, You will soon
+                receive your rewards according to the investment you made! You will be contacted by creator or TakOff
+                Team Soon!
               </p>
             </ng-container>
             <ng-container *ngIf="canUpdate && project['status'] == 'completed'">
               <p style="color: green; font-size: 1rem; margin-top: 10px; font-weight: 700;">
-                Congratulations, this campaign has successfully met its goal during specified duration, You will soon receive your funds! You will be contacted by creator or TakOff Team Soon!
+                Congratulations, this campaign has successfully met its goal during specified duration, You will soon
+                receive your funds! You will be contacted by creator or TakOff Team Soon!
               </p>
             </ng-container>
             <ng-container *ngIf="canUpdate && project['status'] == 'failed'">
               <p style="color: red; font-size: 1rem; margin-top: 10px; font-weight: 700;">
-                Unfortunately, this campaign has failed to meet its goal on specified duration, the funds invested on this project till now will be returned to respected investors!
+                Unfortunately, this campaign has failed to meet its goal on specified duration, the funds invested on
+                this project till now will be returned to respected investors!
               </p>
             </ng-container>
             <div class="row ms-1">
-              <button *ngIf="pageType == 'new'&& !canUpdate && authService.userRole == 'user'" (click)="createBookmark()"
-                class="btn btn-lg col-6 my-1 buttons">
+              <button *ngIf="pageType == 'new'&& !canUpdate && authService.userRole == 'user'"
+                (click)="createBookmark()" class="btn btn-lg col-6 my-1 buttons">
                 <i class="fa-regular fa-bookmark save-icon"></i> Save For Later
               </button>
-              <button *ngIf="pageType == 'saved' && !canUpdate && authService.userRole == 'user'" (click)="removeBookmark()"
-                class="btn btn-lg col-6 my-1 buttons">
+              <button *ngIf="pageType == 'saved' && !canUpdate && authService.userRole == 'user'"
+                (click)="removeBookmark()" class="btn btn-lg col-6 my-1 buttons">
                 <i class="fa-regular fa-bookmark save-icon"></i> Unsave
               </button>
 
@@ -129,12 +136,17 @@
                 <div class="col-lg-6 text-center my-2 mx-auto">
                   <p>Select Images Related To Your Project</p>
                   <!-- <p class="h5">An image that will attract the backers towards your project.</p> -->
-                  <p class="h6">Select visually captivating images that showcase the essence and allure of your project. These images serve as the first glimpse into what backers can expect, enticing them to explore further. Whether it's stunning visuals of your product, behind-the-scenes snapshots of your creative process, or compelling graphics that convey your project's mission, choose images that resonate with your audience and pique their curiosity.</p>
+                  <p class="h6">Select visually captivating images that showcase the essence and allure of your project.
+                    These images serve as the first glimpse into what backers can expect, enticing them to explore
+                    further. Whether it's stunning visuals of your product, behind-the-scenes snapshots of your creative
+                    process, or compelling graphics that convey your project's mission, choose images that resonate with
+                    your audience and pique their curiosity.</p>
                 </div>
                 <div class="col-lg-6 border-container my-25 pt-5" (drop)="onImageDrop($event)"
                   (dragover)="onImageDragOver($event)" (dragleave)="onImageDragLeave($event)">
                   <div class="file-upload" [ngClass]="{'dragover': isImageDragging}">
-                    <input style="border: none !important;" type="file" id="image-input" (change)="onImageSelected($event)" accept="image/*" multiple/>
+                    <input style="border: none !important;" type="file" id="image-input"
+                      (change)="onImageSelected($event)" accept="image/*" multiple />
                     <label for="image-input">
                       <span>Drag & Drop or Click Here to Upload Image</span>
                     </label>
@@ -150,14 +162,19 @@
               <div class="row mt-2 p-5">
                 <div class="col-lg-6 text-center my-2 mx-auto">
                   <p>Next, Let's Select Video,</p>
-                  <p class="h6">Capture the essence and excitement of your project by selecting a compelling video to showcase to potential backers. Video content offers a dynamic and immersive way to tell your project's story, highlight its features, and engage your audience on a deeper level. Whether it's a product demonstration, a behind-the-scenes look at your creative process, or a heartfelt message from the creators, your video has the power to captivate and inspire.</p>
+                  <p class="h6">Capture the essence and excitement of your project by selecting a compelling video to
+                    showcase to potential backers. Video content offers a dynamic and immersive way to tell your
+                    project's story, highlight its features, and engage your audience on a deeper level. Whether it's a
+                    product demonstration, a behind-the-scenes look at your creative process, or a heartfelt message
+                    from the creators, your video has the power to captivate and inspire.</p>
 
                   <p class="h6">Please select a mp4 file for video media!</p>
                 </div>
                 <div class="col-lg-6 border-container my-25 pt-5" (drop)="onVideoDrop($event)"
                   (dragover)="onVideoDragOver($event)" (dragleave)="onVideoDragLeave($event)">
                   <div class="file-upload" [ngClass]="{'dragover': isVideoDragging}">
-                    <input style="border: none !important;" type="file" id="video-input" (change)="onVideoSelected($event)" accept="video/*"/>
+                    <input style="border: none !important;" type="file" id="video-input"
+                      (change)="onVideoSelected($event)" accept="video/*" />
                     <label for="video-input">
                       <span>Drag & Drop or Click Here to Upload Video</span>
                     </label>
@@ -169,7 +186,8 @@
         </div>
         <div class="row mt-2 p-4 d-flex justify-content-end">
           <div class="text-center">
-            You can add upto three images to your project excluding cover image and a single video! You can skip the process as well by clicking the button below!
+            You can add upto three images to your project excluding cover image and a single video! You can skip the
+            process as well by clicking the button below!
           </div>
           <button (click)="submitMedia()" class="btn col-2 mt-4 mx-4">
             Update
@@ -193,7 +211,8 @@
           <p class="h6" style="color: #073976;">{{ projectStory }}</p>
         </div>
         <div class="text-center" *ngIf="canUpdate">
-          <button class="btn" (click)="toggleStory()" *ngIf="!storyForm" style="background-color: #073976; color: white;">
+          <button class="btn" (click)="toggleStory()" *ngIf="!storyForm"
+            style="background-color: #073976; color: white;">
             <i class="fa-solid fa-pen-to-square"></i> Edit Story
           </button>
         </div>
@@ -208,19 +227,26 @@
                 <div class="col-12 text-center my-2">
                   <p>Project Story</p>
                   <p class="h5">
-                    The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals, and impact, enticing backers to become part of its journey. This narrative not only showcases the project's uniqueness but also establishes a personal connection with potential backers, fostering trust and excitement about supporting the endeavor.
+                    The 'story' serves as the narrative backbone, offering backers insight into the project's
+                    inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's
+                    essence, goals, and impact, enticing backers to become part of its journey. This narrative not only
+                    showcases the project's uniqueness but also establishes a personal connection with potential
+                    backers, fostering trust and excitement about supporting the endeavor.
                   </p>
                 </div>
                 <div class="col-12">
-                  <textarea type="text" class="form-control story-input" [(ngModel)]="story" placeholder="Project Story"></textarea>
+                  <textarea type="text" class="form-control story-input" [(ngModel)]="story"
+                    placeholder="Project Story"></textarea>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="row mt-2 p-4 d-flex justify-content-center">
-          <button (click)="submitStory()" class="btn col-md-2 me-2" style="background-color: #073976; color: white;">Submit</button>
-          <button class="btn col-md-2" (click)="toggleStory()" style="background-color: #073976; color: white;">Cancel</button>
+          <button (click)="submitStory()" class="btn col-md-2 me-2"
+            style="background-color: #073976; color: white;">Submit</button>
+          <button class="btn col-md-2" (click)="toggleStory()"
+            style="background-color: #073976; color: white;">Cancel</button>
         </div>
       </ng-container>
     </div>
@@ -242,7 +268,9 @@
             <div class="card-body text-center">
               <p class="card-text">{{ item.rewardDescription }}</p>
               <p class="card-text">Minimum Investment For Reward: Rs.{{ item.rewardAmount }}</p>
-              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)" *ngIf="pageType == 'new' && !invested && !canUpdate && authService.userRole != 'admin' || pageType == 'saved' && !invested && !canUpdate && authService.userRole != 'admin'" class="btn btn-lg btn-block my-4" style="background-color: #073976; color: white;">
+              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)"
+                *ngIf="pageType == 'new' && !invested && !canUpdate && authService.userRole != 'admin' || pageType == 'saved' && !invested && !canUpdate && authService.userRole != 'admin'"
+                class="btn btn-lg btn-block my-4" style="background-color: #073976; color: white;">
                 Invest In This Reward
               </button>
               <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
@@ -256,7 +284,8 @@
         <div class="row text-center">
           <p class="h4" style="color: #073976;">No Rewards Available for {{ project['title'] }}</p>
           <p class="h6" style="color: #073976;">
-            This campaign doesn't provide any update, You can invest in the project if you want to support it without any rewards.
+            This campaign doesn't provide any update, You can invest in the project if you want to support it without
+            any rewards.
           </p>
         </div>
         <hr style="border-color: #073976; border-width: 2px;">
@@ -299,7 +328,8 @@
             <button *ngIf="updateForm" class="btn mt-2" (click)="submitUpdate()">
               Submit
             </button>
-            <button *ngIf="updateForm && authService.loggedIn && canUpdate" class="btn mt-2 ms-2" (click)="toggleUpdate()">
+            <button *ngIf="updateForm && authService.loggedIn && canUpdate" class="btn mt-2 ms-2"
+              (click)="toggleUpdate()">
               Cancel
             </button>
           </div>
@@ -313,11 +343,8 @@
         <div style="background-color: #073976;" class="card-header text-white text-center">
           <div class="d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Comments for {{ project['title'] }}</h4>
-            <button
-              class="btn btn-light"
-              *ngIf="!commentForm && authService.loggedIn && authService.userRole == 'user'"
-              (click)="toggleComment()"
-            >
+            <button class="btn btn-light" *ngIf="!commentForm && authService.loggedIn && authService.userRole == 'user'"
+              (click)="toggleComment()">
               Add Your Comment
             </button>
           </div>
@@ -343,11 +370,8 @@
           <div class="row mt-3" *ngIf="commentForm">
             <div class="col-12">
               <label for="" class="form-label">Comment</label>
-              <textarea
-                class="form-control"
-                [(ngModel)]="content"
-                style="background-color: white; color: #073976; border-color: #073976;"
-              ></textarea>
+              <textarea class="form-control" [(ngModel)]="content"
+                style="background-color: white; color: #073976; border-color: #073976;"></textarea>
               <div class="text-end mt-2">
                 <button class="btn" (click)="submitComment()">Submit</button>
                 <button class="btn ms-2" (click)="toggleComment()">Cancel</button>
@@ -481,7 +505,8 @@
               <div class="body">
                 <p class="h6 text-center">
                   If a project appears fraudulent, copied, or if
-                  the creator has ceased providing updates for an extended period, users are encouraged to report it. Users
+                  the creator has ceased providing updates for an extended period, users are encouraged to report it.
+                  Users
                   who have more than 10 tokens and have invested in more than 10 projects only can report a particular
                   project. Please note that if a project
                   receives more than 10 reports, it will be taken down from our site. Thank you for helping us create a
@@ -562,6 +587,46 @@
       </div>
     </div>
   </mat-tab>
+
+  <mat-tab *ngIf="canUpdate" label="Campaign Analytics">
+    <div class="container mb-5">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mt-5 p-2">
+            <div class="card-body" *ngIf="authService.userRole == 'user' && canUpdate">
+              <div class="title">
+                <p class="h4 text-center">Campaign Analytics</p>
+              </div>
+              <div class="row">
+
+                <div class="col-lg-6 col-md-12 chart-container text-center mb-4 mb-lg-0">
+                  <p class="h5">
+                    Raised Amount and Goal Amount Comparison
+                  </p>
+                  <div id="doughnutChartContainer" style="height: 300px;    text-align: center;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;" class="ms-4">
+                    <!-- Replace "Chart" with actual chart component -->
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-12 chart-container text-center mb-4 mb-lg-0">
+                  <p class="h5">
+                    Campaign Backers
+                  </p>
+                  <div id="bar" style="height: 300px;">
+                    <!-- Replace "Chart" with actual chart component -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
 
 
 

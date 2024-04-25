@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Set wrapper to fill the entire viewport height */
+}
+
+.main {
+  flex: 1; /* Allow main content to grow and push footer to the bottom */
+}
+
+.footer {
+  background-color: #073976;
+  color: white;
+  padding: 20px 0;
+}

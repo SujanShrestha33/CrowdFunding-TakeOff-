@@ -13,6 +13,9 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { InvestmentSuccessComponent } from './Pages/investment-success/investment-success.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProgressBarComponent } from './Pages/progress-bar/progress-bar.component';
+import { AboutUsComponent } from './Pages/about-us/about-us.component';
+import { HowitworksComponent } from './Pages/howitworks/howitworks.component';
+import { TermsComponent } from './Pages/terms/terms.component';
 
 
 @NgModule({
@@ -24,6 +27,9 @@ import { ProgressBarComponent } from './Pages/progress-bar/progress-bar.componen
         ProjectViewComponent,
         InvestmentSuccessComponent,
         ProgressBarComponent,
+        AboutUsComponent,
+        HowitworksComponent,
+        TermsComponent,
   ],
   imports: [
     CommonModule,

@@ -35,10 +35,25 @@ export class ProjectsComponent implements OnInit {
       if(this.pageType === 'new'){
         this.getProjects();
       }else if (this.pageType === 'mycampaign'){
+        if(this.authService.loggedIn === false){
+          this.toastr.error('Please login to view your campaigns');
+          this.router.navigate(['/auth/login']);
+          return;
+        }
         this.getUserSpecificProjects();
       }else if (this.pageType === 'saved'){
+        if(this.authService.loggedIn === false){
+          this.toastr.error('Please login to view your campaigns');
+          this.router.navigate(['/auth/login']);
+          return;
+        }
         this.getSavedProjects();
       }else if(this.pageType === 'myinvestment'){
+        if(this.authService.loggedIn === false){
+          this.toastr.error('Please login to view your campaigns');
+          this.router.navigate(['/auth/login']);
+          return;
+        }
         this.getinvestedProject();
       }
     });

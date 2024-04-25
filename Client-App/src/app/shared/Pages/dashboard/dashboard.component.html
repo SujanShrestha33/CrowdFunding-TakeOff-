@@ -95,9 +95,250 @@
             </div>
           </div>
         </div>
+
+
+      </div>
+    </div>
+
+    <div class="cards-container" *ngIf="artProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Arts Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of artProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-container" *ngIf="fashionProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Fashion Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of fashionProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-container" *ngIf="techProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Technology Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of techProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="cards-container" *ngIf="miscProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Music Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of miscProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-container" *ngIf="gamesProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Games Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of gamesProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="cards-container" *ngIf="booksProjects.length > 3">
+
+      <div class="row p-4" >
+        <div class="row">
+          <div class="sub-titles">
+            <div>
+              Explore Campaigns From Books Category
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4" *ngFor="let item of booksProjects">
+          <div class="card p-3 mt-2 text-start">
+            <div class="img-container">
+              <img [src]="getCoverImageUrl(item.coverImage)" alt="" class="card-img">
+            </div>
+            <div class="px-4">
+              <hr style="color: #073976; border-width: 2px;" class="mx-1">
+              <div class="mx-1">
+                <div class="space-between">
+                  <p class="h4 project-title" (click)="openProject(item._id)">{{item.title}}</p>
+                  <i (click)="createBookmark(item._id)" class="fa-regular fa-bookmark save-icon"></i>
+                </div>
+                <p class="h6" *ngIf="item.author">{{item.author['firstName']}} {{item.author['lastName']}}</p>
+                <div class="d-flex justify-content-space-between">
+                  <fa-icon class="icon" [icon]=faClock style="font-size: 15px;"></fa-icon>
+                  <p class="ms-1">{{item.remainingDays}} days left - <span>{{item.fundPercent}}% funded</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pull-right text-end">
+          <a style="cursor: pointer;" class="col-12 h5 my-3" (click)="navigate()">
+            Explore More Campaigns!
+          </a>
+        </div>
       </div>
     </div>
   </div>
+
   <div *ngIf="loading" style="height: 50vh;" class="d-flex justify-content-center align-items-center">
     <div class="spinner-border spinner-border" style="color: #073976;" role="status">
       <span class="sr-only"></span>
@@ -141,3 +382,4 @@
     </div>
   </div>
 </div>
+

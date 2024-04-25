@@ -6,3 +6,18 @@
     margin-top: 4rem !important;
   }
 }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Set wrapper to fill the entire viewport height */
+}
+
+.content {
+  flex: 1; /* Allow content to grow and push footer to the bottom */
+}
+
+.footer {
+  background-color: #073976;
+  color: white;
+  padding: 20px 0;
+}

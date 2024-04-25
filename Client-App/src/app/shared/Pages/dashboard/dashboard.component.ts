@@ -25,6 +25,13 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   totalSuccess: number;
   totalFailed: number;
   totalOngoing: number;
+  artProjects: Projects[] = [];
+  techProjects: Projects[] = [];
+  othersProjects: Projects[] = [];
+  fashionProjects: Projects[] = [];
+  miscProjects: Projects[] = [];
+  gamesProjects: Projects[] = [];
+  booksProjects: Projects[] = [];
 
 
   constructor (
@@ -38,6 +45,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       this.getProjects();
     }else{
       this.getTopProjects();
+      this.getProjectsForUser();
     }
 
   }
@@ -208,6 +216,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
   createDoughnutChart() {
+    console.log(this.chartData);
     var options = {
       cutoutPercentage: 40,
       radius: '60%', // Set the radius of the doughnut chart
@@ -351,4 +360,39 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     this.router.navigate(['/discover/new/All']);
   }
 
+  getProjectsForUser(){
+    this.loading = true;
+
+    this.projectService.getProductsList().subscribe({
+      next : (res) => {
+        console.log(res);
+        let projects = res['data'] as Projects[];
+        projects = res['data'] as Projects[];
+        const artProjs = projects.filter((elem) => elem['category'] === 'Art');
+        const techProjs = projects.filter((elem) => elem['category'] === 'Technology');
+        const othersProjs = projects.filter((elem) => elem['category'] === 'Others');
+        const fashionProjs = projects.filter((elem) => elem['category'] === 'Fashion');
+        const miscProjs = projects.filter((elem) => elem['category'] === 'Music');
+        const gamesProjs = projects.filter((elem) => elem['category'] === 'Games');
+        const booksProjs = projects.filter((elem) => elem['category'] === 'Books');
+
+        this.artProjects = artProjs;
+        this.techProjects = techProjs;
+        this.othersProjects = othersProjs;
+        this.fashionProjects = fashionProjs;
+        this.miscProjects = miscProjs;
+        this.gamesProjects = gamesProjs;
+        this.booksProjects = booksProjs;
+        this.loading = false;
+      },
+      error : (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete : () => {
+        console.log('completed');
+        this.loading = false;
+      }
+    })
+  }
 }

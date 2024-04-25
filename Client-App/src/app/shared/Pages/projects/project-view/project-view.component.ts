@@ -1,19 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Projects } from 'src/app/Models/projects.model';
 import { AuthService } from 'src/app/auth/Services/auth.service';
 import { ProductService } from 'src/app/shared/Services/product.service';
+import { Chart, ChartOptions, ChartType } from 'chart.js';
+
 
 @Component({
   selector: 'app-project-view',
   templateUrl: './project-view.component.html',
   styleUrls: ['./project-view.component.scss'],
 })
-export class ProjectViewComponent implements OnInit {
+export class ProjectViewComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
+  public chart: any;
+  chartData: any =[];
   productId: string = '';
   project: Projects[] = [];
   totalInvestors: number = 0;
@@ -84,6 +88,130 @@ export class ProjectViewComponent implements OnInit {
       });
     }
     this.getProjectDetails();
+  }
+
+
+  ngAfterViewInit(): void {
+
+  }
+
+  runDoughnut(){
+    setTimeout(() => {
+      this.createBarChart();
+      // // this.createLineChart();
+      // this.createLineChart();
+      this.createDoughnutChart();
+
+    }, 1000)
+  }
+
+  onTabChange(event: any): void {
+    console.log(event);
+    if (event === 8) { // Assuming the index of the Campaign Analytics tab is 1
+      this.runDoughnut();
+    }
+  }
+
+  createBarChart(): void {
+    const labels = this.investors.map(investor => investor.investorId['username']);
+    const investments = this.investors.map(investor => investor.investedAmount);
+    const doughnutChartContainer = document.getElementById('bar');
+   if (!doughnutChartContainer) {
+     console.error('BarChartContainer is undefined');
+     return;
+   }
+
+   // Create canvas element
+   const canvas = document.createElement('canvas');
+   canvas.id = 'BarChart';
+
+   // Append canvas element to container
+   doughnutChartContainer.appendChild(canvas);
+
+   const ctx = canvas.getContext('2d');
+
+   if (!ctx) {
+     console.error('Failed to acquire 2D context');
+     return;
+   }
+
+   this.chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Investments',
+        data: investments,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Investment Amount'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Investor Name'
+          }
+        }
+      }
+    }
+  });
+
+ }
+
+
+
+  createDoughnutChart(): void {
+     const doughnutChartContainer = document.getElementById('doughnutChartContainer');
+    if (!doughnutChartContainer) {
+      console.error('doughnutChartContainer is undefined');
+      return;
+    }
+
+    this.chartData = [this.project['goalAmount'], this.project['currentAmount']];
+    console.log(this.chartData);
+
+    const options = {
+      cutoutPercentage: 40,
+      radius: '60%', // Set the radius of the doughnut chart
+    };
+
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    canvas.id = 'DoughnutChart';
+
+    // Append canvas element to container
+    doughnutChartContainer.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      console.error('Failed to acquire 2D context');
+      return;
+    }
+
+    this.chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Goal Amount', 'Raised Amount'],
+        datasets: [{
+          label: '',
+          data: this.chartData,
+          backgroundColor: ['red', 'green'],
+          hoverOffset: 4
+        }]
+      },
+      options: options
+    });
   }
 
   onImageSelected(event: any) {
