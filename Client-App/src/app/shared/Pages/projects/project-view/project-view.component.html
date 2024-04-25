@@ -66,9 +66,29 @@
               class="btn btn-lg col-12 my-4 buttons" (click)="openModal(template)">
               Invest In This Project
             </button>
-            <ng-container *ngIf="invested">
+            <ng-container *ngIf="invested && project['status'] == 'active'">
               <p style="color: #073976; font-size: 1rem; margin-top: 10px; font-weight: 700;">
-                You Have Already Invested In This Project, Please Check My Investments Page!
+                You Have Already Invested In This Project, Please Check My Investments Page For Campaign Status!
+              </p>
+            </ng-container>
+            <ng-container *ngIf="invested && project['status'] == 'failed'">
+              <p style="color: red; font-size: 1rem; margin-top: 10px; font-weight: 700;">
+                Unfortunately, this campaign has failed to meet its goal on specified duration, Your investment will be refunded soon through TakeOff Administration!
+              </p>
+            </ng-container>
+            <ng-container *ngIf="invested && project['status'] == 'completed'">
+              <p style="color: green; font-size: 1rem; margin-top: 10px; font-weight: 700;">
+                Congratulations, this campaign has successfully met its goal during specified duration, You will soon receive your rewards according to the investment you made! You will be contacted by creator or TakOff Team Soon!
+              </p>
+            </ng-container>
+            <ng-container *ngIf="canUpdate && project['status'] == 'completed'">
+              <p style="color: green; font-size: 1rem; margin-top: 10px; font-weight: 700;">
+                Congratulations, this campaign has successfully met its goal during specified duration, You will soon receive your funds! You will be contacted by creator or TakOff Team Soon!
+              </p>
+            </ng-container>
+            <ng-container *ngIf="canUpdate && project['status'] == 'failed'">
+              <p style="color: red; font-size: 1rem; margin-top: 10px; font-weight: 700;">
+                Unfortunately, this campaign has failed to meet its goal on specified duration, the funds invested on this project till now will be returned to respected investors!
               </p>
             </ng-container>
             <div class="row ms-1">
@@ -162,59 +182,45 @@
     </div>
   </mat-tab>
   <mat-tab *ngIf="projectStory" label="Story">
-    <div class="container card col-6 p-5 mt-5 mb-5" *ngIf="!storyForm">
-      <div class="row text-center">
-        <p class="h4">
-          Story of <span style="color: #073976; text-decoration: underline;">
-            {{project['title']}}
-          </span>
-        </p>
-      </div>
-      <div class="row">
-        <p class="h6" style="color: #073976;">
-          {{projectStory}}
-        </p>
-      </div>
-      <div class="text-center" *ngIf="canUpdate">
-        <button class="btn" (click)="toggleStory()" *ngIf="!storyForm">
-          <i class="fa-solid fa-pen-to-square"></i> Edit Story
-        </button>
+    <div class="container p-4" *ngIf="!storyForm">
+      <div class="card col-md-8 col-lg-6 mx-auto p-5">
+        <div class="row text-center">
+          <p class="h4">
+            Story of <span style="color: #073976; text-decoration: underline;">{{ project['title'] }}</span>
+          </p>
+        </div>
+        <div class="row">
+          <p class="h6" style="color: #073976;">{{ projectStory }}</p>
+        </div>
+        <div class="text-center" *ngIf="canUpdate">
+          <button class="btn" (click)="toggleStory()" *ngIf="!storyForm" style="background-color: #073976; color: white;">
+            <i class="fa-solid fa-pen-to-square"></i> Edit Story
+          </button>
+        </div>
       </div>
     </div>
     <div class="container">
       <ng-container *ngIf="storyForm">
         <div class="row mt-2 p-4">
-          <div class="card">
+          <div class="card col-md-8 col-lg-6 mx-auto">
             <div class="card-body">
               <div class="row mt-2 p-5">
-                <div class="col-lg-6 text-center my-2 mx-auto"> <!-- Adjust column width based on screen size -->
-                  <p>
-                    Project Story
-                  </p>
+                <div class="col-12 text-center my-2">
+                  <p>Project Story</p>
                   <p class="h5">
-                    The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration,
-                    creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals,
-                    and impact, enticing backers to become part of its journey. This narrative not only showcases the
-                    project's uniqueness but also establishes a personal connection with potential backers, fostering trust
-                    and excitement about supporting the endeavor.
+                    The 'story' serves as the narrative backbone, offering backers insight into the project's inspiration, creators' motivations, and vision. It's a compelling account that conveys the project's essence, goals, and impact, enticing backers to become part of its journey. This narrative not only showcases the project's uniqueness but also establishes a personal connection with potential backers, fostering trust and excitement about supporting the endeavor.
                   </p>
                 </div>
-                <div class="col-lg-6 border-container"> <!-- Adjust column width based on screen size -->
-                  <textarea type="text" class="form-control ms-3 story-input" [(ngModel)]="story"
-                    placeholder="Project Story">
-                    </textarea>
+                <div class="col-12">
+                  <textarea type="text" class="form-control story-input" [(ngModel)]="story" placeholder="Project Story"></textarea>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row mt-2 p-4 d-flex justify-content-end">
-          <button (click)="submitStory()" class="btn col-2 me-2">
-            Submit
-          </button>
-          <button class="btn col-2 report-button" (click)="toggleStory()">
-            Cancel
-          </button>
+        <div class="row mt-2 p-4 d-flex justify-content-center">
+          <button (click)="submitStory()" class="btn col-md-2 me-2" style="background-color: #073976; color: white;">Submit</button>
+          <button class="btn col-md-2" (click)="toggleStory()" style="background-color: #073976; color: white;">Cancel</button>
         </div>
       </ng-container>
     </div>
@@ -223,23 +229,24 @@
     <div class="container p-4" *ngIf="rewards.length > 0">
       <div class="title">
         <div class="row text-center">
-          <p class="h4">Available Rewards for {{project['title']}}</p>
+          <p class="h4" style="color: #073976;">Available Rewards for {{ project['title'] }}</p>
         </div>
-        <hr style="color: grey;">
+        <hr style="border-color: #073976; border-width: 2px;">
       </div>
-      <div class="row px-4 align-items-start"> <!-- align-items-start to align items at the top -->
-        <div class="card col-3 mx-5" *ngFor="let item of rewards">
-          <div class="card-header text-center">
-            <p class="h4">{{item.rewardTitle}}</p>
-          </div>
-          <div class="card-body">
-            <p class="h6">{{item.rewardDescription}}</p>
-            <p class="h6">Minimum Investment For Reward: Rs.{{item.rewardAmount}}</p>
-            <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)"
-              *ngIf="pageType == 'new' && !invested && !canUpdate" class="btn btn-lg col-12 my-4 buttons">
-              Invest In This Reward
-            </button>
-            <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
+      <div class="row px-4 align-items-start">
+        <div class="col-md-4 col-sm-6 mb-4" *ngFor="let item of rewards">
+          <div class="card h-100" style="border: 2px solid #073976; border-radius: 10px;">
+            <div class="card-header text-center" style="background-color: #073976; color: white; padding: 1rem;">
+              <h5 class="card-title mb-0">{{ item.rewardTitle }}</h5>
+            </div>
+            <div class="card-body text-center">
+              <p class="card-text">{{ item.rewardDescription }}</p>
+              <p class="card-text">Minimum Investment For Reward: Rs.{{ item.rewardAmount }}</p>
+              <button (click)="investAmount(item.rewardAmount)" (click)="openModal(template)" *ngIf="pageType == 'new' && !invested && !canUpdate && authService.userRole != 'admin' || pageType == 'saved' && !invested && !canUpdate && authService.userRole != 'admin'" class="btn btn-lg btn-block my-4" style="background-color: #073976; color: white;">
+                Invest In This Reward
+              </button>
+              <p *ngIf="invested" class="h6" style="color: #073976;">Already Invested In This Project!</p>
+            </div>
           </div>
         </div>
       </div>
@@ -247,176 +254,197 @@
     <div class="container p-4" *ngIf="rewards.length == 0">
       <div class="title">
         <div class="row text-center">
-          <p class="h4">No Rewards Available for {{project['title']}}</p>
-          <p class="h6">
-            This campaign doesn't provide any update, You can invest in the project if you want to support it without
-            any rewards.
+          <p class="h4" style="color: #073976;">No Rewards Available for {{ project['title'] }}</p>
+          <p class="h6" style="color: #073976;">
+            This campaign doesn't provide any update, You can invest in the project if you want to support it without any rewards.
           </p>
         </div>
-        <hr style="color: grey;">
+        <hr style="border-color: #073976; border-width: 2px;">
       </div>
     </div>
   </mat-tab>
   <mat-tab label="Updates">
-    <div class="container card col-6 mt-5 p-4 mb-5" style="background-color: #073976; color: white;">
-      <div class="row text-center">
-        <p class="h4">
-          Updates From Project Creator
-        </p>
-      </div>
-      <div class="row" *ngIf="!updateForm">
-        <div *ngFor="let item of projectUpdates" class="card my-3">
-          <div class="card-header p-4">
-            <p class="h3">{{item.title}}
-            </p>
-            <p class="h6">{{ item.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
-            </p>
+    <div class="container p-4">
+      <div class="card col-md-8 col-lg-6 mx-auto mt-5 mb-5">
+        <div style="background-color: #073976;" class="card-header text-white text-center">
+          <p class="h4 mb-0">Updates From Project Creator</p>
+        </div>
+        <div class="card-body">
+          <div *ngIf="!updateForm">
+            <div *ngFor="let item of projectUpdates" class="card mb-3">
+              <div class="card-header bg-light">
+                <p class="h5 mb-0">{{ item.title }}</p>
+                <p class="text-muted mb-0">{{ item.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ item.description }}</p>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <p class="h6">{{item.description}}</p>
+          <div *ngIf="projectUpdates.length == 0" class="text-center py-4">No Updates Till Now</div>
+          <div *ngIf="updateForm" class="row p-4">
+            <div class="col-12">
+              <label for="" class="form-label">Update Title</label>
+              <input type="text" class="form-control" [(ngModel)]="updateTitle">
+            </div>
+            <div class="col-12 mt-3">
+              <label for="" class="form-label">Update Description</label>
+              <textarea class="form-control" [(ngModel)]="updateDescription"></textarea>
+            </div>
+          </div>
+          <div class="text-center mb-4">
+            <button *ngIf="!updateForm && authService.loggedIn && canUpdate" class="btn mt-2" (click)="toggleUpdate()">
+              Add Update
+            </button>
+            <button *ngIf="updateForm" class="btn mt-2" (click)="submitUpdate()">
+              Submit
+            </button>
+            <button *ngIf="updateForm && authService.loggedIn && canUpdate" class="btn mt-2 ms-2" (click)="toggleUpdate()">
+              Cancel
+            </button>
           </div>
         </div>
-      </div>
-      <div *ngIf="projectUpdates.length == 0" class="text-center">
-        No Updates Till Now
-      </div>
-      <div *ngIf="updateForm" class="row">
-        <label for="" class="form-control-label">Update Title</label>
-        <input type="text" class="form-control" [(ngModel)]="updateTitle">
-        <label for="" class="form-control-label">Update Description</label>
-        <textarea class="form-control" [(ngModel)]="updateDescription">
-        </textarea>
-      </div>
-      <div class="text-center">
-        <button *ngIf="!updateForm && authService.loggedIn && canUpdate" class="btn mt-2" (click)="toggleUpdate()">
-          Add Update
-        </button>
-        <button *ngIf="updateForm" class="btn mt-2" (click)="submitUpdate()">
-          Submit
-        </button>
       </div>
     </div>
   </mat-tab>
   <mat-tab label="Comments">
-    <div class="container card mt-5 p-4 mb-4"
-      style="background-color: #073976; color: white; border-radius: 10px; width: 400px;">
-      <div class="row text-center mb-3">
-        <h4>Comments for {{project['title']}}</h4>
-      </div>
-      <div *ngIf="comments.length === 0" class="text-center mb-3">
-        No comments yet. Be the first one to comment.
-      </div>
-      <div *ngIf="!commentForm" class="row" style="max-height: 300px; overflow-y: auto;">
-        <div *ngFor="let item of comments" class="card my-3" style="background-color: #f0f0f0; color: #073976;">
-          <div class="card-body">
-            <p *ngIf="profileData['username'] != item['createdBy'].username" class="h6">Commented By <span style="color: #073976;">{{item['createdBy'].username}}</span></p>
-            <p *ngIf="profileData['username'] == item['createdBy'].username" class="h6">Commented By <span style="color: #073976; text-decoration: underline;">Project Creator</span></p>
-            <hr style="background-color: #073976;">
-            <p class="h6">{{item.content}}</p>
+    <div class="container p-4">
+      <div class="card col-md-8 col-lg-6 mx-auto mt-5 mb-4">
+        <div style="background-color: #073976;" class="card-header text-white text-center">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Comments for {{ project['title'] }}</h4>
+            <button
+              class="btn btn-light"
+              *ngIf="!commentForm && authService.loggedIn && authService.userRole == 'user'"
+              (click)="toggleComment()"
+            >
+              Add Your Comment
+            </button>
           </div>
         </div>
-      </div>
-      <div class="row mt-3" *ngIf="commentForm">
-        <div class="card" style="background-color: #f0f0f0; color: #073976; width: 100%;">
-          <div class="card-body">
-            <label for="" class="form-control-label">Comment</label>
-            <textarea class="form-control" [(ngModel)]="content"
-              style="background-color: white; color: #073976; border-color: #073976;"></textarea>
-            <div class="text-end mt-2">
-              <button class="btn btn-primary" (click)="submitComment()">Submit</button>
+        <div class="card-body">
+          <div *ngIf="comments.length === 0" class="text-center mb-3">
+            No comments yet. Be the first one to comment.
+          </div>
+          <div *ngIf="!commentForm" class="comment-container" style="max-height: 300px; overflow-y: auto;">
+            <div *ngFor="let item of comments" class="card mb-3">
+              <div class="card-body">
+                <p *ngIf="profileData['username'] != item['createdBy'].username" class="mb-1">
+                  Commented By <span class="text-primary">{{ item['createdBy'].username }}</span>
+                </p>
+                <p *ngIf="profileData['username'] == item['createdBy'].username" class="mb-1">
+                  Commented By <span class="text-primary font-weight-bold">Project Creator</span>
+                </p>
+                <hr class="my-2" style="border-color: #073976;" />
+                <p class="card-text">{{ item.content }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3" *ngIf="commentForm">
+            <div class="col-12">
+              <label for="" class="form-label">Comment</label>
+              <textarea
+                class="form-control"
+                [(ngModel)]="content"
+                style="background-color: white; color: #073976; border-color: #073976;"
+              ></textarea>
+              <div class="text-end mt-2">
+                <button class="btn" (click)="submitComment()">Submit</button>
+                <button class="btn ms-2" (click)="toggleComment()">Cancel</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-end mt-3">
-        <button class="btn btn-primary" *ngIf="!commentForm && authService.loggedIn && authService.userRole == 'user'"
-          (click)="toggleComment()">Add Your Comment</button>
-        <button class="btn btn-secondary" *ngIf="commentForm" (click)="toggleComment()">Back</button>
-      </div>
     </div>
-
   </mat-tab>
   <mat-tab label="About Creator">
-    <!-- <div class="main-container"> -->
-    <div class="mt-5 col-12 d-flex justify-content-center">
-      <div class="card col-lg-4 col-md-6 col-sm-8 col-10">
-        <div class="card-header text-center" style="background-color: white !important;">
-          <p class="h3">About Creator</p>
+    <div class="container p-4">
+      <div class="card col-md-8 col-lg-6 mx-auto mt-5">
+        <div style="background-color: #073976;" class="card-header text-white text-center">
+          <h3 class="mb-0">About Creator</h3>
         </div>
         <div class="card-body">
-
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">First Name :</div>
-            <div class="col-6">{{profileData.firstName}}</div>
-          </div>
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">Last Name :</div>
-            <div class="col-6">{{profileData.lastName}}</div>
-          </div>
-
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">Username :</div>
-            <div class="col-6">{{profileData.username}}</div>
-          </div>
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">Email :</div>
-            <div class="col-6">{{profileData.email}}</div>
-          </div>
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">Phone Number :</div>
-            <div class="col-6">{{profileData.phoneNumber}}</div>
-          </div>
-          <div class="row col-12 h5">
-            <div class="col-6 text-end">Address :</div>
-            <div class="col-6">{{profileData.address}}</div>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">First Name:</span>
+                <span>{{ profileData.firstName }}</span>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Last Name:</span>
+                <span>{{ profileData.lastName }}</span>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Username:</span>
+                <span>{{ profileData.username }}</span>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Email:</span>
+                <span>{{ profileData.email }}</span>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Phone Number:</span>
+                <span>{{ profileData.phoneNumber }}</span>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Address:</span>
+                <span>{{ profileData.address }}</span>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
-    <!-- </div> -->
-
   </mat-tab>
   <mat-tab *ngIf="token > 10 || authService.userRole == 'admin' || canUpdate" label="Investors">
-    <div class="container" *ngIf="investors.length > 0">
-      <div class="title text-center mt-4 h5">
-        Total Investors : {{totalInvestors}}
-      </div>
-      <div class="row">
-
-          <div class="table table-responsive mt-4">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Investor's Name</th>
-                  <th>Investor's Email</th>
-                  <th>Investor's Phone Number</th>
-                  <th>Investor's Address</th>
-                  <th style="color: green">Invested Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of investors; let i = index">
-                  <td>{{item['investorId'].username}}</td>
-                  <td>{{item['investorId'].email}}</td>
-                  <td>{{item['investorId'].phoneNumber}}</td>
-                  <td>{{item['investorId'].address}}</td>
-                  <!-- <td>{{item['createdBy'].email}}</td> -->
-                  <td style="color: green">Rs.{{item['investedAmount']}}</td>
-                </tr>
-              </tbody>
-            </table>
-
+    <div class="container p-4">
+      <div class="card col-md-10 col-lg-8 mx-auto mt-5">
+        <div style="background-color: #073976;" class="card-header text-white text-center">
+          <h4 class="mb-0">Investors</h4>
+        </div>
+        <div class="card-body">
+          <div *ngIf="investors.length > 0">
+            <div class="title text-center mb-4 h5">Total Investors: {{ totalInvestors }}</div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Investor's Name</th>
+                    <th>Investor's Email</th>
+                    <th>Investor's Phone Number</th>
+                    <th>Investor's Address</th>
+                    <th class="text-success">Invested Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of investors; let i = index">
+                    <td>{{ item['investorId'].username }}</td>
+                    <td>{{ item['investorId'].email }}</td>
+                    <td>{{ item['investorId'].phoneNumber }}</td>
+                    <td>{{ item['investorId'].address }}</td>
+                    <td class="text-success">Rs. {{ item['investedAmount'] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="investors.length == 0" class="text-center py-4">
+            <p class="mb-0">No Investors Till Now</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="container" *ngIf="investors.length == 0">
-      <div class="title text-center mt-4 h5">
-        No Investors Till Now
-      </div>
-    </div>
-
-
   </mat-tab>
   <mat-tab *ngIf="token > 10 || authService.userRole == 'admin' || canUpdate" label="Reporting">
     <div class="container mb-5">

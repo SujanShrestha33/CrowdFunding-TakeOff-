@@ -1,84 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
 
-.main-container{
+.main-container {
   margin-top: 1rem !important;
 }
 
-// span{
-//   color: #073976;
-//   font-family: "Madimi One", sans-serif;
-//   font-weight: 400;
-//   font-style: normal;
-// }
-
-
-.card{
-  border: none;
-  // cursor : pointer;
-}
-
-.card:hover{
+.card:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-
-
-.project-title{
+.project-title {
   font-size: 2rem;
   font-weight: 500;
 }
 
-.project-title:hover{
-  cursor: pointer;
-  text-decoration: underline;
-
-}
-
-
-
-.card-container{
+.card-container {
   padding: 0rem 4rem 4rem 4rem;
 }
 
-
-.titles{
-  // background-color: red;
+.titles {
   margin: 0 5rem 0 5rem;
   padding: 10px 1rem 10px 1rem;
   font-size: 1.3rem;
   font-weight: 500;
 }
 
-.mat-tab-group {
-  margin-bottom: 48px;
-}
-.coverImage{
+.coverImage {
   height: 450px;
   width: 600px;
   border-radius: 20px;
 }
-button{
+
+button {
   color: #073976 !important;
   background-color: white !important;
   outline: 3px solid #073976 !important;
 }
-button:hover{
-  background-color: #073976 !important; color: white !important; border: 2px solid white !important;
+
+button:hover {
+  background-color: #073976 !important;
+  color: white !important;
+  border: 2px solid white !important;
 }
-.icons{
+
+.icons {
   font-size: 1.5rem;
   margin: 10px 0px 10px 10px;
 }
-input{
-  border: 2px solid grey !important;
-}
-.card-img{
+
+.card-img {
   height: 100%;
   width: auto;
   border-radius: 5px;
 }
 
-.img-container{
+.img-container {
   height: 180px;
   display: flex;
   align-items: center;
@@ -86,41 +61,34 @@ input{
   padding: 5px;
 }
 
-// .card{
-//   border: none;
-//   // cursor : pointer;
-// }
-
-.cards{
+.cards {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px !important;
   border-radius: 10px;
 }
 
-.space-between{
+.space-between {
   display: flex;
   justify-content: space-between;
 }
 
-.save-icon{
+.save-icon {
   transition: transform .2s;
   cursor: pointer;
 }
 
-.save-icon:hover{
-  // color: white;
-  // border: 2px solid black;
+.save-icon:hover {
   color: #073976;
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
   transform: scale(1.5);
 }
 
-.project-title:hover{
+.project-title:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
-.spinner{
+.spinner {
   display: flex;
   height: 70vh;
   justify-content: center;
@@ -129,24 +97,42 @@ input{
   gap: 10px;
 }
 
-.title:hover{
+.title:hover {
   text-decoration: underline !important;
 }
 
-
 @media only screen and (max-width: 767px) {
-
-
-  .coverImage{
-    height: 250px;
-    width: 400px;
-    border-radius: 20px;
+  .coverImage {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
   }
-  // .chart-container {
-  //   width: 100%;
-  //   margin-bottom: 20px;
-  // }
+
+  .card-img {
+    width: 100%;
+    height: 200px; /* Adjust the height as needed */
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .titles {
+    // margin: 0 5rem 0 5rem;
+    // padding: 10px 1rem 10px 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .title{
+    font-size: 1.5rem !important;
+    font-weight: 400 !important;
+  }
+
+  .project-title{
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+  }
+
+  .save-icon{
+    display : none;
+  }
 }
-
-
-
