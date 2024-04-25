@@ -86,6 +86,7 @@ exports.flagProject = async (req, res) => {
     await newFlag.save();
 
     project.flagCount = project.flagCount + 1;
+    await project.save();
     if (project.flagCount >= 10) {
       await Project.findByIdAndDelete(projectId);
 
