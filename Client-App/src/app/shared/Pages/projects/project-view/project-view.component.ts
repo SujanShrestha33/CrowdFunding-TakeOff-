@@ -88,6 +88,7 @@ export class ProjectViewComponent implements OnInit, AfterViewInit {
       });
     }
     this.getProjectDetails();
+    this.getToken();
   }
 
 
@@ -98,7 +99,7 @@ export class ProjectViewComponent implements OnInit, AfterViewInit {
   runDoughnut(){
     setTimeout(() => {
       this.createBarChart();
-      // // this.createLineChart();
+      this.createLineChart();
       // this.createLineChart();
       this.createDoughnutChart();
 
@@ -109,8 +110,26 @@ export class ProjectViewComponent implements OnInit, AfterViewInit {
     console.log(event);
     if (event === 8) { // Assuming the index of the Campaign Analytics tab is 1
       this.runDoughnut();
+    }else{
+      // this.chart.destroy();
+      const canvas = document.getElementById('DoughnutChart');
+    if (canvas) {
+      // Remove the canvas element
+      canvas.parentNode.removeChild(canvas);
+    }
+    const canvas2 = document.getElementById('LineChart');
+    if (canvas2) {
+      // Remove the canvas element
+      canvas2.parentNode.removeChild(canvas2);
+    }
+    const canvas3 = document.getElementById('BarChart');
+    if (canvas3) {
+      // Remove the canvas element
+      canvas3.parentNode.removeChild(canvas3);
     }
   }
+}
+
 
   createBarChart(): void {
     const labels = this.investors.map(investor => investor.investorId['username']);
@@ -212,8 +231,129 @@ export class ProjectViewComponent implements OnInit, AfterViewInit {
       },
       options: options
     });
+
   }
 
+
+
+  createLineChart() {
+    let investmentRawData = this.investors.map(investor => ({
+      date: new Date(investor.createdAt),
+      investedAmount: investor.investedAmount,
+      investorName: investor.investorId['username']
+    }));
+
+
+    const doughnutChartContainer = document.getElementById('line');
+  if (!doughnutChartContainer) {
+    console.error('doughnutChartContainer is undefined');
+    return;
+  }
+
+  const startDate = new Date(this.project['startDate']);
+  const endDate = new Date(this.project['endDate']);
+
+  // Initialize investment data as an empty object
+  let investmentData = {};
+
+  // Loop through the investment data to calculate investments made on each date
+  investmentRawData.forEach(investment => {
+    const date = new Date(investment.date);
+    // Check if the investment date is within the project start and end date range
+    if (date >= startDate && date <= endDate) {
+      // Convert date to string in YYYY-MM-DD format
+      const dateString = date.toISOString().split('T')[0];
+      // Add or update the investment amount for the corresponding date
+      investmentData[dateString] = (investmentData[dateString] || 0) + investment.investedAmount;
+    }
+  });
+  console.log(investmentData);
+
+  // Extract labels (dates) and data (investments) from the investmentData object
+  const labels = Object.keys(investmentData);
+  const data = Object.values(investmentData);
+
+
+  console.log(labels);
+  console.log(data);
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'LineChart';
+
+  // Append canvas element to container
+  doughnutChartContainer.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+
+  if (!ctx) {
+    console.error('Failed to acquire 2D context');
+    return;
+  }
+
+  // Create the line chart using Chart.js
+  this.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Investments",
+          data: data,
+          borderColor: 'blue',
+          fill: false
+        }
+      ]
+    },
+    options: {
+      aspectRatio: 2.5
+    }
+  });
+}
+
+
+
+  // renderLineChart(): void {
+  //   const labels = this.data.map(entry => entry.date.toLocaleDateString());
+  //   const investments = this.data.map(entry => entry.totalInvestments);
+
+  //   const ctx = document.getElementById('investmentLineChart');
+
+  //   if (ctx) {
+  //     this.chart = new Chart(ctx, {
+  //       type: 'line',
+  //       data: {
+  //         labels: labels,
+  //         datasets: [{
+  //           label: 'Investments Over Time',
+  //           data: investments,
+  //           fill: false,
+  //           borderColor: 'rgb(75, 192, 192)',
+  //           tension: 0.1
+  //         }]
+  //       },
+  //       options: {
+  //         scales: {
+  //           x: {
+  //             type: 'time',
+  //             time: {
+  //               unit: 'day' // Adjust time unit as needed (e.g., 'week', 'month')
+  //             },
+  //             title: {
+  //               display: true,
+  //               text: 'Date'
+  //             }
+  //           },
+  //           y: {
+  //             title: {
+  //               display: true,
+  //               text: 'Total Investments'
+  //             }
+  //           }
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
   onImageSelected(event: any) {
     const files: FileList = event.target.files;
     this.handleImageFiles(files);

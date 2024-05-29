@@ -275,6 +275,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
 
+
+
   loading: boolean = false;
   faClock = faClock;
   projects: Projects[] = [];
@@ -368,13 +370,13 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         console.log(res);
         let projects = res['data'] as Projects[];
         projects = res['data'] as Projects[];
-        const artProjs = projects.filter((elem) => elem['category'] === 'Art');
-        const techProjs = projects.filter((elem) => elem['category'] === 'Technology');
-        const othersProjs = projects.filter((elem) => elem['category'] === 'Others');
-        const fashionProjs = projects.filter((elem) => elem['category'] === 'Fashion');
-        const miscProjs = projects.filter((elem) => elem['category'] === 'Music');
-        const gamesProjs = projects.filter((elem) => elem['category'] === 'Games');
-        const booksProjs = projects.filter((elem) => elem['category'] === 'Books');
+        const artProjs = projects.filter((elem) => elem['category'] === 'Art').slice(0, 3);
+        const techProjs = projects.filter((elem) => elem['category'] === 'Technology').slice(0, 3);
+        const othersProjs = projects.filter((elem) => elem['category'] === 'Others').slice(0, 3);
+        const fashionProjs = projects.filter((elem) => elem['category'] === 'Fashion').slice(0, 3);
+        const miscProjs = projects.filter((elem) => elem['category'] === 'Music').slice(0, 3);
+        const gamesProjs = projects.filter((elem) => elem['category'] === 'Games').slice(0, 3);
+        const booksProjs = projects.filter((elem) => elem['category'] === 'Books').slice(0, 3);
 
         this.artProjects = artProjs;
         this.techProjects = techProjs;
@@ -383,6 +385,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         this.miscProjects = miscProjs;
         this.gamesProjects = gamesProjs;
         this.booksProjects = booksProjs;
+        console.log(artProjs);
+        console.log(gamesProjs);
         this.loading = false;
       },
       error : (err) => {

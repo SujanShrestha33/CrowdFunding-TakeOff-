@@ -431,7 +431,7 @@
       </div>
     </div>
   </mat-tab>
-  <mat-tab *ngIf="token > 10 || authService.userRole == 'admin' || canUpdate" label="Investors">
+  <mat-tab *ngIf="authService.userRole == 'admin' || canUpdate" label="Investors">
     <div class="container p-4">
       <div class="card col-md-10 col-lg-8 mx-auto mt-5">
         <div style="background-color: #073976;" class="card-header text-white text-center">
@@ -475,7 +475,7 @@
       <div class="row">
         <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-10 offset-sm-1">
           <div class="card mt-5 p-2">
-            <div class="card-body" *ngIf="authService.userRole == 'user' && !canUpdate">
+            <div class="card-body" *ngIf="authService.userRole == 'user' && !canUpdate && token > 10">
               <div class="title">
                 <p class="h4 text-center">Reporting</p>
               </div>
@@ -616,6 +616,23 @@
                     Campaign Backers
                   </p>
                   <div id="bar" style="height: 300px;">
+                    <!-- Replace "Chart" with actual chart component -->
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 chart-container text-center mb-4 mb-lg-0">
+                  <p class="h5">
+                    Investment History and Pattern
+
+
+                  </p>
+                  <p class="h6">
+                    Campaign's Lunch Date : {{project['startDate'] | date: 'yyyy-MM-dd hh:mm:ss a'}} <br>
+                      Campaign's End Date : {{project['endDate'] | date: 'yyyy-MM-dd hh:mm:ss a'}}
+                  </p>
+                  <div id="line" style="height: 300px;">
                     <!-- Replace "Chart" with actual chart component -->
                   </div>
                 </div>
